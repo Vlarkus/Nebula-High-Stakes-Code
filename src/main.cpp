@@ -9,7 +9,7 @@ pros::MotorGroup leftMotors({-17, -19, -20}, pros::MotorGearset::blue); // left 
 pros::MotorGroup rightMotors({11, 12, 13}, pros::MotorGearset::blue); // right motor group - ports 6, 7, 9 (reversed)
 
 // Inertial Sensor on port 10
-pros::Imu imu(10);
+pros::Imu imu(1);
 
 // tracking wheels
 // horizontal tracking wheel encoder. Rotation sensor, port 20, not reversed
@@ -161,15 +161,31 @@ void autonomous() {
 /**
  * Runs in driver control
  */
+#define INTAKE_PORT 10 
 void opcontrol() {
     // controller
     // loop to continuously update motors
+    pros::Motor intake(INTAKE_PORT);
+    intake.set_gearing(pros::E_MOTOR_GEARSET_06);
+    pros::Controller master (CONTROLLER_MASTER);
     while (true) {
         // get joystick positions
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+
         // move the chassis with curvature drive
         chassis.arcade(leftY, rightX);
+
+        if (master.get_digital(DIGITAL_L1)) {
+            intake.move_velocity(600); // This is 100 because it's a 100rpm motor
+        }
+        else if (master.get_digital(DIGITAL_R1)) {
+            intake.move_velocity(-600); // This is 100 because it's a 100rpm motor
+        }
+        else {
+            intake.move_velocity(0);
+        }
+
         // delay to save resources
         pros::delay(10);
     }
