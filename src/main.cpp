@@ -102,11 +102,6 @@ void initialize() {
 
 
 
-// -=-=- DISABLED -=-=-
-void disabled() {}
-
-
-
 // -=-=- COMP INIT -=-=-
 void competition_initialize() {}
 
@@ -147,3 +142,6 @@ void opcontrol() {
         pros::delay(10);
     }
 }
+
+// -=-=- DISABLED -=-=-
+void disabled() {}
