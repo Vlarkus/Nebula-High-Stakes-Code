@@ -1,7 +1,21 @@
+/*
+ * ╭─────────╮
+ * │ INCLUDE │
+ * ╰─────────╯
+ */
+
 #include "main.h"
 #include "lemlib/api.hpp"
 
-// -=-=-=- SETUP -=-=-=-
+
+
+
+
+/*
+ * ╭───────╮
+ * │ SETUP │
+ * ╰───────╯
+ */
 
 // -=- CONTROLLER -=-
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
@@ -78,7 +92,15 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 
 
-// -=-=-=- METHODS -=-=-=-
+
+
+
+
+/*
+ * ╭─────────╮
+ * │ METHODS │
+ * ╰─────────╯
+ */
 
 // -=-=- INITIALIZE -=-=-
 void initialize() {
