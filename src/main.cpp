@@ -20,6 +20,10 @@
 // -=- CONTROLLER -=-
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+// -=- BUTTONS -=-
+// const pros::controller_digital_e_t INTAKE_IN = pros::E_CONTROLLER_DIGITAL_L1;
+// const pros::controller_digital_e_t INTAKE_OUT = pros::E_CONTROLLER_DIGITAL_R1;
+
 // -=- MOTORS -=-
 pros::Motor intake(20);
 
@@ -156,9 +160,11 @@ void opcontrol() {
         // -=-=- Buttons -=-=-
 
         if(controller.get_digital(DIGITAL_A)){
-            intake.move_voltage(5); // should use voltage?
+            intake.move_voltage(12000);
         } else if(controller.get_digital(DIGITAL_UP)){
-            intake.move_voltage(5); // should use voltage?
+            intake.move_voltage(-12000);
+        } else {
+            intake.move_voltage(0);
         }
 
         pros::delay(10);
