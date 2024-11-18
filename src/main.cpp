@@ -11,7 +11,7 @@
 
 
 
-/*
+/* TODO: THIS SECTION WILL ENTIERLY GO TO CONFIG.CPP
  * ╭───────╮
  * │ SETUP │
  * ╰───────╯
@@ -20,18 +20,35 @@
 // -=- CONTROLLER -=-
 pros::Controller controller(pros::E_CONTROLLER_MASTER);
 
+
+
 // -=- BUTTONS -=-
-// const pros::controller_digital_e_t INTAKE_IN = pros::E_CONTROLLER_DIGITAL_L1;
-// const pros::controller_digital_e_t INTAKE_OUT = pros::E_CONTROLLER_DIGITAL_R1;
+const pros::controller_digital_e_t INTAKE_IN = pros::E_CONTROLLER_DIGITAL_R1;
+const pros::controller_digital_e_t INTAKE_OUT = pros::E_CONTROLLER_DIGITAL_L1;
+const pros::controller_digital_e_t MOGO_IN = pros::E_CONTROLLER_DIGITAL_L2;
+const pros::controller_digital_e_t MOGO_OUT = pros::E_CONTROLLER_DIGITAL_R2;
+
+
+
 
 // -=- MOTORS -=-
-pros::Motor intake(20);
+
+// INTAKE
+pros::Motor intake(10);
+
+
+// -=- SOLONOIDS -=-
+pros::ADIDigitalOut mogo('A', false);
+pros::ADIDigitalOut doinker('B', false);
+
 
 // -=- INERTIAL SENSOR -=-
 pros::Imu imu(10);
 
+
+
 // -=- DRIVETRAIN -=-
-pros::MotorGroup leftMotors({-17, -19, -20}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-16, 17, -19}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({11, 12, 13}, pros::MotorGearset::blue);
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
@@ -41,11 +58,15 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               1 // horizontal drift
 );
 
+
+
 // -=- TRACKING WHEELS -=-
 pros::Rotation horizontalEnc(1);
 pros::Rotation verticalEnc(-2);
 lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -5.75);
 lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.5);
+
+
 
 // -=- ODOMETRY -=-
 lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
@@ -91,6 +112,8 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
                                   1.019 // expo curve gain
 );
 
+
+
 // -=- CHASSIS -=-
 lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
@@ -128,8 +151,12 @@ void initialize() {
 
 
 
+
+
 // -=-=- COMP INIT -=-=-
 void competition_initialize() {}
+
+
 
 
 
@@ -145,31 +172,53 @@ void autonomous() {
 
 
 
+
+
 // -=-=- DRIVER CONTROL -=-=-
+
+// -=- SYSTEMS -=-
+
+void intake_control(){
+    if(controller.get_digital(INTAKE_IN)){
+        intake.move_voltage(12000);
+    } else if(controller.get_digital(INTAKE_OUT)){
+        intake.move_voltage(-12000);
+    } else {
+        intake.move_voltage(0);
+    }
+}
+
+void mogo_control(){
+    if(controller.get_digital(MOGO_IN)){
+        mogo.set_value(true);
+    } else if(controller.get_digital(MOGO_OUT)){
+        mogo.set_value(false);
+    }
+}
+
+
+
+// -=- OP CONTROL -=-
 void opcontrol() {
 
     while (true) {
 
-        // -=-=- Joysticks -=-=- 
+        // -=-=- DT -=-=- 
         int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
         int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(leftY, rightX);
 
-
-
-        // -=-=- Buttons -=-=-
-
-        if(controller.get_digital(DIGITAL_A)){
-            intake.move_voltage(12000);
-        } else if(controller.get_digital(DIGITAL_UP)){
-            intake.move_voltage(-12000);
-        } else {
-            intake.move_voltage(0);
-        }
-
+        intake_control();
+        mogo_control();
+        
         pros::delay(10);
+    
     }
 }
+
+
+
+
 
 // -=-=- DISABLED -=-=-
 void disabled() {}
