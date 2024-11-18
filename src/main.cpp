@@ -48,7 +48,7 @@ pros::Imu imu(10);
 
 
 // -=- DRIVETRAIN -=-
-pros::MotorGroup leftMotors({-16, 17, -19}, pros::MotorGearset::blue);
+pros::MotorGroup leftMotors({-16, -17, -19}, pros::MotorGearset::blue);
 pros::MotorGroup rightMotors({11, 12, 13}, pros::MotorGearset::blue);
 lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
