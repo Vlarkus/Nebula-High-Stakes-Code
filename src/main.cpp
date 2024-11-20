@@ -11,6 +11,19 @@
 
 
 
+/*
+ * ╭───────────╮
+ * │ NAMESPACE │
+ * ╰───────────╯
+ */
+
+using namespace pros;
+using namespace lemlib;
+
+
+
+
+
 /* TODO: THIS SECTION WILL ENTIERLY GO TO CONFIG.CPP
  * ╭───────╮
  * │ SETUP │
@@ -18,15 +31,15 @@
  */
 
 // -=- CONTROLLER -=-
-pros::Controller controller(pros::E_CONTROLLER_MASTER);
+Controller controller(E_CONTROLLER_MASTER);
 
 
 
 // -=- BUTTONS -=-
-const pros::controller_digital_e_t INTAKE_IN = pros::E_CONTROLLER_DIGITAL_R1;
-const pros::controller_digital_e_t INTAKE_OUT = pros::E_CONTROLLER_DIGITAL_L1;
-const pros::controller_digital_e_t MOGO_IN = pros::E_CONTROLLER_DIGITAL_L2;
-const pros::controller_digital_e_t MOGO_OUT = pros::E_CONTROLLER_DIGITAL_R2;
+const controller_digital_e_t INTAKE_IN = E_CONTROLLER_DIGITAL_R1;
+const controller_digital_e_t INTAKE_OUT = E_CONTROLLER_DIGITAL_L1;
+const controller_digital_e_t MOGO_IN = E_CONTROLLER_DIGITAL_L2;
+const controller_digital_e_t MOGO_OUT = E_CONTROLLER_DIGITAL_R2;
 
 
 
@@ -34,26 +47,28 @@ const pros::controller_digital_e_t MOGO_OUT = pros::E_CONTROLLER_DIGITAL_R2;
 // -=- MOTORS -=-
 
 // INTAKE
-pros::Motor intake(10);
+Motor intake(10);
+
 
 
 // -=- SOLONOIDS -=-
-pros::ADIDigitalOut mogo('A', false);
-pros::ADIDigitalOut doinker('B', false);
+ADIDigitalOut mogo('A', false);
+ADIDigitalOut doinker('B', false);
+
 
 
 // -=- INERTIAL SENSOR -=-
-pros::Imu imu(10);
+Imu imu(10);
 
 
 
 // -=- DRIVETRAIN -=-
-pros::MotorGroup leftMotors({-16, -17, -19}, pros::MotorGearset::blue);
-pros::MotorGroup rightMotors({11, 12, 13}, pros::MotorGearset::blue);
-lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
+MotorGroup leftMotors({-16, -17, -19}, MotorGearset::blue);
+MotorGroup rightMotors({11, 12, 13}, MotorGearset::blue);
+Drivetrain drivetrain(&leftMotors, // left motor group
                               &rightMotors, // right motor group
                               13, // inch track width
-                              lemlib::Omniwheel::NEW_325, // omniwheels
+                              Omniwheel::NEW_325, // omniwheels
                               360, // rpm
                               1 // horizontal drift
 );
@@ -61,15 +76,15 @@ lemlib::Drivetrain drivetrain(&leftMotors, // left motor group
 
 
 // -=- TRACKING WHEELS -=-
-pros::Rotation horizontalEnc(1);
-pros::Rotation verticalEnc(-2);
-lemlib::TrackingWheel horizontal(&horizontalEnc, lemlib::Omniwheel::NEW_275, -5.75);
-lemlib::TrackingWheel vertical(&verticalEnc, lemlib::Omniwheel::NEW_275, -2.5);
+Rotation horizontalEnc(1);
+Rotation verticalEnc(-2);
+TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_275, -5.75);
+TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_275, -2.5);
 
 
 
 // -=- ODOMETRY -=-
-lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
+OdomSensors sensors(nullptr, // vertical tracking wheel
                             nullptr, // vertical tracking wheel 2, set to nullptr as we don't have a second one
                             &horizontal, // horizontal tracking wheel
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
@@ -77,7 +92,7 @@ lemlib::OdomSensors sensors(nullptr, // vertical tracking wheel
 );
 
 // lateral motion controller
-lemlib::ControllerSettings linearController(10, // proportional gain (kP)
+ControllerSettings linearController(10, // proportional gain (kP)
                                             0, // integral gain (kI)
                                             3, // derivative gain (kD)
                                             3, // anti windup
@@ -89,7 +104,7 @@ lemlib::ControllerSettings linearController(10, // proportional gain (kP)
 );
 
 // angular motion controller
-lemlib::ControllerSettings angularController(2, // proportional gain (kP)
+ControllerSettings angularController(2, // proportional gain (kP)
                                              0, // integral gain (kI)
                                              10, // derivative gain (kD)
                                              3, // anti windup
@@ -101,13 +116,13 @@ lemlib::ControllerSettings angularController(2, // proportional gain (kP)
 );
 
 // input curve for throttle input during driver control
-lemlib::ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
+ExpoDriveCurve throttleCurve(3, // joystick deadband out of 127
                                      10, // minimum output where drivetrain will move out of 127
                                      1.019 // expo curve gain
 );
 
 // input curve for steer input during driver control
-lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
+ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
                                   10, // minimum output where drivetrain will move out of 127
                                   1.019 // expo curve gain
 );
@@ -115,7 +130,7 @@ lemlib::ExpoDriveCurve steerCurve(3, // joystick deadband out of 127
 
 
 // -=- CHASSIS -=-
-lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
+Chassis chassis(drivetrain, linearController, angularController, sensors, &throttleCurve, &steerCurve);
 
 
 
@@ -131,20 +146,20 @@ lemlib::Chassis chassis(drivetrain, linearController, angularController, sensors
 
 // -=-=- INITIALIZE -=-=-
 void initialize() {
-    pros::lcd::initialize();
+    lcd::initialize();
     chassis.calibrate();
 
     // thread to for brain screen and position logging
-    pros::Task screenTask([&]() {
+    Task screenTask([&]() {
         while (true) {
 
-            pros::lcd::print(0, "X: %f", chassis.getPose().x);
-            pros::lcd::print(1, "Y: %f", chassis.getPose().y);
-            pros::lcd::print(2, "Theta: %f", chassis.getPose().theta);
+            lcd::print(0, "X: %f", chassis.getPose().x);
+            lcd::print(1, "Y: %f", chassis.getPose().y);
+            lcd::print(2, "Theta: %f", chassis.getPose().theta);
 
-            lemlib::telemetrySink()->info("Chassis pose: {}", chassis.getPose());
+            telemetrySink()->info("Chassis pose: {}", chassis.getPose());
 
-            pros::delay(50);
+            delay(50);
         }
     });
 }
@@ -204,14 +219,14 @@ void opcontrol() {
     while (true) {
 
         // -=-=- DT -=-=- 
-        int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+        int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(leftY, rightX);
 
         intake_control();
         mogo_control();
         
-        pros::delay(10);
+        delay(10);
     
     }
 }
