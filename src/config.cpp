@@ -51,10 +51,14 @@ Motor intake(10);
 
 
 
-// -=- SOLONOIDS -=-
+// -=- ADI -=-
 
-adi::DigitalOut mogo('A', false);
-adi::DigitalOut doinker('B', false);
+extern pros::ADIMotor ledRed(1);
+extern pros::ADIMotor ledGreen(2);
+extern pros::ADIMotor ledBlue(3);
+
+adi::DigitalOut mogo('D', false);
+adi::DigitalOut doinker('E', false);
 
 
 
