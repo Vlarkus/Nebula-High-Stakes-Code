@@ -8,10 +8,10 @@ extern pros::Controller controller;
 
 extern pros::Motor intake;
 
-extern pros::ADIDigitalOut mogo;
-extern pros::ADIDigitalOut doinker;
+extern pros::adi::DigitalOut mogo;
+extern pros::adi::DigitalOut doinker;
 
-extern pros::controller_digital_e_t INTAKE_IN;
-extern pros::controller_digital_e_t INTAKE_OUT;
-extern pros::controller_digital_e_t MOGO_IN;
-extern pros::controller_digital_e_t MOGO_OUT;
+extern const pros::controller_digital_e_t INTAKE_IN;
+extern const pros::controller_digital_e_t INTAKE_OUT;
+extern const pros::controller_digital_e_t MOGO_IN;
+extern const pros::controller_digital_e_t MOGO_OUT;

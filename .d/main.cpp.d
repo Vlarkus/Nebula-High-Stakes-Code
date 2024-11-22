@@ -17,7 +17,7 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/pros/motors.hpp include/pros/motors.hpp include/pros/optical.hpp \
  include/pros/optical.h include/pros/rotation.hpp include/pros/rotation.h \
  include/pros/rtos.hpp include/pros/screen.hpp include/pros/screen.h \
- include/pros/vision.hpp include/pros/vision.h include/config.h \
+ include/pros/vision.hpp include/pros/vision.h include/config.hpp \
  include/lemlib/api.hpp include/lemlib/pid.hpp include/lemlib/pose.hpp \
  include/lemlib/util.hpp include/lemlib/chassis/chassis.hpp \
  include/pros/imu.hpp include/lemlib/asset.hpp \
@@ -28,7 +28,8 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp include/autons.h
+ include/lemlib/logger/telemetrySink.hpp include/systems.hpp \
+ include/autons.hpp
 include/main.h:
 include/api.h:
 include/pros/adi.h:
@@ -86,7 +87,7 @@ include/pros/screen.hpp:
 include/pros/screen.h:
 include/pros/vision.hpp:
 include/pros/vision.h:
-include/config.h:
+include/config.hpp:
 include/lemlib/api.hpp:
 include/lemlib/pid.hpp:
 include/lemlib/pose.hpp:
@@ -110,4 +111,5 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
-include/autons.h:
+include/systems.hpp:
+include/autons.hpp:

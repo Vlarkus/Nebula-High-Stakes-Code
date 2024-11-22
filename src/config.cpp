@@ -53,8 +53,8 @@ Motor intake(10);
 
 // -=- SOLONOIDS -=-
 
-ADIDigitalOut mogo('A', false);
-ADIDigitalOut doinker('B', false);
+adi::DigitalOut mogo('A', false);
+adi::DigitalOut doinker('B', false);
 
 
 
