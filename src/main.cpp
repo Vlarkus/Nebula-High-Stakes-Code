@@ -12,6 +12,7 @@
 
 
 
+
 /*
  * ╭───────────╮
  * │ NAMESPACE │
@@ -26,12 +27,10 @@ using namespace lemlib;
 
 
 /*
- * ╭─────────╮
- * │ METHODS │
- * ╰─────────╯
+ * ╭────────────╮
+ * │ INITIALIZE │
+ * ╰────────────╯
  */
-
-// -=-=- INIT -=-=-
 
 void initialize() {
     lcd::initialize();
@@ -54,7 +53,11 @@ void initialize() {
 
 
 
-// -=-=- COMP INIT -=-=-
+/*
+ * ╭───────────╮
+ * │ COMP INIT │
+ * ╰───────────╯
+ */
 
 void competition_initialize() {}
 
@@ -62,7 +65,11 @@ void competition_initialize() {}
 
 
 
-// -=-=- AUTONOMOUS -=-=-
+/*
+ * ╭────────────╮
+ * │ AUTONOMOUS │
+ * ╰────────────╯
+ */
 
 void autonomous() {
     
@@ -72,7 +79,11 @@ void autonomous() {
 
 
 
-// -=-=- DRIVER CONTROL -=-=-
+/*
+ * ╭────────────────╮
+ * │ DRIVER CONTROL │
+ * ╰────────────────╯
+ */
 
 void opcontrol() {
 
@@ -105,6 +116,10 @@ void opcontrol() {
 
 
 
-// -=-=- DISABLED -=-=-
+/*
+ * ╭──────────╮
+ * │ DISABLED │
+ * ╰──────────╯
+ */
 
 void disabled() {}

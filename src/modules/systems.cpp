@@ -1,4 +1,34 @@
+/*
+ * ╭─────────╮
+ * │ INCLUDE │
+ * ╰─────────╯
+ */
+
 #include "modules/systems.hpp"
+
+
+
+
+
+/*
+ * ╭───────────╮
+ * │ NAMESPACE │
+ * ╰───────────╯
+ */
+
+namespace {
+    bool isSelectiveIntakeOn = false;
+}
+
+
+
+
+
+/*
+ * ╭────────────────╮
+ * │ INTAKE CONTROL │
+ * ╰────────────────╯
+ */
 
 void intake_control(){
     if(controller.get_digital(INTAKE_IN)){
@@ -9,6 +39,16 @@ void intake_control(){
         intake.move_voltage(0);
     }
 }
+
+
+
+
+
+/*
+ * ╭──────────────╮
+ * │ MOGO CONTROL │
+ * ╰──────────────╯
+ */
 
 void mogo_control(){
     if(controller.get_digital(MOGO_IN)){

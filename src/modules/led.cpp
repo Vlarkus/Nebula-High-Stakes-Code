@@ -1,4 +1,14 @@
+/*
+ * ╭─────────╮
+ * │ INCLUDE │
+ * ╰─────────╯
+ */
+
 #include "led.hpp"
+
+
+
+
 
 /*
  * ╭───────────╮
@@ -14,7 +24,7 @@ namespace {
 
     bool isTaskRunning = false;
 
-    Task *led_task = nullptr;
+    Task* led_task = nullptr;
 
 
 
@@ -28,36 +38,44 @@ namespace {
 
 
 
-    void rainbow(void* param){
+    void rainbow(void* param) {
 
         int time_delay = 25;
 
         while (true) {
+
             for (int i = 0; i < 255; i++) {
                 set(255, i, 0);
                 Task::delay(time_delay);
             }
+
             for (int i = 255; i > 0; i--) {
                 set(i, 255, 0);
                 Task::delay(time_delay);
             }
+
             for (int i = 0; i < 255; i++) {
                 set(0, 255, i);
                 Task::delay(time_delay);
             }
+
             for (int i = 255; i > 0; i--) {
                 set(0, i, 255);
                 Task::delay(time_delay);
             }
+
             for (int i = 0; i < 255; i++) {
                 set(i, 0, 255);
                 Task::delay(time_delay);
             }
+            
             for (int i = 255; i > 0; i--) {
                 set(255, 0, i);
                 Task::delay(time_delay);
             }
+        
         }
+
 
     }
 
@@ -67,7 +85,15 @@ namespace {
 
 
 
-void set_color(uint8_t r, uint8_t g, uint8_t b){
+
+
+/*
+ * ╭─────────╮
+ * │ METHODS │
+ * ╰─────────╯
+ */
+
+void set_color(uint8_t r, uint8_t g, uint8_t b) {
 
     stop();
     set(r, b, g);
@@ -76,7 +102,7 @@ void set_color(uint8_t r, uint8_t g, uint8_t b){
 
 
 
-void red(){
+void red() {
 
     stop();
     set(255, 0, 0);
@@ -84,7 +110,8 @@ void red(){
 }
 
 
-void blue(){
+
+void blue() {
 
     stop();
     set(255, 0, 255);
@@ -93,7 +120,7 @@ void blue(){
 
 
 
-void purple(){
+void purple() {
 
     stop();
     set(255, 0, 255);
@@ -102,7 +129,7 @@ void purple(){
 
 
 
-void white(){
+void white() {
 
     stop();
     set(255, 255, 255);
@@ -111,7 +138,7 @@ void white(){
 
 
 
-void rainbow(){
+void rainbow() {
 
     if(isTaskRunning) return;
     led_task =  new Task(rainbow, (void*)"PROS", TASK_PRIORITY_DEFAULT, TASK_STACK_DEPTH_DEFAULT, "led_task");

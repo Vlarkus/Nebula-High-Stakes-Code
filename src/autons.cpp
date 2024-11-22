@@ -1,4 +1,19 @@
+/*
+ * ╭─────────╮
+ * │ INCLUDE │
+ * ╰─────────╯
+ */
+
 #include "autons.hpp"
 
-// -=- Paths -=-
+
+
+
+
+/*
+ * ╭────────────────────╮
+ * │ AUTON TRAJECTORIES │
+ * ╰────────────────────╯
+ */
+
 ASSET(example_txt); // '.' replaced with "_"
