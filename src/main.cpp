@@ -5,8 +5,8 @@
  */
 
 #include "main.h"
-#include "config.hpp"
-#include "systems.hpp"
+#include "modules/config.hpp"
+#include "modules/systems.hpp"
 #include "autons.hpp"
 
 
