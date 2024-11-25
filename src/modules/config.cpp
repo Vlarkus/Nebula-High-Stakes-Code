@@ -16,8 +16,8 @@
  * ╰────────╯
  */
 
-#define IMU_PORT 10
-#define INTAKE_PORT 11
+#define IMU_PORT 1
+#define INTAKE_PORT 10
 #define LEFT_DT_A_PORT 16
 #define LEFT_DT_B_PORT 17
 #define LEFT_DT_C_PORT 19
@@ -50,8 +50,8 @@ using namespace std;
  * ╰────────────╯
  */
 
-ExpoDriveCurve throttleCurve(3, 10, 1.019); // Fields: deadband, min, expo
-ExpoDriveCurve steerCurve(3, 10, 1.019); // Fields: deadband, min, expo
+ExpoDriveCurve throttleCurve(3, 10, 1.015); // Fields: deadband, min, expo
+ExpoDriveCurve steerCurve(3, 10, 1.015); // Fields: deadband, min, expo
 
 Controller controller(E_CONTROLLER_MASTER);
 
