@@ -30,20 +30,10 @@ using namespace lemlib;
  */
 
 void initialize() {
-    lcd::initialize();
+
+    init_bui();
     chassis.calibrate();
 
-    // thread to for brain screen and position logging
-    Task screenTask([&]() {
-        while (true) {
-
-            lcd::print(0, "X: %f", chassis.getPose().x);
-            lcd::print(1, "Y: %f", chassis.getPose().y);
-            lcd::print(2, "Theta: %f", chassis.getPose().theta);
-
-            delay(50);
-        }
-    });
 }
 
 
@@ -69,6 +59,8 @@ void competition_initialize() {}
  */
 
 void autonomous() {
+
+    getSelectedRoutine().run();
     
 }
 

@@ -15,14 +15,15 @@ bin/modules/bui.cpp.o: src/modules/bui.cpp include/modules/bui.hpp \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp include/modules/led.hpp \
- include/api.h include/pros/adi.h include/pros/colors.h \
- include/pros/device.h include/pros/distance.h include/pros/error.h \
- include/pros/ext_adi.h include/pros/adi.h include/pros/gps.h \
- include/pros/imu.h include/pros/link.h include/pros/llemu.h \
- include/pros/misc.h include/pros/motors.h include/pros/optical.h \
- include/pros/error.h include/pros/rotation.h include/pros/rtos.h \
- include/pros/screen.h include/pros/colors.h include/pros/vision.h \
- include/pros/adi.hpp include/pros/colors.hpp include/pros/device.hpp \
+ include/autons.hpp include/modules/routine.hpp include/api.h \
+ include/pros/adi.h include/pros/colors.h include/pros/device.h \
+ include/pros/distance.h include/pros/error.h include/pros/ext_adi.h \
+ include/pros/adi.h include/pros/gps.h include/pros/imu.h \
+ include/pros/link.h include/pros/llemu.h include/pros/misc.h \
+ include/pros/motors.h include/pros/optical.h include/pros/error.h \
+ include/pros/rotation.h include/pros/rtos.h include/pros/screen.h \
+ include/pros/colors.h include/pros/vision.h include/pros/adi.hpp \
+ include/pros/colors.hpp include/pros/device.hpp \
  include/pros/distance.hpp include/pros/distance.h include/pros/gps.hpp \
  include/pros/gps.h include/pros/imu.hpp include/pros/link.hpp \
  include/pros/link.h include/pros/llemu.hpp include/pros/misc.hpp \
@@ -69,6 +70,8 @@ include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
 include/modules/led.hpp:
+include/autons.hpp:
+include/modules/routine.hpp:
 include/api.h:
 include/pros/adi.h:
 include/pros/colors.h:

@@ -28,8 +28,8 @@ using namespace std;
  * ╰─────────────╯
  */
 
-Routine::Routine(const string &name, const string &path, const string &description) 
-    : name(name), path(path), desciption(description) {}
+Routine::Routine(const std::string &name, const std::string &description, const std::function<void()> routeFunc)
+    : name(name), description(description), routeFunc(routeFunc) {}
 
 
 
@@ -37,7 +37,7 @@ Routine::Routine(const string &name, const string &path, const string &descripti
 
 /*
  * ╭─────────╮
- * │ GETTERS │
+ * │ METHODS │
  * ╰─────────╯
  */
 
@@ -45,10 +45,10 @@ string Routine::getName() const {
     return name;
 }
 
-string Routine::getPath() const {
-    return path;
+string Routine::getDescription() const {
+    return description;
 }
 
-string Routine::getDescription() const {
-    return desciption;
+void Routine::run() {
+    routeFunc();
 }

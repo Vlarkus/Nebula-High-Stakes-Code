@@ -37,6 +37,7 @@
 #include "api.h"
 #include "modules/config.hpp"
 #include "modules/actions.hpp"
+#include "modules/bui.hpp"
 #include "autons.hpp"
 
 /**
