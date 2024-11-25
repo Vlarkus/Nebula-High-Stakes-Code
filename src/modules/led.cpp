@@ -1,4 +1,17 @@
 /*
+ * ╭─────────────╮
+ * │ DESCRIPTION │
+ * ╰─────────────╯
+ * 
+ * This file contains methods that control RGB LED lights connected through ADIMotors defined in config.cpp.
+ * 
+ */
+
+
+
+
+
+/*
  * ╭─────────╮
  * │ INCLUDE │
  * ╰─────────╯
