@@ -16,8 +16,8 @@
  * ╰────────╯
  */
 
-#define IMU_PORT 10
-#define INTAKE_PORT 11
+#define IMU_PORT 1
+#define INTAKE_PORT 10
 #define LEFT_DT_A_PORT 16
 #define LEFT_DT_B_PORT 17
 #define LEFT_DT_C_PORT 19
