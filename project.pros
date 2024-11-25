@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Fazzy ballz",
+    "project_name": "7518D",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -78,7 +78,10 @@
         "version": "4.1.0"
       }
     },
-    "upload_options": {},
+    "upload_options": {
+      "description": "Nebula Code",
+      "icon": "planet"
+    },
     "use_early_access": false
   }
 }
