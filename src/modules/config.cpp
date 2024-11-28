@@ -180,9 +180,9 @@ ControllerSettings linearController(
 );
 
 ControllerSettings angularController(
-    2,      //kP
-    0,      // kI
-    10,     // kD
+    3.5,      //kP
+    0.075,      // kI
+    17,     // kD
     3,      // anti windup
     1,      // small error range, in degrees
     100,    // small error range timeout, in milliseconds

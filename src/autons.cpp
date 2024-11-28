@@ -50,11 +50,10 @@ Routine routines[] = {
 
         chassis.setPose(0, 0, 0);
 
-        chassis.moveToPoint(0, 5, 5000);
         chassis.moveToPoint(0, 15, 5000);
+        chassis.moveToPoint(0, 25, 5000);
         chassis.moveToPoint(0, 7.5, 5000, {.forwards = false});
-        chassis.moveToPoint(0, -5, 5000, {.forwards = false});
-        chassis.moveToPoint(0, 0, 5000);
+        chassis.moveToPoint(0, 0, 5000, {.forwards = false});
 
     }),
 
@@ -63,10 +62,9 @@ Routine routines[] = {
 
         chassis.setPose(0, 0, 0);
 
-        chassis.moveToPoint(5, 5, 5000);
-        chassis.moveToPoint(10, 0, 5000);
-        chassis.moveToPoint(0, 7.5, 5000, {.forwards = false});
-        chassis.moveToPoint(0, 10, 5000);
+        chassis.moveToPoint(10, 20, 5000);
+        chassis.moveToPoint(5, 5, 5000, {.forwards = false});
+        chassis.moveToPoint(0, 15, 5000);
         chassis.moveToPoint(0, 0, 5000, {.forwards = false});
 
     }),

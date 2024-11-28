@@ -31,7 +31,7 @@ using namespace lemlib;
 
 void initialize() {
 
-    // init_bui();
+    init_bui();
     chassis.calibrate();
 
 
@@ -61,7 +61,7 @@ void competition_initialize() {}
 
 void autonomous() {
 
-    getSelectedRoutine().run();
+    getRoutine(3).run();
     
 }
 
