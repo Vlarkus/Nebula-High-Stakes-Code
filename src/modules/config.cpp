@@ -16,8 +16,12 @@
  * ╰────────╯
  */
 
-#define IMU_PORT 1
+#define IMU_PORT 2
+
 #define INTAKE_PORT 10
+
+#define ODOM_HOR 15
+
 #define LEFT_DT_A_PORT 16
 #define LEFT_DT_B_PORT 17
 #define LEFT_DT_C_PORT 19
@@ -92,12 +96,13 @@ Motor intake(INTAKE_PORT);
  * ╰──────╯
  */
 
-extern pros::ADIMotor ledRed(1);
-extern pros::ADIMotor ledGreen(2);
-extern pros::ADIMotor ledBlue(3);
+pros::ADIAnalogOut ledRed('A');
+pros::ADIAnalogOut ledGreen('B');
+pros::ADIAnalogOut ledBlue('C');
+extern pros::ADIAnalogOut ledBrightness('D');
 
-adi::DigitalOut mogo('D', false);
-adi::DigitalOut doinker('E', false);
+adi::DigitalOut mogo('E', false);
+adi::DigitalOut doinker('F', false);
 
 
 
@@ -147,12 +152,10 @@ Drivetrain drivetrain(&leftMotors, // left motor group
  * ╰──────────╯
  */
 
-Rotation horizontalEnc(1);
-Rotation verticalEnc(-2);
-TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_275, -5.75);
-TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_275, -2.5);
+Rotation horizontalEnc(ODOM_HOR);
+TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_2, 2.65);
 
-OdomSensors sensors(&vertical, nullptr, &horizontal, nullptr, &imu);
+OdomSensors sensors(nullptr, nullptr, &horizontal, nullptr, &imu);
 
 
 

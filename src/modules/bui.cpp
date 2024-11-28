@@ -44,20 +44,11 @@ using namespace lemlib;
 
 void init_bui(){
 
-    initialize();
     update();
-
-    register_btn1_cb(nextRoutine);
 
 }
 
 void update(){
-
-    clear_line(0);
-    clear_line(1);
-
-    print(0, "%s\n",  getRoutine(routineIndex).getName());
-    print(1, "%s\n", getRoutine(routineIndex).getDescription());
 
 }
 

@@ -31,8 +31,9 @@ using namespace lemlib;
 
 void initialize() {
 
-    init_bui();
+    // init_bui();
     chassis.calibrate();
+
 
 }
 
@@ -78,24 +79,36 @@ void opcontrol() {
 
     while (true) {
 
-
-        // -=- DRIVE TRAIN -=-
-
-        int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
-        int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
-        chassis.arcade(leftY, rightX);
-
-
-        // -=- SYSTEMS -=-
-
+        drivetrain_control();
         intake_control();
         mogo_control();
 
-
-        // -=- DELAY -=-
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_A)){
+        //     LED::red();
+        //     controller.rumble(".");
+        // }
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
+        //     LED::blue();
+        //     controller.rumble("..");
+        // }
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_X)){
+        //     LED::blue();
+        //     controller.rumble("...");
+        // }
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
+        //     LED::blue();
+        //     controller.rumble("..");
+        // }
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_UP)){
+        //     LED::off();
+        //     controller.rumble("-");
+        // }
+        // if(controller.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
+        //     LED::rainbow();
+        //     controller.rumble("--");
+        // }
 
         delay(10);
-
 
     }
 

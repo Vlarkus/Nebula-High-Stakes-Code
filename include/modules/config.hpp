@@ -9,9 +9,10 @@ extern pros::Controller controller;
 
 extern pros::Motor intake;
 
-extern pros::ADIMotor ledRed;
-extern pros::ADIMotor ledGreen;
-extern pros::ADIMotor ledBlue;
+extern pros::ADIAnalogOut ledRed;
+extern pros::ADIAnalogOut ledGreen;
+extern pros::ADIAnalogOut ledBlue;
+extern pros::ADIAnalogOut ledBrightness;
 
 extern pros::adi::DigitalOut mogo;
 extern pros::adi::DigitalOut doinker;
