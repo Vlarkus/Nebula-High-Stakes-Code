@@ -49,14 +49,14 @@ void init_bui(){
     LED::white();
 
     string discPorts = find_disconnected_ports();
-    
-    if(!discPorts.empty()){
 
-        controller.rumble("---");
+    if(!discPorts.empty()){
 
         screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
 
         for(int8_t i = 0; i <= 2; i++){
+
+            controller.rumble("-");
 
             LED::red();
             delay(250);

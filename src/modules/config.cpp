@@ -241,47 +241,47 @@ std::string find_disconnected_ports() {
 
     std::string disconnectedPorts = "";
 
-    if (abs(imu.get_port()) != IMU_PORT) {
-        disconnectedPorts += "IMU " + to_string(INTAKE_PORT);
+    if (!imu.is_installed()) {
+        disconnectedPorts += "IMU " + to_string(IMU_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(optical.get_port()) != OPTICAL_PORT) {
-        disconnectedPorts += "Optical " + to_string(INTAKE_PORT);
+    if (!optical.is_installed()) {
+        disconnectedPorts += "Optical " + to_string(OPTICAL_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(intake.get_port()) != INTAKE_PORT) {
+    if (!intake.is_installed()) {
         disconnectedPorts += "Intake " + to_string(INTAKE_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(leftMotors.get_port(0)) != LEFT_DT_A_PORT) {
+    if (!Motor(LEFT_DT_A_PORT).is_installed()) {
         disconnectedPorts += "DT Left A " + to_string(LEFT_DT_A_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(leftMotors.get_port(1)) != LEFT_DT_B_PORT) {
+    if (!Motor(LEFT_DT_B_PORT).is_installed()) {
         disconnectedPorts += "DT Left B " + to_string(LEFT_DT_B_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(leftMotors.get_port(2)) != LEFT_DT_C_PORT) {
+    if (!Motor(LEFT_DT_C_PORT).is_installed()) {
         disconnectedPorts += "DT Left C " + to_string(LEFT_DT_C_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(rightMotors.get_port(0)) != RIGHT_DT_A_PORT) {
+    if (!Motor(RIGHT_DT_A_PORT).is_installed()) {
         disconnectedPorts += "DT Right A " + to_string(RIGHT_DT_A_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(rightMotors.get_port(1)) != RIGHT_DT_B_PORT) {
+    if (!Motor(RIGHT_DT_B_PORT).is_installed()) {
         disconnectedPorts += "DT Right B " + to_string(RIGHT_DT_B_PORT);
         disconnectedPorts += "; ";
     }
 
-    if (abs(rightMotors.get_port(2)) != RIGHT_DT_C_PORT) {
+    if (!Motor(RIGHT_DT_C_PORT).is_installed()) {
         disconnectedPorts += "DT Right C " + to_string(RIGHT_DT_C_PORT);
         disconnectedPorts += "; ";
     }
