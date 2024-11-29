@@ -25,6 +25,7 @@
 
 #define MOGO_ADI_PORT 'A'
 #define DOINKER_ADI_PORT 'B'
+#define SELECTIVE_INTAKE_ADI_PORT 'C'
 
 #define LED_RED_ADI_PORT 'E'
 #define LED_BLUE_ADI_PORT 'F'
@@ -49,9 +50,9 @@
  * ╰───────────╯
  */
 
+using namespace std;
 using namespace pros;
 using namespace lemlib;
-using namespace std;
 
 
 
@@ -107,6 +108,7 @@ Motor intake(INTAKE_PORT);
 
 adi::DigitalOut mogo(MOGO_ADI_PORT, false);
 adi::DigitalOut doinker(DOINKER_ADI_PORT, false);
+adi::DigitalOut selectiveIntake(SELECTIVE_INTAKE_ADI_PORT, false);
 
 pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
 pros::adi::AnalogOut ledGreen(LED_GREEN_ADI_PORT);
@@ -235,51 +237,53 @@ Chassis chassis(drivetrain, linearController, angularController, sensors, &throt
  * ╰─────────╯
  */
 
-string find_disconnected_ports(){
+std::string find_disconnected_ports() {
 
-    string disconnectedPorts = "";
+    std::string disconnectedPorts = "";
 
-
-
-    if (intake.get_port() != INTAKE_PORT) {
-        disconnectedPorts += "Intake Motor: port " + INTAKE_PORT;
-        disconnectedPorts += "\n";
+    if (abs(imu.get_port()) != IMU_PORT) {
+        disconnectedPorts += "IMU " + to_string(INTAKE_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (leftMotors.get_port(0) != LEFT_DT_A_PORT) {
-        disconnectedPorts += "DT Left Motor A: port " + LEFT_DT_A_PORT;
-        disconnectedPorts += "\n";
+    if (abs(optical.get_port()) != OPTICAL_PORT) {
+        disconnectedPorts += "Optical " + to_string(INTAKE_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (leftMotors.get_port(1) != LEFT_DT_B_PORT) {
-        disconnectedPorts += "DT Left Motor B: port " + LEFT_DT_B_PORT;
-        disconnectedPorts += "\n";
+    if (abs(intake.get_port()) != INTAKE_PORT) {
+        disconnectedPorts += "Intake " + to_string(INTAKE_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (leftMotors.get_port(2) != LEFT_DT_C_PORT) {
-        disconnectedPorts += "DT Left Motor C: port " + LEFT_DT_C_PORT;
-        disconnectedPorts += "\n";
+    if (abs(leftMotors.get_port(0)) != LEFT_DT_A_PORT) {
+        disconnectedPorts += "DT Left A " + to_string(LEFT_DT_A_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (rightMotors.get_port(0) != RIGHT_DT_A_PORT) {
-        disconnectedPorts += "DT Right Motor A: port " + RIGHT_DT_A_PORT;
-        disconnectedPorts += "\n";
+    if (abs(leftMotors.get_port(1)) != LEFT_DT_B_PORT) {
+        disconnectedPorts += "DT Left B " + to_string(LEFT_DT_B_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (rightMotors.get_port(1) != RIGHT_DT_B_PORT) {
-        disconnectedPorts += "DT Right Motor B: port " + RIGHT_DT_B_PORT;
-        disconnectedPorts += "\n";
+    if (abs(leftMotors.get_port(2)) != LEFT_DT_C_PORT) {
+        disconnectedPorts += "DT Left C " + to_string(LEFT_DT_C_PORT);
+        disconnectedPorts += "; ";
     }
 
-    if (rightMotors.get_port(2) != RIGHT_DT_C_PORT) {
-        disconnectedPorts += "DT Right Motor C: port " + RIGHT_DT_C_PORT;
-        disconnectedPorts += "\n";
+    if (abs(rightMotors.get_port(0)) != RIGHT_DT_A_PORT) {
+        disconnectedPorts += "DT Right A " + to_string(RIGHT_DT_A_PORT);
+        disconnectedPorts += "; ";
     }
 
+    if (abs(rightMotors.get_port(1)) != RIGHT_DT_B_PORT) {
+        disconnectedPorts += "DT Right B " + to_string(RIGHT_DT_B_PORT);
+        disconnectedPorts += "; ";
+    }
 
-
-    if(disconnectedPorts.size() == 0){
-        disconnectedPorts = nullptr;
+    if (abs(rightMotors.get_port(2)) != RIGHT_DT_C_PORT) {
+        disconnectedPorts += "DT Right C " + to_string(RIGHT_DT_C_PORT);
+        disconnectedPorts += "; ";
     }
 
     return disconnectedPorts;

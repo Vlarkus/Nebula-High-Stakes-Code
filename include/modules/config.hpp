@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cmath>
 #include "lemlib/api.hpp"
 #include "pros/optical.hpp"
 

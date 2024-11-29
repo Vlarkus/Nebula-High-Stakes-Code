@@ -86,6 +86,29 @@ void mogo_control(){
  * ╰────────────────╯
  */
 
+void selective_intake(){
+
+    auto rgb = optical.get_rgb();
+    if(rgb.red > 6){
+        LED::red();
+    } else if(rgb.blue > 6){
+        LED::blue();
+    } else {
+        LED::white();
+    }
+
+}
+
+
+
+
+
+/*
+ * ╭────────────────╮
+ * │ RING COLOR LED │
+ * ╰────────────────╯
+ */
+
 void show_ring_color_with_led(){
     
     auto rgb = optical.get_rgb();

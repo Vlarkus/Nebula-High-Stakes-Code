@@ -29,6 +29,7 @@
  * ╰───────────╯
  */
 
+using namespace std;
 using namespace pros;
 using namespace lemlib;
 
@@ -45,7 +46,31 @@ using namespace lemlib;
 void init_bui(){
 
     update();
-    LED::purple();
+    LED::white();
+
+    string discPorts = find_disconnected_ports();
+    
+    if(!discPorts.empty()){
+
+        controller.rumble("---");
+
+        screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
+
+        for(int8_t i = 0; i <= 2; i++){
+
+            LED::red();
+            delay(250);
+            LED::white();
+            delay(250);
+
+        }
+
+    } else {
+
+        LED::green();
+    
+    }
+
     screen::touch_callback(handleTouch, E_TOUCH_PRESSED);
 
 }

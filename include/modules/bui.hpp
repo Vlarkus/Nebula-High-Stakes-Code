@@ -1,5 +1,6 @@
 #pragma once
 
+#include <string>
 #include "modules/config.hpp"
 #include "modules/led.hpp"
 #include "autons.hpp"
