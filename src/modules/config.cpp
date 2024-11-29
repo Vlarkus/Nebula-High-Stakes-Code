@@ -17,10 +17,19 @@
  */
 
 #define IMU_PORT 2
+#define OPTICAL_PORT 9
 
 #define INTAKE_PORT 10
 
 #define ODOM_HOR 15
+
+#define MOGO_ADI_PORT 'A'
+#define DOINKER_ADI_PORT 'B'
+
+#define LED_RED_ADI_PORT 'E'
+#define LED_BLUE_ADI_PORT 'F'
+#define LED_GREEN_ADI_PORT 'G'
+#define LED_BRIGHT_ADI_PORT 'H'
 
 #define LEFT_DT_A_PORT 16
 #define LEFT_DT_B_PORT 17
@@ -96,13 +105,13 @@ Motor intake(INTAKE_PORT);
  * ╰──────╯
  */
 
-pros::ADIAnalogOut ledRed('A');
-pros::ADIAnalogOut ledGreen('B');
-pros::ADIAnalogOut ledBlue('C');
-extern pros::ADIAnalogOut ledBrightness('D');
+adi::DigitalOut mogo(MOGO_ADI_PORT, false);
+adi::DigitalOut doinker(DOINKER_ADI_PORT, false);
 
-adi::DigitalOut mogo('E', false);
-adi::DigitalOut doinker('F', false);
+pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
+pros::adi::AnalogOut ledGreen(LED_GREEN_ADI_PORT);
+pros::adi::AnalogOut ledBlue(LED_BLUE_ADI_PORT);
+pros::adi::AnalogOut ledBrightness(LED_BRIGHT_ADI_PORT);
 
 
 
@@ -115,6 +124,18 @@ adi::DigitalOut doinker('F', false);
  */
 
 Imu imu(IMU_PORT);
+
+
+
+
+
+/*
+ * ╭─────────╮
+ * │ OPTICAL │
+ * ╰─────────╯
+ */
+
+Optical optical(OPTICAL_PORT);
 
 
 

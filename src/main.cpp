@@ -9,7 +9,6 @@
 
 
 
-
 /*
  * ╭───────────╮
  * │ NAMESPACE │
@@ -61,7 +60,7 @@ void competition_initialize() {}
 
 void autonomous() {
 
-    getRoutine(3).run();
+    getRoutine(0).run();
     
 }
 
@@ -83,32 +82,11 @@ void opcontrol() {
         intake_control();
         mogo_control();
 
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_A)){
-        //     LED::red();
-        //     controller.rumble(".");
-        // }
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
-        //     LED::blue();
-        //     controller.rumble("..");
-        // }
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_X)){
-        //     LED::blue();
-        //     controller.rumble("...");
-        // }
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
-        //     LED::blue();
-        //     controller.rumble("..");
-        // }
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_UP)){
-        //     LED::off();
-        //     controller.rumble("-");
-        // }
-        // if(controller.get_digital(E_CONTROLLER_DIGITAL_DOWN)){
-        //     LED::rainbow();
-        //     controller.rumble("--");
-        // }
+        // show_ring_color_with_led();
+        LED::rainbow();
 
         delay(10);
+
 
     }
 
@@ -124,4 +102,6 @@ void opcontrol() {
  * ╰──────────╯
  */
 
-void disabled() {}
+void disabled() {
+
+}

@@ -63,9 +63,9 @@ namespace LED{
 
         void set(uint8_t r, uint8_t g, uint8_t b) {
 
-            ledRed.set_value(static_cast<uint16_t>(static_cast<float>(r) / 255.0 * 4095.0));
-            ledGreen.set_value(static_cast<uint16_t>(static_cast<float>(g) / 255.0 * 4095.0));
-            ledBlue.set_value(static_cast<uint16_t>(static_cast<float>(b) / 255.0 * 4095.0));
+            ledRed.set_value(static_cast<uint16_t>(255 - r));
+            ledGreen.set_value(static_cast<uint16_t>(255 - g));
+            ledBlue.set_value(static_cast<uint16_t>(255 - b));
             
         }
 
@@ -73,45 +73,45 @@ namespace LED{
 
 
         void rainbow(void* param) {
-
-            int time_delay = 25;
+            int time_delay = 10;
 
             while (true) {
-
-                for (int i = 0; i < 255; i++) {
+                for (int i = 0; i <= 255; i++) {
                     set(255, i, 0);
                     Task::delay(time_delay);
                 }
 
-                for (int i = 255; i > 0; i--) {
+                for (int i = 255; i >= 0; i--) {
                     set(i, 255, 0);
                     Task::delay(time_delay);
                 }
 
-                for (int i = 0; i < 255; i++) {
+                for (int i = 0; i <= 255; i++) {
                     set(0, 255, i);
                     Task::delay(time_delay);
                 }
 
-                for (int i = 255; i > 0; i--) {
+                for (int i = 255; i >= 0; i--) {
                     set(0, i, 255);
                     Task::delay(time_delay);
                 }
 
-                for (int i = 0; i < 255; i++) {
+                for (int i = 0; i <= 255; i++) {
                     set(i, 0, 255);
                     Task::delay(time_delay);
                 }
-                
-                for (int i = 255; i > 0; i--) {
+
+                for (int i = 255; i >= 0; i--) {
                     set(255, 0, i);
                     Task::delay(time_delay);
                 }
-            
             }
-
-
         }
+
+
+
+
+
 
 
 
@@ -136,7 +136,7 @@ namespace LED{
 
     void set_brightness(uint8_t b) {
 
-        ledBrightness.set_value(static_cast<uint16_t>(static_cast<float>(b) / 255.0 * 4095.0));
+        ledBrightness.set_value(static_cast<uint16_t>(static_cast<float>(16 - b) / 16.0 * 4095.0));
 
     }
 
@@ -151,10 +151,28 @@ namespace LED{
 
 
 
+    void yellow() {
+
+        stop();
+        set(255, 255, 0);
+
+    }
+
+
+
+    void green() {
+
+        stop();
+        set(0, 255, 0);
+
+    }
+
+
+
     void blue() {
 
         stop();
-        set(255, 0, 255);
+        set(0, 0, 255);
 
     }
 

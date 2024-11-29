@@ -75,13 +75,13 @@ Routine routines[] = {
         chassis.setPose(0, 0, 0);
 
         intake.move_voltage(12000);
-        chassis.moveToPoint(5, 5, 5000);
+        chassis.moveToPoint(15, 15, 5000);
 
         chassis.waitUntilDone();
         intake.move_voltage(0);
 
-        chassis.moveToPoint(0, 5, 5000, {.forwards = false});
-        chassis.waitUntil(2.5);
+        chassis.moveToPoint(0, 15, 5000, {.forwards = false});
+        chassis.waitUntil(7.5);
         mogo.set_value(true);
         chassis.waitUntilDone();
         mogo.set_value(false);

@@ -14,7 +14,8 @@ bin/modules/config.cpp.o: src/modules/config.cpp \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp
+ include/lemlib/logger/telemetrySink.hpp include/pros/optical.hpp \
+ include/pros/optical.h include/pros/error.h
 include/modules/config.hpp:
 include/lemlib/api.hpp:
 include/lemlib/pid.hpp:
@@ -52,3 +53,6 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
+include/pros/optical.hpp:
+include/pros/optical.h:
+include/pros/error.h:

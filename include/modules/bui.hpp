@@ -9,6 +9,7 @@ int8_t routineIndex = 0;
 
 extern void init_bui();
 void update();
+void handleTouch();
 void nextRoutine();
 void previousRoutine();
 

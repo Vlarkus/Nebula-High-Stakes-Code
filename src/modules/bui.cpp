@@ -29,7 +29,7 @@
  * ╰───────────╯
  */
 
-using namespace pros::lcd;
+using namespace pros;
 using namespace lemlib;
 
 
@@ -45,36 +45,58 @@ using namespace lemlib;
 void init_bui(){
 
     update();
+    LED::purple();
+    screen::touch_callback(handleTouch, E_TOUCH_PRESSED);
 
 }
 
-void update(){
+void handleTouch() {
 
-}
+        auto status = screen::touch_status();
 
-void nextRoutine(){
+        if (status.touch_status == E_TOUCH_PRESSED) {
 
-    if(routineIndex < getNumRoutines() - 1){
-        routineIndex++;
-    } else {
-        routineIndex = 0;
+            if (status.x < 240) {
+                previousRoutine();
+            } else {
+                nextRoutine();
+            }
+            
+        }
+
     }
 
-    update();
+    void update(){
 
-}
+        screen::erase();
+        screen::print(E_TEXT_LARGE_CENTER, 1, getSelectedRoutine().getName().c_str());
+        screen::print(E_TEXT_MEDIUM, 3, getSelectedRoutine().getDescription().c_str());
 
-void previousRoutine(){
-
-    if(routineIndex <= 0){
-        routineIndex = getNumRoutines() - 1;
-    } else {
-        routineIndex--;
     }
 
-    update();
+    void nextRoutine(){
 
-}
+        if(routineIndex < getNumRoutines() - 1){
+            routineIndex++;
+        } else {
+            routineIndex = 0;
+        }
+
+        update();
+
+    }
+
+    void previousRoutine(){
+
+        if(routineIndex <= 0){
+            routineIndex = getNumRoutines() - 1;
+        } else {
+            routineIndex--;
+        }
+
+        update();
+
+    }
 
 Routine getSelectedRoutine(){
     return getRoutine(routineIndex);
