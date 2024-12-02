@@ -78,7 +78,8 @@ void autonomous() {
  */
 
 void opcontrol() {
-    LED::off();
+
+    int8_t led_mode = 0; 
 
     while (true) {
 
@@ -89,12 +90,30 @@ void opcontrol() {
         turn_180_control();
 
         if(controller.get_digital(E_CONTROLLER_DIGITAL_X)){
-            LED::stop();
-            show_ring_color_with_led();
+            led_mode = 1;
         } else if(controller.get_digital(E_CONTROLLER_DIGITAL_Y)){
-            LED::rainbow();
+            led_mode = 2;
         } else if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
+            led_mode = 0;
+        }
+
+        switch (led_mode)
+        {
+        case 0:
             LED::off();
+            break;
+
+        case 1:
+            show_ring_color_with_led();
+            break;
+
+        case 2:
+            LED::rainbow();
+            break;
+        
+        default:
+            LED::off();
+            break;
         }
 
         delay(10);
