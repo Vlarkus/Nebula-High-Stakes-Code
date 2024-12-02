@@ -63,6 +63,38 @@ void intake_control(){
 
 
 /*
+ * ╭────────────────╮
+ * │ OPTICAL SENSOR │
+ * ╰────────────────╯
+ */
+
+enum RING_COLOR{
+
+    NONE = 0,
+    RED,
+    BLUE
+
+};
+
+int8_t getRingColor(){
+
+    auto rgb = optical.get_rgb();
+    
+    if(400 < rgb.blue){
+        return RING_COLOR::BLUE;
+    } else if (500 < rgb.red) {
+        return RING_COLOR::RED;
+    } else {
+        return RING_COLOR::NONE;
+    }
+
+}
+
+
+
+
+
+/*
  * ╭──────────────────────────╮
  * │ SELECTIVE INTAKE CONTROL │
  * ╰──────────────────────────╯
@@ -113,6 +145,8 @@ void selective_intake_control(){
     } else {
         LED::purple();
     }
+
+
 
     selectiveIntake.set_value(SELECTIVE_INTAKE::isPistonExtended);
 
@@ -225,38 +259,6 @@ void ladybrown_control(){
     // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
     //     ladybrown_to_intake();
     // }
-
-}
-
-
-
-
-
-/*
- * ╭────────────────╮
- * │ OPTICAL SENSOR │
- * ╰────────────────╯
- */
-
-enum RING_COLOR{
-
-    NONE = 0,
-    RED,
-    BLUE
-
-};
-
-int8_t getRingColor(){
-
-    auto rgb = optical.get_rgb();
-    
-    if(400 < rgb.blue){
-        return RING_COLOR::BLUE;
-    } else if (500 < rgb.red) {
-        return RING_COLOR::RED;
-    } else {
-        return RING_COLOR::NONE;
-    }
 
 }
 
