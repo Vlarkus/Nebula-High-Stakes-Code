@@ -21,7 +21,8 @@
 
 #define INTAKE_PORT 10
 
-#define ODOM_HOR 15
+#define ROTATION_ODOM_HOR 15
+#define ROTATION_LADYBROWN 5
 
 #define MOGO_ADI_PORT 'A'
 #define DOINKER_ADI_PORT 'B'
@@ -133,6 +134,18 @@ Imu imu(IMU_PORT);
 
 
 /*
+ * ╭───────────╮
+ * │ LADYBROWN │
+ * ╰───────────╯
+ */
+
+Rotation ladybrown_rotation(ROTATION_LADYBROWN);
+
+
+
+
+
+/*
  * ╭─────────╮
  * │ OPTICAL │
  * ╰─────────╯
@@ -176,7 +189,7 @@ Drivetrain drivetrain(&leftMotors, // left motor group
  * ╰──────────╯
  */
 
-Rotation horizontalEnc(ODOM_HOR);
+Rotation horizontalEnc(ROTATION_ODOM_HOR);
 TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_2, 2.65);
 
 OdomSensors sensors(nullptr, nullptr, &horizontal, nullptr, &imu);
@@ -244,6 +257,16 @@ std::string find_disconnected_ports() {
 
     if (!imu.is_installed()) {
         disconnectedPorts += "IMU " + to_string(IMU_PORT);
+        disconnectedPorts += "; ";
+    }
+
+    if (!ladybrown_rotation.is_installed()) {
+        disconnectedPorts += "Rotation (Ladybrown) " + to_string(ROTATION_LADYBROWN);
+        disconnectedPorts += "; ";
+    }
+
+    if (!horizontalEnc.is_installed()) {
+        disconnectedPorts += "Rotation (Odometry Horizontal) " + to_string(ROTATION_ODOM_HOR);
         disconnectedPorts += "; ";
     }
 
