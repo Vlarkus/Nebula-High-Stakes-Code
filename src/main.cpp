@@ -33,6 +33,8 @@ void initialize() {
     init_bui();
     chassis.calibrate();
     optical.set_led_pwm(100);
+    ladybrown_rotation.reset_position();
+    ladybrown.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 
 }
 
@@ -61,6 +63,7 @@ void competition_initialize() {}
 void autonomous() {
 
     getRoutine(0).run();
+    LED::rainbow();
     
 }
 
@@ -75,20 +78,24 @@ void autonomous() {
  */
 
 void opcontrol() {
+    LED::off();
 
     while (true) {
 
         drivetrain_control();
         intake_control();
         mogo_control();
+        // ladybrown_control(); // NOT WORKING YET
         turn_180_control();
-        screen::print(E_TEXT_MEDIUM, 6, "R: %f", optical.get_rgb().red);
-        screen::print(E_TEXT_MEDIUM, 7, "G: %f", optical.get_rgb().green);
-        screen::print(E_TEXT_MEDIUM, 8, "B: %f", optical.get_rgb().blue);
-        screen::print(E_TEXT_MEDIUM, 9, "P: %f", optical.get_proximity());
 
-        show_ring_color_with_led();
-        // LED::rainbow();
+        if(controller.get_digital(E_CONTROLLER_DIGITAL_X)){
+            LED::stop();
+            show_ring_color_with_led();
+        } else if(controller.get_digital(E_CONTROLLER_DIGITAL_Y)){
+            LED::rainbow();
+        } else if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
+            LED::off();
+        }
 
         delay(10);
 

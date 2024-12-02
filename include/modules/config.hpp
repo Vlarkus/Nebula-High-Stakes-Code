@@ -19,12 +19,18 @@ extern pros::adi::AnalogOut ledBrightness;
 extern pros::adi::DigitalOut mogo;
 extern pros::adi::DigitalOut doinker;
 
+extern pros::Rotation ladybrown_rotation;
+extern pros::Motor ladybrown;
+
 extern pros::Optical optical;
 
 extern const pros::controller_digital_e_t INTAKE_IN;
 extern const pros::controller_digital_e_t INTAKE_OUT;
 extern const pros::controller_digital_e_t MOGO_IN;
 extern const pros::controller_digital_e_t MOGO_OUT;
+extern const pros::controller_digital_e_t LADYBROWN_REST;
+extern const pros::controller_digital_e_t LADYBROWN_INTAKE;
+extern const pros::controller_digital_e_t LADYBROWN_EXTEND;
 extern const pros::controller_digital_e_t TURN_180;
 
 extern std::string find_disconnected_ports();

@@ -19,10 +19,11 @@
 #define IMU_PORT 2
 #define OPTICAL_PORT 9
 
-#define INTAKE_PORT 10
+#define INTAKE_MOTOR_PORT 10
+#define LADYBROWN_MOTOR_PORT 1
 
-#define ROTATION_ODOM_HOR 15
-#define ROTATION_LADYBROWN 5
+#define ROTATION_ODOM_HOR_PORT 15
+#define LADYBROWN_ROTATION_PORT 5
 
 #define MOGO_ADI_PORT 'A'
 #define DOINKER_ADI_PORT 'B'
@@ -85,6 +86,9 @@ const controller_digital_e_t INTAKE_OUT = E_CONTROLLER_DIGITAL_L1;
 const controller_digital_e_t MOGO_IN = E_CONTROLLER_DIGITAL_L2;
 const controller_digital_e_t MOGO_OUT = E_CONTROLLER_DIGITAL_R2;
 const controller_digital_e_t TURN_180 = E_CONTROLLER_DIGITAL_DOWN;
+const pros::controller_digital_e_t LADYBROWN_REST = E_CONTROLLER_DIGITAL_Y;
+const pros::controller_digital_e_t LADYBROWN_INTAKE = E_CONTROLLER_DIGITAL_B;
+const pros::controller_digital_e_t LADYBROWN_EXTEND = E_CONTROLLER_DIGITAL_X;
 
 
 
@@ -96,7 +100,7 @@ const controller_digital_e_t TURN_180 = E_CONTROLLER_DIGITAL_DOWN;
  * ╰────────╯
  */
 
-Motor intake(INTAKE_PORT);
+Motor intake(INTAKE_MOTOR_PORT);
 
 
 
@@ -139,7 +143,8 @@ Imu imu(IMU_PORT);
  * ╰───────────╯
  */
 
-Rotation ladybrown_rotation(ROTATION_LADYBROWN);
+Rotation ladybrown_rotation(LADYBROWN_ROTATION_PORT);
+Motor ladybrown(-LADYBROWN_MOTOR_PORT);
 
 
 
@@ -189,7 +194,7 @@ Drivetrain drivetrain(&leftMotors, // left motor group
  * ╰──────────╯
  */
 
-Rotation horizontalEnc(ROTATION_ODOM_HOR);
+Rotation horizontalEnc(ROTATION_ODOM_HOR_PORT);
 TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_2, 2.65);
 
 OdomSensors sensors(nullptr, nullptr, &horizontal, nullptr, &imu);
@@ -261,12 +266,17 @@ std::string find_disconnected_ports() {
     }
 
     if (!ladybrown_rotation.is_installed()) {
-        disconnectedPorts += "Rotation (Ladybrown) " + to_string(ROTATION_LADYBROWN);
+        disconnectedPorts += "Rotation (Ladybrown) " + to_string(LADYBROWN_ROTATION_PORT);
+        disconnectedPorts += "; ";
+    }
+
+    if (!Motor(LADYBROWN_MOTOR_PORT).is_installed()) {
+        disconnectedPorts += "Ladybrown " + to_string(LADYBROWN_MOTOR_PORT);
         disconnectedPorts += "; ";
     }
 
     if (!horizontalEnc.is_installed()) {
-        disconnectedPorts += "Rotation (Odometry Horizontal) " + to_string(ROTATION_ODOM_HOR);
+        disconnectedPorts += "Rotation (Odometry Horizontal) " + to_string(ROTATION_ODOM_HOR_PORT);
         disconnectedPorts += "; ";
     }
 
@@ -276,7 +286,7 @@ std::string find_disconnected_ports() {
     }
 
     if (!intake.is_installed()) {
-        disconnectedPorts += "Intake " + to_string(INTAKE_PORT);
+        disconnectedPorts += "Intake " + to_string(INTAKE_MOTOR_PORT);
         disconnectedPorts += "; ";
     }
 
