@@ -124,10 +124,11 @@ void selective_intake(){
 void show_ring_color_with_led(){
     
     auto rgb = optical.get_rgb();
-    if(rgb.red > 6){
-        LED::red();
-    } else if(rgb.blue > 6){
+    
+    if(400 < rgb.blue){
         LED::blue();
+    } else if (500 < rgb.red) {
+        LED::red();
     } else {
         LED::white();
     }

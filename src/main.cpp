@@ -32,7 +32,7 @@ void initialize() {
 
     init_bui();
     chassis.calibrate();
-
+    optical.set_led_pwm(100);
 
 }
 
@@ -82,9 +82,13 @@ void opcontrol() {
         intake_control();
         mogo_control();
         turn_180_control();
+        screen::print(E_TEXT_MEDIUM, 6, "R: %f", optical.get_rgb().red);
+        screen::print(E_TEXT_MEDIUM, 7, "G: %f", optical.get_rgb().green);
+        screen::print(E_TEXT_MEDIUM, 8, "B: %f", optical.get_rgb().blue);
+        screen::print(E_TEXT_MEDIUM, 9, "P: %f", optical.get_proximity());
 
-        // show_ring_color_with_led();
-        LED::rainbow();
+        show_ring_color_with_led();
+        // LED::rainbow();
 
         delay(10);
 
