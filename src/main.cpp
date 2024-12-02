@@ -77,44 +77,16 @@ void autonomous() {
  * ╰────────────────╯
  */
 
-void opcontrol() {
-
-    int8_t led_mode = 0; 
+void opcontrol() { 
 
     while (true) {
 
         drivetrain_control();
         intake_control();
+        selective_intake_control();
         mogo_control();
         // ladybrown_control(); // NOT WORKING YET
         turn_180_control();
-
-        if(controller.get_digital(E_CONTROLLER_DIGITAL_X)){
-            led_mode = 1;
-        } else if(controller.get_digital(E_CONTROLLER_DIGITAL_Y)){
-            led_mode = 2;
-        } else if(controller.get_digital(E_CONTROLLER_DIGITAL_B)){
-            led_mode = 0;
-        }
-
-        switch (led_mode)
-        {
-        case 0:
-            LED::off();
-            break;
-
-        case 1:
-            show_ring_color_with_led();
-            break;
-
-        case 2:
-            LED::rainbow();
-            break;
-        
-        default:
-            LED::off();
-            break;
-        }
 
         delay(10);
 
