@@ -83,6 +83,7 @@ const controller_digital_e_t INTAKE_IN = E_CONTROLLER_DIGITAL_R1;
 const controller_digital_e_t INTAKE_OUT = E_CONTROLLER_DIGITAL_L1;
 const controller_digital_e_t MOGO_IN = E_CONTROLLER_DIGITAL_L2;
 const controller_digital_e_t MOGO_OUT = E_CONTROLLER_DIGITAL_R2;
+const controller_digital_e_t TURN_180 = E_CONTROLLER_DIGITAL_DOWN;
 
 
 

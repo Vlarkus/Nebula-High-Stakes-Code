@@ -25,5 +25,6 @@ extern const pros::controller_digital_e_t INTAKE_IN;
 extern const pros::controller_digital_e_t INTAKE_OUT;
 extern const pros::controller_digital_e_t MOGO_IN;
 extern const pros::controller_digital_e_t MOGO_OUT;
+extern const pros::controller_digital_e_t TURN_180;
 
 extern std::string find_disconnected_ports();

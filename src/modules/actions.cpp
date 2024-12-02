@@ -76,6 +76,18 @@ void mogo_control(){
     }
 }
 
+/*
+ * ╭──────────────╮
+ * │ MOGO CONTROL │
+ * ╰──────────────╯
+ */
+
+void turn_180_control(){
+    if(controller.get_digital(TURN_180)){
+        chassis.turnToHeading(chassis.getPose(false, false).theta + 180, 500);
+    }
+}
+
 
 
 

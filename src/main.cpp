@@ -81,9 +81,10 @@ void opcontrol() {
         drivetrain_control();
         intake_control();
         mogo_control();
+        turn_180_control();
 
         // show_ring_color_with_led();
-        // LED::rainbow();
+        LED::rainbow();
 
         delay(10);
 
