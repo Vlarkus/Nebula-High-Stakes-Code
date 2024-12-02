@@ -132,12 +132,12 @@ void selective_intake_control(){
 
         if(SELECTIVE_INTAKE::isEliminateRed){
 
-            LED::red();
+            LED::blue();
             SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::RED);
 
         } else {
 
-            LED::blue();
+            LED::red();
             SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::BLUE);
 
         }
