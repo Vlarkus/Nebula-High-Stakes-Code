@@ -133,17 +133,18 @@ void selective_intake_control(){
         if(SELECTIVE_INTAKE::isEliminateRed){
 
             LED::blue();
-            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::RED);
+            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::RED && ringColor != RING_COLOR::NONE);
 
         } else {
 
             LED::red();
-            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::BLUE);
+            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::BLUE && ringColor != RING_COLOR::NONE);
 
         }
 
     } else {
         LED::purple();
+        SELECTIVE_INTAKE::isPistonExtended = false;
     }
 
 
