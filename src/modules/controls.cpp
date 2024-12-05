@@ -11,13 +11,63 @@
 
 
 /*
+ * ╭────────╮
+ * │ DEFINE │
+ * ╰────────╯
+ */
+
+#define MOTOR_MAX_VOLTAGE 12
+
+
+
+
+
+/*
  * ╭───────────╮
  * │ NAMESPACE │
  * ╰───────────╯
  */
 
-namespace {
-    bool isSelectiveIntakeOn = false;
+using namespace pros;
+using namespace std;
+
+
+
+
+
+/*
+ * ╭────────────────────╮
+ * │ DRIVETRAIN CONTROL │
+ * ╰────────────────────╯
+ */
+
+void run_connectivity_check(){
+
+    BUI::initialize();
+
+    string discPorts = find_disconnected_ports();
+
+    if(!discPorts.empty()){
+
+        screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
+
+        for(int8_t i = 0; i <= 2; i++){
+
+            controller.rumble("-");
+
+            LED::red();
+            delay(250);
+            LED::white();
+            delay(250);
+
+        }
+
+    } else {
+
+        LED::green();
+    
+    }
+
 }
 
 
@@ -32,8 +82,8 @@ namespace {
 
 void drivetrain_control(){
 
-    int leftY = controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightX = controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X);
+    int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
+    int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
     chassis.arcade(leftY, rightX);
 
 }
@@ -50,9 +100,9 @@ void drivetrain_control(){
 
 void intake_control(){
     if(controller.get_digital(INTAKE_IN_BTN)){
-        intake.move_voltage(12000);
+        intake.move_voltage(MOTOR_MAX_VOLTAGE);
     } else if(controller.get_digital(INTAKE_OUT_BTN)){
-        intake.move_voltage(-12000);
+        intake.move_voltage(-MOTOR_MAX_VOLTAGE);
     } else {
         intake.move_voltage(0);
     }
@@ -133,24 +183,40 @@ void selective_intake_control(){
         if(SELECTIVE_INTAKE::isEliminateRed){
 
             LED::blue();
-            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::RED && ringColor != RING_COLOR::NONE);
+
+            if(ringColor == RING_COLOR::RED){
+                SELECTIVE_INTAKE::isPistonExtended = true;
+            } else if(ringColor == RING_COLOR::BLUE) {
+                SELECTIVE_INTAKE::isPistonExtended = false;
+            }
 
         } else {
 
             LED::red();
-            SELECTIVE_INTAKE::isPistonExtended = (ringColor == RING_COLOR::BLUE && ringColor != RING_COLOR::NONE);
+
+            if(ringColor == RING_COLOR::BLUE){
+                SELECTIVE_INTAKE::isPistonExtended = true;
+            } else if(ringColor == RING_COLOR::BLUE) {
+                SELECTIVE_INTAKE::isPistonExtended = false;
+            }
 
         }
 
     } else {
+
         LED::purple();
         SELECTIVE_INTAKE::isPistonExtended = false;
+
     }
 
 
 
-    selectiveIntake.set_value(SELECTIVE_INTAKE::isPistonExtended);
+    selectiveIntakePiston.set_value(SELECTIVE_INTAKE::isPistonExtended);
 
+}
+
+void set_selective_intake_is_eliminate_red(bool b){
+    SELECTIVE_INTAKE::isEliminateRed = b;
 }
 
 
@@ -165,9 +231,9 @@ void selective_intake_control(){
 
 void mogo_control(){
     if(controller.get_digital(MOGO_IN_BTN)){
-        mogo.set_value(true);
+        mogoPiston.set_value(true);
     } else if(controller.get_digital(MOGO_OUT_BTN)){
-        mogo.set_value(false);
+        mogoPiston.set_value(false);
     }
 }
 
@@ -181,85 +247,54 @@ void mogo_control(){
  * ╰───────────────────╯
  */
 
-pros::Task* ladybrown_current_task = nullptr;
-int32_t ladybrown_current_target = 0;
+namespace LADYBROWN{
 
-int32_t getTarget(){
-    return ladybrown_current_target;
-}
+    enum {
+        RETRACTED = 0,
+        INTAKE = 1,
+        EXTENDED = 2
+    };
 
-// The PID control task
-void motor_control_task(void* param) {
-    const double kP = 0.5;
-    const double kI = 0.0;
-    const double kD = 0.1;
-    const double tolerance = 2.0; // degrees
+    int8_t state = RETRACTED;
 
-    double error, prev_error = 0, integral = 0, derivative = 0;
-
-    while (true) {
-
-        pros::Task::delay(20);
-
-        error = ladybrown_current_target - (ladybrown_rotation.get_angle()/100);
-
-        if (std::abs(error) <= tolerance) {
-            ladybrown.brake();
-            pros::Task::delay(20);
-            continue;
-        }
-
-        integral += error;
-        derivative = error - prev_error;
-        double power = kP * error + kI * integral + kD * derivative;
-
-        ladybrown.move(power);
-        prev_error = error;
-
-    }
-}
-
-void start_motor_control_task() {
-    if (ladybrown_current_task == nullptr) {
-        ladybrown_current_task = new pros::Task(motor_control_task, nullptr, "MotorControl");
-    }
-}
-
-void stop_motor_control_task() {
-    if (ladybrown_current_task != nullptr) {
-        ladybrown_current_task->remove();
-        delete ladybrown_current_task;
-        ladybrown_current_task = nullptr;
-    }
-}
-
-void ladybrown_to_rest() {
-    ladybrown_current_target = 157;
-    start_motor_control_task();
-}
-
-void ladybrown_to_intake() {
-    ladybrown_current_target = 147;
-    start_motor_control_task();
-}
-
-void ladybrown_extend() {
-    ladybrown_current_target = 254;
-    start_motor_control_task();
-}
-
+};
 
 void ladybrown_control(){
 
-    // CODE NOT WORKING DUE TO ROTATION SENSOR WRONG MEASUREMENTS
+    if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
+        LADYBROWN::state = LADYBROWN::EXTENDED;
+    } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
+        LADYBROWN::state = LADYBROWN::RETRACTED;
+    } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
+        LADYBROWN::state = LADYBROWN::INTAKE;
+    } else {
+        ladybrownMotor.move_voltage(0);
+        return;
+    }
 
-    // if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
-    //     ladybrown_extend();
-    // } else if(controller.get_digital(LADYBROWN_REST_BTN)){
-    //     ladybrown_to_rest();
-    // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
-    //     ladybrown_to_intake();
-    // }
+    switch (LADYBROWN::state){
+
+    case LADYBROWN::RETRACTED:
+
+        ladybrownPiston.set_value(true);
+        ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+        
+        break;
+    
+    case LADYBROWN::INTAKE:
+
+        ladybrownPiston.set_value(false);
+        ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+
+        break;
+
+    case LADYBROWN::EXTENDED:
+
+        ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
+
+        break;
+
+    }
 
 }
 
@@ -268,9 +303,9 @@ void ladybrown_control(){
 
 
 /*
- * ╭────────────────╮
- * │ RING COLOR LED │
- * ╰────────────────╯
+ * ╭──────╮
+ * │ CTRL │
+ * ╰──────╯
  */
 
 bool is_ctrl_pressed(){

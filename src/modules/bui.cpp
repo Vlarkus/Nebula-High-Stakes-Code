@@ -29,73 +29,155 @@
  * ╰───────────╯
  */
 
-using namespace std;
-using namespace pros;
+using namespace pros::screen;
 using namespace lemlib;
+using namespace std;
 
 
 
 
 
 /*
- * ╭─────────╮
- * │ METHODS │
- * ╰─────────╯
+ * ╭───────────────╮
+ * │ NAMESPACE BUI │
+ * ╰───────────────╯
  */
 
-void init_bui(){
+namespace BUI{
 
-    update();
-    LED::white();
 
-    string discPorts = find_disconnected_ports();
 
-    if(!discPorts.empty()){
+    /*
+    * ╭─────────╮
+    * │ SCREENS │
+    * ╰─────────╯
+    */
 
-        screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
+    SCREEN currentScreen = COLOR_SELECTOR;
 
-        for(int8_t i = 0; i <= 2; i++){
 
-            controller.rumble("-");
 
-            LED::red();
-            delay(250);
-            LED::white();
-            delay(250);
+
+
+    /*
+    * ╭─────────╮
+    * │ GENERAL │
+    * ╰─────────╯
+    */
+
+    void initialize(){
+
+        touch_callback(handleTouch, pros::E_TOUCH_PRESSED);
+        render();
+
+    }
+
+    void handleTouch() {
+
+        switch (currentScreen)
+        {
+
+        case SCREEN::COLOR_SELECTOR:
+            handle_touch_auton_selector();
+            break;
+
+        case SCREEN::AUTON_SELECTOR:
+            handle_touch_auton_selector();
+            break;
+
+        default:
+            break;
+        
+        }
+
+    }
+
+    void set_screen(SCREEN newScreen){
+
+        currentScreen = newScreen;
+        render();
+
+    }
+
+    void render(){
+
+        switch (currentScreen)
+        {
+
+        case SCREEN::COLOR_SELECTOR:
+            render_color_selector();
+            break;
+
+        case SCREEN::AUTON_SELECTOR:
+            render_auton_selector();
+            break;
+
+        case SCREEN::DURING_MATCH:
+            render_during_match();
+            break;
+        
+        default:
+
+            set_eraser(pros::Color::red);
+            erase();
+            set_eraser(pros::Color::black);
+
+            break;
 
         }
 
-    } else {
-
-        LED::green();
-    
     }
 
-    screen::touch_callback(handleTouch, E_TOUCH_PRESSED);
 
-}
 
-void handleTouch() {
 
-        auto status = screen::touch_status();
 
-        if (status.touch_status == E_TOUCH_PRESSED) {
+    /*
+    * ╭────────────────╮
+    * │ COLOR SELECTOR │
+    * ╰────────────────╯
+    */
 
-            if (status.x < 240) {
-                previousRoutine();
-            } else {
-                nextRoutine();
-            }
+    void render_color_selector(){
+
+        set_pen(pros::Color::red);
+        fill_rect(0, 0, 240, 120);
+        set_pen(pros::Color::blue);
+        fill_rect(240, 0, 480, 120);
+
+    }
+
+    void handle_touch_color_selector(){
+
+        auto status = touch_status();
+
+        if (status.touch_status == pros::E_TOUCH_PRESSED) {
+
+            set_selective_intake_is_eliminate_red(status.x < 240);
+
+            set_screen(SCREEN::AUTON_SELECTOR);
             
         }
 
     }
 
-    void update(){
 
-        screen::erase();
-        screen::print(E_TEXT_LARGE_CENTER, 1, getSelectedRoutine().getName().c_str());
-        screen::print(E_TEXT_MEDIUM, 3, getSelectedRoutine().getDescription().c_str());
+
+
+
+    /*
+    * ╭────────────────╮
+    * │ AUTON SELECTOR │
+    * ╰────────────────╯
+    */
+
+    int8_t routineIndex = 0;
+
+    void render_auton_selector(){
+
+        erase();
+        print(pros::E_TEXT_LARGE_CENTER, 1, getSelectedRoutine().getName().c_str());
+        print(pros::E_TEXT_MEDIUM, 3, getSelectedRoutine().getDescription().c_str());
 
     }
 
@@ -107,7 +189,7 @@ void handleTouch() {
             routineIndex = 0;
         }
 
-        update();
+        render_auton_selector();
 
     }
 
@@ -119,10 +201,46 @@ void handleTouch() {
             routineIndex--;
         }
 
-        update();
+        render_auton_selector();
 
     }
 
-Routine getSelectedRoutine(){
-    return getRoutine(routineIndex);
+    Routine getSelectedRoutine(){
+        return getRoutine(routineIndex);
+    }
+
+    void handle_touch_auton_selector(){
+
+        auto status = touch_status();
+
+        if (status.touch_status == pros::E_TOUCH_PRESSED) {
+
+            if (status.x < 240) {
+                previousRoutine();
+            } else {
+                nextRoutine();
+            }
+
+            render_auton_selector();
+            
+        }
+
+    }
+
+
+
+
+
+    /*
+    * ╭──────────────╮
+    * │ DURING MATCH │
+    * ╰──────────────╯
+    */
+
+    void render_during_match(){
+        erase();
+    }
+
+
+
 }

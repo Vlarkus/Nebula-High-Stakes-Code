@@ -1,8 +1,8 @@
 #pragma once
 
 #include "modules/config.hpp"
-#include <cstdint>
 #include <algorithm>
+#include <cstdint>
 
 namespace LED{
 

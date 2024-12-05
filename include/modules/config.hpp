@@ -16,12 +16,13 @@ extern pros::adi::AnalogOut ledGreen;
 extern pros::adi::AnalogOut ledBlue;
 extern pros::adi::AnalogOut ledBrightness;
 
-extern pros::adi::DigitalOut mogo;
-extern pros::adi::DigitalOut doinker;
-extern pros::adi::DigitalOut selectiveIntake;
+extern pros::adi::DigitalOut mogoPiston;
+extern pros::adi::DigitalOut doinkerPiston;
+extern pros::adi::DigitalOut ladybrownPiston;
+extern pros::adi::DigitalOut selectiveIntakePiston;
 
-extern pros::Rotation ladybrown_rotation;
-extern pros::Motor ladybrown;
+extern pros::Rotation ladybrownRotation;
+extern pros::Motor ladybrownMotor;
 
 extern pros::Optical optical;
 

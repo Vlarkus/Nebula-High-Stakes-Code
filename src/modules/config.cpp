@@ -28,6 +28,7 @@
 #define MOGO_ADI_PORT 'A'
 #define DOINKER_ADI_PORT 'B'
 #define SELECTIVE_INTAKE_ADI_PORT 'C'
+#define LADYBROWN_ADI_PORT 'D'
 
 #define LED_RED_ADI_PORT 'E'
 #define LED_BLUE_ADI_PORT 'F'
@@ -117,9 +118,9 @@ Motor intake(INTAKE_MOTOR_PORT);
  * ╰──────╯
  */
 
-adi::DigitalOut mogo(MOGO_ADI_PORT, false);
-adi::DigitalOut doinker(DOINKER_ADI_PORT, false);
-adi::DigitalOut selectiveIntake(SELECTIVE_INTAKE_ADI_PORT, false);
+adi::DigitalOut mogoPiston(MOGO_ADI_PORT, false);
+adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
+adi::DigitalOut selectiveIntakePiston(SELECTIVE_INTAKE_ADI_PORT, false);
 
 pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
 pros::adi::AnalogOut ledGreen(LED_GREEN_ADI_PORT);
@@ -148,8 +149,9 @@ Imu imu(IMU_PORT);
  * ╰───────────╯
  */
 
-Rotation ladybrown_rotation(LADYBROWN_ROTATION_PORT);
-Motor ladybrown(-LADYBROWN_MOTOR_PORT);
+Rotation ladybrownRotation(LADYBROWN_ROTATION_PORT);
+Motor ladybrownMotor(-LADYBROWN_MOTOR_PORT);
+pros::adi::DigitalOut ladybrownPiston(LADYBROWN_ADI_PORT);
 
 
 
@@ -270,7 +272,7 @@ std::string find_disconnected_ports() {
         disconnectedPorts += "; ";
     }
 
-    if (!ladybrown_rotation.is_installed()) {
+    if (!ladybrownRotation.is_installed()) {
         disconnectedPorts += "Rotation (Ladybrown) " + to_string(LADYBROWN_ROTATION_PORT);
         disconnectedPorts += "; ";
     }

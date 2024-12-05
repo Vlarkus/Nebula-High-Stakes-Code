@@ -30,11 +30,12 @@ using namespace lemlib;
 
 void initialize() {
 
-    init_bui();
+    BUI::initialize();
+    run_connectivity_check();
     chassis.calibrate();
     optical.set_led_pwm(100);
-    ladybrown_rotation.reset_position();
-    ladybrown.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+    ladybrownRotation.reset_position();
+    ladybrownMotor.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 
 }
 
@@ -62,7 +63,8 @@ void competition_initialize() {}
 
 void autonomous() {
 
-    getRoutine(0).run();
+    BUI::getSelectedRoutine().run();
+    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
     LED::rainbow();
     
 }
@@ -79,17 +81,19 @@ void autonomous() {
 
 void opcontrol() { 
 
+    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    LED::off();
+
     while (true) {
 
         drivetrain_control();
         intake_control();
         selective_intake_control();
         mogo_control();
-        // ladybrown_control(); // NOT WORKING YET
+        ladybrown_control();
         turn_180_control();
 
         delay(10);
-
 
     }
 
@@ -105,6 +109,4 @@ void opcontrol() {
  * ╰──────────╯
  */
 
-void disabled() {
-
-}
+void disabled() {}

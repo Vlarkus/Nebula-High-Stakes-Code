@@ -82,9 +82,9 @@ Routine routines[] = {
 
         chassis.moveToPoint(0, 15, 5000, {.forwards = false});
         chassis.waitUntil(7.5);
-        mogo.set_value(true);
+        mogoPiston.set_value(true);
         chassis.waitUntilDone();
-        mogo.set_value(false);
+        mogoPiston.set_value(false);
 
     })
 
