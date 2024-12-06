@@ -78,7 +78,7 @@ namespace BUI{
         {
 
         case SCREEN::COLOR_SELECTOR:
-            handle_touch_auton_selector();
+            handle_touch_color_selector();
             break;
 
         case SCREEN::AUTON_SELECTOR:
@@ -153,7 +153,7 @@ namespace BUI{
 
         if (status.touch_status == pros::E_TOUCH_PRESSED) {
 
-            set_selective_intake_is_eliminate_red(status.x < 240);
+            set_selective_intake_is_eliminate_red(status.x > 240);
 
             set_screen(SCREEN::AUTON_SELECTOR);
             
