@@ -61,8 +61,6 @@ void competition_initialize() {}
 
 void autonomous() {
 
-    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
-
     BUI::getSelectedRoutine().run();
     BUI::set_screen(BUI::SCREEN::DURING_MATCH);
     LED::rainbow();
@@ -82,6 +80,7 @@ void autonomous() {
 void opcontrol() { 
 
     BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    controller.print(0, 0, "%s", BUI::getSelectedRoutine().getName());
 
     while (true) {
 
