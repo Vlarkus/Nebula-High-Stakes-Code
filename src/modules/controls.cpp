@@ -16,7 +16,7 @@
  * ╰────────╯
  */
 
-#define MOTOR_MAX_VOLTAGE 12
+#define MOTOR_MAX_VOLTAGE 12000
 
 
 
@@ -126,13 +126,16 @@ enum RING_COLOR{
 
 };
 
+#define RED_COLOR_THRESHOLD 900
+#define BLUE_COLOR_THRESHOLD 800
+
 int8_t getRingColor(){
 
     auto rgb = optical.get_rgb();
     
-    if(400 < rgb.blue){
+    if(BLUE_COLOR_THRESHOLD < rgb.blue){
         return RING_COLOR::BLUE;
-    } else if (500 < rgb.red) {
+    } else if (RED_COLOR_THRESHOLD < rgb.red) {
         return RING_COLOR::RED;
     } else {
         return RING_COLOR::NONE;
@@ -182,7 +185,7 @@ void selective_intake_control(){
 
         if(SELECTIVE_INTAKE::isEliminateRed){
 
-            LED::blue();
+            // LED::blue();
 
             if(ringColor == RING_COLOR::RED){
                 SELECTIVE_INTAKE::isPistonExtended = true;
@@ -192,7 +195,7 @@ void selective_intake_control(){
 
         } else {
 
-            LED::red();
+            // LED::red();
 
             if(ringColor == RING_COLOR::BLUE){
                 SELECTIVE_INTAKE::isPistonExtended = true;
@@ -212,6 +215,7 @@ void selective_intake_control(){
 
 
     selectiveIntakePiston.set_value(SELECTIVE_INTAKE::isPistonExtended);
+    show_ring_color_with_led();
 
 }
 
@@ -261,40 +265,40 @@ namespace LADYBROWN{
 
 void ladybrown_control(){
 
-    if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
-        LADYBROWN::state = LADYBROWN::EXTENDED;
-    } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
-        LADYBROWN::state = LADYBROWN::RETRACTED;
-    } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
-        LADYBROWN::state = LADYBROWN::INTAKE;
-    } else {
-        ladybrownMotor.move_voltage(0);
-        return;
-    }
+    // if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
+    //     LADYBROWN::state = LADYBROWN::EXTENDED;
+    // } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
+    //     LADYBROWN::state = LADYBROWN::RETRACTED;
+    // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
+    //     LADYBROWN::state = LADYBROWN::INTAKE;
+    // } else {
+    //     ladybrownMotor.move_voltage(0);
+    //     return;
+    // }
 
-    switch (LADYBROWN::state){
+    // switch (LADYBROWN::state){
 
-    case LADYBROWN::RETRACTED:
+    // case LADYBROWN::RETRACTED:
 
-        ladybrownPiston.set_value(true);
-        ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+    //     ladybrownPiston.set_value(true);
+    //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
         
-        break;
+    //     break;
     
-    case LADYBROWN::INTAKE:
+    // case LADYBROWN::INTAKE:
 
-        ladybrownPiston.set_value(false);
-        ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+    //     ladybrownPiston.set_value(false);
+    //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
 
-        break;
+    //     break;
 
-    case LADYBROWN::EXTENDED:
+    // case LADYBROWN::EXTENDED:
 
-        ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
+    //     ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
 
-        break;
+    //     break;
 
-    }
+    // }
 
 }
 
@@ -342,11 +346,11 @@ void turn_180_control(){
 
 void show_ring_color_with_led(){
     
-    auto rgb = optical.get_rgb();
+    int8_t color = getRingColor();
     
-    if(400 < rgb.blue){
+    if(color == RING_COLOR::BLUE){
         LED::blue();
-    } else if (500 < rgb.red) {
+    } else if (color == RING_COLOR::RED) {
         LED::red();
     } else {
         LED::white();

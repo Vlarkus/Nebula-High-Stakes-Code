@@ -141,9 +141,9 @@ namespace BUI{
     void render_color_selector(){
 
         set_pen(pros::Color::red);
-        fill_rect(0, 0, 240, 120);
+        fill_rect(0, 0, 240, 240);
         set_pen(pros::Color::blue);
-        fill_rect(240, 0, 480, 120);
+        fill_rect(240, 0, 480, 240);
 
     }
 

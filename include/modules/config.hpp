@@ -22,7 +22,7 @@ extern pros::adi::DigitalOut ladybrownPiston;
 extern pros::adi::DigitalOut selectiveIntakePiston;
 
 extern pros::Rotation ladybrownRotation;
-extern pros::Motor ladybrownMotor;
+// extern pros::Motor ladybrownMotor;
 
 extern pros::Optical optical;
 

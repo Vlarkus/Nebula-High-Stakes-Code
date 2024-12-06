@@ -34,8 +34,6 @@ void initialize() {
     run_connectivity_check();
     chassis.calibrate();
     optical.set_led_pwm(100);
-    ladybrownRotation.reset_position();
-    ladybrownMotor.set_brake_mode(E_MOTOR_BRAKE_BRAKE);
 
 }
 
@@ -82,7 +80,6 @@ void autonomous() {
 void opcontrol() { 
 
     BUI::set_screen(BUI::SCREEN::DURING_MATCH);
-    LED::off();
 
     while (true) {
 
@@ -90,7 +87,6 @@ void opcontrol() {
         intake_control();
         selective_intake_control();
         mogo_control();
-        ladybrown_control();
         turn_180_control();
 
         delay(10);

@@ -17,18 +17,18 @@
  */
 
 #define IMU_PORT 2
-#define OPTICAL_PORT 9
+#define OPTICAL_PORT 1
 
 #define INTAKE_MOTOR_PORT 10
-#define LADYBROWN_MOTOR_PORT 1
+// #define LADYBROWN_MOTOR_PORT 9
 
 #define ROTATION_ODOM_HOR_PORT 15
-#define LADYBROWN_ROTATION_PORT 5
+// #define LADYBROWN_ROTATION_PORT 5
 
 #define MOGO_ADI_PORT 'A'
 #define DOINKER_ADI_PORT 'B'
 #define SELECTIVE_INTAKE_ADI_PORT 'C'
-#define LADYBROWN_ADI_PORT 'D'
+// #define LADYBROWN_ADI_PORT 'D'
 
 #define LED_RED_ADI_PORT 'E'
 #define LED_BLUE_ADI_PORT 'F'
@@ -149,9 +149,9 @@ Imu imu(IMU_PORT);
  * ╰───────────╯
  */
 
-Rotation ladybrownRotation(LADYBROWN_ROTATION_PORT);
-Motor ladybrownMotor(-LADYBROWN_MOTOR_PORT);
-pros::adi::DigitalOut ladybrownPiston(LADYBROWN_ADI_PORT);
+// Rotation ladybrownRotation(LADYBROWN_ROTATION_PORT);
+// Motor ladybrownMotor(-LADYBROWN_MOTOR_PORT);
+// pros::adi::DigitalOut ladybrownPiston(LADYBROWN_ADI_PORT);
 
 
 
@@ -272,15 +272,15 @@ std::string find_disconnected_ports() {
         disconnectedPorts += "; ";
     }
 
-    if (!ladybrownRotation.is_installed()) {
-        disconnectedPorts += "Rotation (Ladybrown) " + to_string(LADYBROWN_ROTATION_PORT);
-        disconnectedPorts += "; ";
-    }
+    // if (!ladybrownRotation.is_installed()) {
+    //     disconnectedPorts += "Rotation (Ladybrown) " + to_string(LADYBROWN_ROTATION_PORT);
+    //     disconnectedPorts += "; ";
+    // }
 
-    if (!Motor(LADYBROWN_MOTOR_PORT).is_installed()) {
-        disconnectedPorts += "Ladybrown " + to_string(LADYBROWN_MOTOR_PORT);
-        disconnectedPorts += "; ";
-    }
+    // if (!Motor(LADYBROWN_MOTOR_PORT).is_installed()) {
+    //     disconnectedPorts += "Ladybrown " + to_string(LADYBROWN_MOTOR_PORT);
+    //     disconnectedPorts += "; ";
+    // }
 
     if (!horizontalEnc.is_installed()) {
         disconnectedPorts += "Rotation (Odometry Horizontal) " + to_string(ROTATION_ODOM_HOR_PORT);

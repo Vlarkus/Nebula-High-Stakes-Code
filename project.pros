@@ -81,7 +81,7 @@
     "upload_options": {
       "description": "Nebula Code",
       "icon": "planet",
-      "slot": 2,
+      "slot": 1,
       "after": "run"
     },
     "use_early_access": false
