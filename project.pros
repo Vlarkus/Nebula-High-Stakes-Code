@@ -82,7 +82,7 @@
       "description": "Nebula Code",
       "icon": "planet",
       "slot": 1,
-      "after": "none"
+      "after": "screen"
     },
     "use_early_access": false
   }

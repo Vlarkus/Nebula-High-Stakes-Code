@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string>
+#include <vector>
+#include <tuple>
+#include <map>
+
 #include "modules/config.hpp"
 #include "modules/led.hpp"
 #include "controls.hpp"
@@ -31,5 +36,10 @@ namespace BUI{
     void previousRoutine();
 
     void render_during_match();
+
+    void draw_screen(std::string name);
+
+
+    extern std::map<std::string, std::vector<std::tuple<int, int, int>>> screenImages;
 
 }

@@ -31,7 +31,7 @@ using namespace lemlib;
 void initialize() {
 
     BUI::initialize();
-    // CUI::initialize();
+    LED::off();
     run_connectivity_check();
     chassis.calibrate();
     optical.set_led_pwm(100);
@@ -78,13 +78,11 @@ void autonomous() {
  * ╰────────────────╯
  */
 
+ASSET(line_txt);
+
 void opcontrol() { 
 
-    disabled();
-
     BUI::set_screen(BUI::SCREEN::DURING_MATCH);
-    // CUI::endHandleTouch();
-    controller.print(0, 0, "%s", getSelectedRoutine().getName());
 
     while (true) {
 
