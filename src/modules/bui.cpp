@@ -53,8 +53,9 @@ namespace BUI{
     * ╰─────────╯
     */
 
-    SCREEN currentScreen = COLOR_SELECTOR;
-
+    namespace{
+        SCREEN currentScreen = COLOR_SELECTOR;
+    }
 
 
 
@@ -171,8 +172,6 @@ namespace BUI{
     * ╰────────────────╯
     */
 
-    int8_t routineIndex = 0;
-
     void render_auton_selector(){
 
         erase();
@@ -183,30 +182,18 @@ namespace BUI{
 
     void nextRoutine(){
 
-        if(routineIndex < getNumRoutines() - 1){
-            routineIndex++;
-        } else {
-            routineIndex = 0;
-        }
-
+        increaseSelectedRoutineIndex();
         render_auton_selector();
+        // update cui
 
     }
 
     void previousRoutine(){
 
-        if(routineIndex <= 0){
-            routineIndex = getNumRoutines() - 1;
-        } else {
-            routineIndex--;
-        }
-
+        decreaseSelectedRoutineIndex();
         render_auton_selector();
+        // update cui
 
-    }
-
-    Routine getSelectedRoutine(){
-        return getRoutine(routineIndex);
     }
 
     void handle_touch_auton_selector(){

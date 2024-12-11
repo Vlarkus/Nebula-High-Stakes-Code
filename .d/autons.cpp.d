@@ -1,4 +1,5 @@
 bin/autons.cpp.o: src/autons.cpp include/autons.hpp \
+ include/modules/led.hpp include/modules/config.hpp \
  include/lemlib/api.hpp include/lemlib/pid.hpp include/lemlib/pose.hpp \
  include/lemlib/util.hpp include/lemlib/chassis/chassis.hpp \
  include/pros/rtos.hpp include/pros/rtos.h include/pros/imu.hpp \
@@ -14,10 +15,11 @@ bin/autons.cpp.o: src/autons.cpp include/autons.hpp \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp include/modules/config.hpp \
- include/pros/optical.hpp include/pros/optical.h include/pros/error.h \
- include/modules/routine.hpp
+ include/lemlib/logger/telemetrySink.hpp include/pros/optical.hpp \
+ include/pros/optical.h include/pros/error.h include/modules/routine.hpp
 include/autons.hpp:
+include/modules/led.hpp:
+include/modules/config.hpp:
 include/lemlib/api.hpp:
 include/lemlib/pid.hpp:
 include/lemlib/pose.hpp:
@@ -54,7 +56,6 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
-include/modules/config.hpp:
 include/pros/optical.hpp:
 include/pros/optical.h:
 include/pros/error.h:

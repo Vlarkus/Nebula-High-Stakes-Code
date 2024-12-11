@@ -18,6 +18,7 @@ namespace BUI{
 
     extern void initialize();
     void handleTouch();
+    void endHandleTouch();
     void set_screen(SCREEN newScreen);
     void render();
 
@@ -28,7 +29,6 @@ namespace BUI{
     void handle_touch_auton_selector();
     void nextRoutine();
     void previousRoutine();
-    Routine getSelectedRoutine();
 
     void render_during_match();
 
