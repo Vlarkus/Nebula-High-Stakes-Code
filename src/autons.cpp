@@ -32,7 +32,25 @@ namespace {
 
 Routine routines[] = {
 
-    Routine("Do Nothing", "Do nothing...", []() {})
+    Routine("Do Nothing", "Do nothing...", []() {}),
+
+    Routine("Red", "Do nothing...", []() {
+
+        controller.rumble(".");
+        
+    }),
+
+    Routine("Blue", "Do nothing...", []() {
+
+        controller.rumble("..");
+
+    }),
+    
+    Routine("Green", "Do nothing...", []() {
+
+        controller.rumble("...");
+
+    }),
 
 };
 

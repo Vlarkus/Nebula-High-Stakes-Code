@@ -30,8 +30,8 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
  include/lemlib/logger/telemetrySink.hpp include/pros/optical.hpp \
  include/modules/controls.hpp include/modules/led.hpp \
- include/modules/bui.hpp include/autons.hpp include/modules/routine.hpp \
- include/api.h include/modules/cui.hpp
+ include/modules/bui.hpp include/modules/images.hpp include/autons.hpp \
+ include/modules/routine.hpp include/api.h include/modules/cui.hpp
 include/main.h:
 include/api.h:
 include/pros/adi.h:
@@ -117,6 +117,7 @@ include/pros/optical.hpp:
 include/modules/controls.hpp:
 include/modules/led.hpp:
 include/modules/bui.hpp:
+include/modules/images.hpp:
 include/autons.hpp:
 include/modules/routine.hpp:
 include/api.h:

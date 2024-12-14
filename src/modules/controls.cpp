@@ -43,12 +43,11 @@ using namespace std;
 
 void run_connectivity_check(){
 
-    BUI::initialize();
-
     string discPorts = find_disconnected_ports();
 
     if(!discPorts.empty()){
 
+        screen::set_pen(Color::white);
         screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
 
         for(int8_t i = 0; i <= 2; i++){

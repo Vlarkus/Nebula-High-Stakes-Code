@@ -31,10 +31,13 @@ using namespace lemlib;
 void initialize() {
 
     BUI::initialize();
+    BUI::set_screen(BUI::AUTON_SELECTOR);
     LED::off();
     run_connectivity_check();
     chassis.calibrate();
     optical.set_led_pwm(100);
+    controller.rumble("-.");
+
 
 }
 
@@ -48,7 +51,12 @@ void initialize() {
  * ╰───────────╯
  */
 
-void competition_initialize() {}
+void competition_initialize() {
+
+    controller.rumble(".-");
+    BUI::set_screen(BUI::COLOR_SELECTOR);
+
+}
 
 
 
@@ -63,7 +71,7 @@ void competition_initialize() {}
 void autonomous() {
 
     getSelectedRoutine().run();
-    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    // BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
     LED::rainbow();
     
 }
@@ -78,11 +86,9 @@ void autonomous() {
  * ╰────────────────╯
  */
 
-ASSET(line_txt);
-
 void opcontrol() { 
 
-    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
 
     while (true) {
 
@@ -108,4 +114,9 @@ void opcontrol() {
  * ╰──────────╯
  */
 
-void disabled() {}
+void disabled() {
+
+    controller.rumble("-.");
+    BUI::set_screen(BUI::SCREEN::AUTON_SELECTOR);
+
+}

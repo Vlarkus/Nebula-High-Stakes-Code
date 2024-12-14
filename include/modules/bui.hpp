@@ -6,6 +6,7 @@
 #include <map>
 
 #include "modules/config.hpp"
+#include "modules/images.hpp"
 #include "modules/led.hpp"
 #include "controls.hpp"
 #include "autons.hpp"
@@ -17,7 +18,7 @@ namespace BUI{
 
         COLOR_SELECTOR = 0,
         AUTON_SELECTOR,
-        DURING_MATCH
+        LOGO_ONLY
 
     };
 
@@ -35,11 +36,11 @@ namespace BUI{
     void nextRoutine();
     void previousRoutine();
 
-    void render_during_match();
+    void render_logo_only();
 
     void draw_screen(std::string name);
 
 
-    extern std::map<std::string, std::vector<std::tuple<int, int, int>>> screenImages;
+    extern std::map<std::string, const std::vector<std::tuple<int, int, int>>*> screenImages;
 
 }

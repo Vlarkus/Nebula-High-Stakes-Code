@@ -1,9 +1,10 @@
 #pragma once
 
+#include "modules/routine.hpp"
+#include "modules/config.hpp"
 #include "modules/led.hpp"
 #include "lemlib/api.hpp"
-#include "modules/config.hpp"
-#include "modules/routine.hpp"
+#include "api.h"
 
 extern Routine routines[];
 

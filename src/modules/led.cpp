@@ -63,9 +63,9 @@ namespace LED{
 
         void set(uint8_t r, uint8_t g, uint8_t b) {
 
-            ledRed.set_value(static_cast<uint16_t>(255 - r));
-            ledGreen.set_value(static_cast<uint16_t>(255 - g));
-            ledBlue.set_value(static_cast<uint16_t>(255 - b));
+            // ledRed.set_value(static_cast<uint16_t>(255 - r));
+            // ledGreen.set_value(static_cast<uint16_t>(255 - g));
+            // ledBlue.set_value(static_cast<uint16_t>(255 - b));
             
         }
 
