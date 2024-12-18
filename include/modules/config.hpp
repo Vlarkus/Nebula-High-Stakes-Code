@@ -1,9 +1,10 @@
 #pragma once
 
+#include "pros/distance.hpp"
+#include "pros/optical.hpp"
+#include "lemlib/api.hpp"
 #include <string>
 #include <cmath>
-#include "lemlib/api.hpp"
-#include "pros/optical.hpp"
 
 extern lemlib::Chassis chassis;
 
@@ -19,12 +20,13 @@ extern pros::adi::AnalogOut ledBrightness;
 extern pros::adi::DigitalOut mogoPiston;
 extern pros::adi::DigitalOut doinkerPiston;
 extern pros::adi::DigitalOut ladybrownPiston;
-extern pros::adi::DigitalOut selectiveIntakePiston;
+extern pros::adi::DigitalOut colorsortPiston;
 
 extern pros::Rotation ladybrownRotation;
 // extern pros::Motor ladybrownMotor;
 
-extern pros::Optical optical;
+extern pros::Optical opticalSensor;
+extern pros::v5::Distance distanceSensor;
 
 extern const pros::controller_digital_e_t INTAKE_IN_BTN;
 extern const pros::controller_digital_e_t INTAKE_OUT_BTN;

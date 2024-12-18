@@ -6,13 +6,47 @@
 #include <string>
 
 extern void run_connectivity_check();
-extern void drivetrain_control();
-extern void intake_control();
-extern void selective_intake_control();
-extern void set_selective_intake_is_eliminate_red(bool b);
-extern void mogo_control();
-extern void ladybrown_control();
-int8_t getRingColor();
+
+namespace DRIVETRAIN{
+
+    extern void control();
+    extern void turn_180_control();
+
+}
+
+namespace INTAKE {
+
+    extern void control();
+    extern void in();
+    extern void out();
+    extern void stop();
+
+}
+
+namespace COLORSORT {
+
+    extern void control();
+    extern void run_async();
+    extern void stop_async();
+    extern void set_is_eliminate_red(bool b);
+
+}
+
+namespace MOGO{
+
+    extern void control();
+    extern bool is_mogo_detected();
+    extern void close_if_mogo_detected();
+    extern void close();
+    extern void open();
+
+}
+
+namespace LADYBROWN{
+    extern void control();
+}
+
 bool is_ctrl_pressed();
-extern void turn_180_control();
+
+int8_t getRingColor();
 extern void show_ring_color_with_led();

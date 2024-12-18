@@ -35,7 +35,7 @@ void initialize() {
     LED::off();
     run_connectivity_check();
     chassis.calibrate();
-    optical.set_led_pwm(100);
+    opticalSensor.set_led_pwm(100);
     controller.rumble("-.");
 
 
@@ -71,8 +71,7 @@ void competition_initialize() {
 void autonomous() {
 
     getSelectedRoutine().run();
-    // BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
-    LED::rainbow();
+    BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
     
 }
 
@@ -92,11 +91,11 @@ void opcontrol() {
 
     while (true) {
 
-        drivetrain_control();
-        intake_control();
-        selective_intake_control();
-        mogo_control();
-        turn_180_control();
+        DRIVETRAIN::control();
+        DRIVETRAIN::turn_180_control();
+        INTAKE::control();
+        COLORSORT::control();
+        MOGO::control();
 
         delay(10);
 

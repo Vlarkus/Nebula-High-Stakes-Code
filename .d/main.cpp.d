@@ -18,6 +18,7 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/pros/optical.h include/pros/rotation.hpp include/pros/rotation.h \
  include/pros/rtos.hpp include/pros/screen.hpp include/pros/screen.h \
  include/pros/vision.hpp include/pros/vision.h include/modules/config.hpp \
+ include/pros/distance.hpp include/pros/optical.hpp \
  include/lemlib/api.hpp include/lemlib/pid.hpp include/lemlib/pose.hpp \
  include/lemlib/util.hpp include/lemlib/chassis/chassis.hpp \
  include/pros/imu.hpp include/lemlib/asset.hpp \
@@ -28,9 +29,9 @@ bin/main.cpp.o: src/main.cpp include/main.h include/api.h \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp include/pros/optical.hpp \
- include/modules/controls.hpp include/modules/led.hpp \
- include/modules/bui.hpp include/modules/images.hpp include/autons.hpp \
+ include/lemlib/logger/telemetrySink.hpp include/modules/controls.hpp \
+ include/modules/led.hpp include/modules/bui.hpp \
+ include/modules/images.hpp include/autons.hpp \
  include/modules/routine.hpp include/api.h include/modules/cui.hpp
 include/main.h:
 include/api.h:
@@ -90,6 +91,8 @@ include/pros/screen.h:
 include/pros/vision.hpp:
 include/pros/vision.h:
 include/modules/config.hpp:
+include/pros/distance.hpp:
+include/pros/optical.hpp:
 include/lemlib/api.hpp:
 include/lemlib/pid.hpp:
 include/lemlib/pose.hpp:
@@ -113,7 +116,6 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
-include/pros/optical.hpp:
 include/modules/controls.hpp:
 include/modules/led.hpp:
 include/modules/bui.hpp:

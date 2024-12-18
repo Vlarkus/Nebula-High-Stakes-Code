@@ -1,5 +1,6 @@
 #pragma once
 
+#include "modules/controls.hpp"
 #include "modules/routine.hpp"
 #include "modules/config.hpp"
 #include "modules/led.hpp"

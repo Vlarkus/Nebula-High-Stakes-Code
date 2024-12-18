@@ -79,11 +79,21 @@ void run_connectivity_check(){
  * ╰────────────────────╯
  */
 
-void drivetrain_control(){
+namespace DRIVETRAIN {
 
-    int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
-    int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
-    chassis.arcade(leftY, rightX);
+    void control(){
+
+        int leftY = controller.get_analog(E_CONTROLLER_ANALOG_LEFT_Y);
+        int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
+        chassis.arcade(leftY, rightX);
+
+    }
+
+    void turn_180_control(){
+        if(controller.get_digital(TURN_180_BTN)){
+            chassis.turnToHeading(chassis.getPose(false, false).theta + 180, 500);
+        }
+    }
 
 }
 
@@ -92,19 +102,37 @@ void drivetrain_control(){
 
 
 /*
- * ╭────────────────╮
- * │ INTAKE CONTROL │
- * ╰────────────────╯
+ * ╭────────╮
+ * │ INTAKE │
+ * ╰────────╯
  */
 
-void intake_control(){
-    if(controller.get_digital(INTAKE_IN_BTN)){
+namespace INTAKE {
+
+    void control(){
+
+        if(controller.get_digital(INTAKE_IN_BTN)){
+            in();
+        } else if(controller.get_digital(INTAKE_OUT_BTN)){
+            out();
+        } else {
+            stop();
+        }
+        
+    }
+
+    void in(){
         intake.move_voltage(MOTOR_MAX_VOLTAGE);
-    } else if(controller.get_digital(INTAKE_OUT_BTN)){
+    }
+
+    void out(){
         intake.move_voltage(-MOTOR_MAX_VOLTAGE);
-    } else {
+    }
+
+    void stop(){
         intake.move_voltage(0);
     }
+
 }
 
 
@@ -130,7 +158,7 @@ enum RING_COLOR{
 
 int8_t getRingColor(){
 
-    auto rgb = optical.get_rgb();
+    auto rgb = opticalSensor.get_rgb();
     
     if(BLUE_COLOR_THRESHOLD < rgb.blue){
         return RING_COLOR::BLUE;
@@ -147,96 +175,152 @@ int8_t getRingColor(){
 
 
 /*
- * ╭──────────────────────────╮
- * │ SELECTIVE INTAKE CONTROL │
- * ╰──────────────────────────╯
+ * ╭───────────╮
+ * │ COLORSORT │
+ * ╰───────────╯
  */
 
-namespace SELECTIVE_INTAKE{
+namespace COLORSORT{
 
     bool isActive = true;
     bool isEliminateRed = true;
     bool wasTogglePressed = false;
     bool isPistonExtended = false;
 
+    pros::Task* control_task = nullptr;
+
+    void control(){
+
+        if(!controller.get_digital(SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN)){
+            COLORSORT::wasTogglePressed = false;
+        } else if(!COLORSORT::wasTogglePressed){
+            
+            COLORSORT::wasTogglePressed = true;
+
+            if(is_ctrl_pressed()){
+                COLORSORT::isEliminateRed = !COLORSORT::isEliminateRed;
+            } else {
+                COLORSORT::isActive = !COLORSORT::isActive;
+            }
+        }
+
+
+
+        if(COLORSORT::isActive){
+
+            int8_t ringColor = getRingColor();
+
+            if(COLORSORT::isEliminateRed){
+
+                LED::blue();
+
+                if(ringColor == RING_COLOR::RED){
+                    COLORSORT::isPistonExtended = true;
+                } else if(ringColor == RING_COLOR::BLUE) {
+                    COLORSORT::isPistonExtended = false;
+                }
+
+            } else {
+
+                LED::red();
+
+                if(ringColor == RING_COLOR::BLUE){
+                    COLORSORT::isPistonExtended = true;
+                } else if(ringColor == RING_COLOR::RED) {
+                    COLORSORT::isPistonExtended = false;
+                }
+
+            }
+
+        } else {
+
+            LED::purple();
+            COLORSORT::isPistonExtended = false;
+
+        }
+
+
+
+        colorsortPiston.set_value(COLORSORT::isPistonExtended);
+
+    }
+
+    void task_function(void*) {
+        control();
+    }
+
+    void run_async() {
+
+        if (control_task == nullptr) {
+            control_task = new pros::Task(task_function, nullptr, "Control Task");
+        }
+
+    }
+
+    void stop_async() {
+        if (control_task != nullptr) {
+            control_task->remove();
+            delete control_task;
+            control_task = nullptr;
+        }
+    }
+
+    void set_is_eliminate_red(bool b){
+        COLORSORT::isEliminateRed = b;
+    }
+
 };
-
-void selective_intake_control(){
-
-    if(!controller.get_digital(SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN)){
-        SELECTIVE_INTAKE::wasTogglePressed = false;
-    } else if(!SELECTIVE_INTAKE::wasTogglePressed){
-        
-        SELECTIVE_INTAKE::wasTogglePressed = true;
-
-        if(is_ctrl_pressed()){
-            SELECTIVE_INTAKE::isEliminateRed = !SELECTIVE_INTAKE::isEliminateRed;
-        } else {
-            SELECTIVE_INTAKE::isActive = !SELECTIVE_INTAKE::isActive;
-        }
-    }
-
-
-
-    if(SELECTIVE_INTAKE::isActive){
-
-        int8_t ringColor = getRingColor();
-
-        if(SELECTIVE_INTAKE::isEliminateRed){
-
-            LED::blue();
-
-            if(ringColor == RING_COLOR::RED){
-                SELECTIVE_INTAKE::isPistonExtended = true;
-            } else if(ringColor == RING_COLOR::BLUE) {
-                SELECTIVE_INTAKE::isPistonExtended = false;
-            }
-
-        } else {
-
-            LED::red();
-
-            if(ringColor == RING_COLOR::BLUE){
-                SELECTIVE_INTAKE::isPistonExtended = true;
-            } else if(ringColor == RING_COLOR::RED) {
-                SELECTIVE_INTAKE::isPistonExtended = false;
-            }
-
-        }
-
-    } else {
-
-        LED::purple();
-        SELECTIVE_INTAKE::isPistonExtended = false;
-
-    }
-
-
-
-    selectiveIntakePiston.set_value(SELECTIVE_INTAKE::isPistonExtended);
-
-}
-
-void set_selective_intake_is_eliminate_red(bool b){
-    SELECTIVE_INTAKE::isEliminateRed = b;
-}
 
 
 
 
 
 /*
- * ╭──────────────╮
- * │ MOGO CONTROL │
- * ╰──────────────╯
+ * ╭──────╮
+ * │ MOGO │
+ * ╰──────╯
  */
 
-void mogo_control(){
-    if(controller.get_digital(MOGO_IN_BTN)){
+namespace MOGO {
+
+#define DISTANCE_SENSOR_MOGO_THRESHOLD 70
+
+    void control(){
+
+        if(controller.get_digital(MOGO_IN_BTN)){
+
+            if(is_ctrl_pressed()){
+                close();
+            } else {
+                close_if_mogo_detected();
+            }
+
+        } else if(controller.get_digital(MOGO_OUT_BTN)){
+            open();
+        }
+
+    }
+
+    bool is_mogo_detected(){
+        return distanceSensor.get_distance() < DISTANCE_SENSOR_MOGO_THRESHOLD;
+    }
+
+    void close_if_mogo_detected(){
+
+        if(is_mogo_detected()){
+            close();
+        }
+
+    }
+
+    void close(){
         mogoPiston.set_value(true);
-    } else if(controller.get_digital(MOGO_OUT_BTN)){
+    }
+
+    void open(){
         mogoPiston.set_value(false);
     }
+
 }
 
 
@@ -259,46 +343,46 @@ namespace LADYBROWN{
 
     int8_t state = RETRACTED;
 
-};
+    void control(){
 
-void ladybrown_control(){
+        // if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
+        //     LADYBROWN::state = LADYBROWN::EXTENDED;
+        // } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
+        //     LADYBROWN::state = LADYBROWN::RETRACTED;
+        // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
+        //     LADYBROWN::state = LADYBROWN::INTAKE;
+        // } else {
+        //     ladybrownMotor.move_voltage(0);
+        //     return;
+        // }
 
-    // if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
-    //     LADYBROWN::state = LADYBROWN::EXTENDED;
-    // } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
-    //     LADYBROWN::state = LADYBROWN::RETRACTED;
-    // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
-    //     LADYBROWN::state = LADYBROWN::INTAKE;
-    // } else {
-    //     ladybrownMotor.move_voltage(0);
-    //     return;
-    // }
+        // switch (LADYBROWN::state){
 
-    // switch (LADYBROWN::state){
+        // case LADYBROWN::RETRACTED:
 
-    // case LADYBROWN::RETRACTED:
-
-    //     ladybrownPiston.set_value(true);
-    //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+        //     ladybrownPiston.set_value(true);
+        //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+            
+        //     break;
         
-    //     break;
-    
-    // case LADYBROWN::INTAKE:
+        // case LADYBROWN::INTAKE:
 
-    //     ladybrownPiston.set_value(false);
-    //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
+        //     ladybrownPiston.set_value(false);
+        //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
 
-    //     break;
+        //     break;
 
-    // case LADYBROWN::EXTENDED:
+        // case LADYBROWN::EXTENDED:
 
-    //     ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
+        //     ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
 
-    //     break;
+        //     break;
 
-    // }
+        // }
 
-}
+    }
+
+};
 
 
 
@@ -314,22 +398,6 @@ bool is_ctrl_pressed(){
 
     return controller.get_digital(CTRL_BTN);
 
-}
-
-
-
-
-
-/*
- * ╭──────────────────╮
- * │ TURN 180 CONTROL │
- * ╰──────────────────╯
- */
-
-void turn_180_control(){
-    if(controller.get_digital(TURN_180_BTN)){
-        chassis.turnToHeading(chassis.getPose(false, false).theta + 180, 500);
-    }
 }
 
 

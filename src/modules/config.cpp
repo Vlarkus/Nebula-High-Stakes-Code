@@ -18,13 +18,14 @@
 
 #define IMU_PORT 13
 #define OPTICAL_PORT 11
+#define DISTANCE_PORT 12
 
 #define INTAKE_MOTOR_PORT 19
 // #define LADYBROWN_MOTOR_PORT 9
 
 #define ROTATION_ODOM_HOR_PORT 15
 
-#define SELECTIVE_INTAKE_ADI_PORT 'A'
+#define COLORSORT_ADI_PORT 'A'
 #define MOGO_ADI_PORT 'B'
 #define DOINKER_ADI_PORT 'C'
 
@@ -118,7 +119,7 @@ Motor intake(INTAKE_MOTOR_PORT);
 
 adi::DigitalOut mogoPiston(MOGO_ADI_PORT, false);
 adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
-adi::DigitalOut selectiveIntakePiston(SELECTIVE_INTAKE_ADI_PORT, false);
+adi::DigitalOut colorsortPiston(COLORSORT_ADI_PORT, false);
 
 pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
 pros::adi::AnalogOut ledGreen(LED_GREEN_ADI_PORT);
@@ -161,7 +162,15 @@ Imu imu(IMU_PORT);
  * ╰─────────╯
  */
 
-Optical optical(OPTICAL_PORT);
+Optical opticalSensor(OPTICAL_PORT);
+
+/*
+ * ╭──────────╮
+ * │ DISTANCE │
+ * ╰──────────╯
+ */
+
+Distance distanceSensor(DISTANCE_PORT);
 
 
 
@@ -285,7 +294,7 @@ std::string find_disconnected_ports() {
     //     disconnectedPorts += "; ";
     // }
 
-    if (!optical.is_installed()) {
+    if (!opticalSensor.is_installed()) {
         disconnectedPorts += "Optical " + to_string(OPTICAL_PORT);
         disconnectedPorts += "; ";
     }
