@@ -109,7 +109,7 @@ namespace DRIVETRAIN {
 
 namespace INTAKE {
 
-    void control(){
+void control(){
 
         if(controller.get_digital(INTAKE_IN_BTN)){
             in();
@@ -283,20 +283,24 @@ namespace COLORSORT{
 
 namespace MOGO {
 
-#define DISTANCE_SENSOR_MOGO_THRESHOLD 70
+#define DISTANCE_SENSOR_MOGO_THRESHOLD 65
 
     void control(){
 
         if(controller.get_digital(MOGO_IN_BTN)){
 
+            screen::print(E_TEXT_MEDIUM_CENTER, 0, "Dist: %d", distanceSensor.get_distance());
+
             if(is_ctrl_pressed()){
                 close();
+                controller.rumble("..");
             } else {
                 close_if_mogo_detected();
             }
 
         } else if(controller.get_digital(MOGO_OUT_BTN)){
             open();
+            controller.rumble(".");
         }
 
     }
@@ -309,6 +313,7 @@ namespace MOGO {
 
         if(is_mogo_detected()){
             close();
+            controller.rumble("--");
         }
 
     }

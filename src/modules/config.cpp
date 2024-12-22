@@ -16,9 +16,9 @@
  * ╰────────╯
  */
 
-#define IMU_PORT 13
-#define OPTICAL_PORT 11
-#define DISTANCE_PORT 12
+#define IMU_PORT 21
+#define OPTICAL_PORT 17
+#define DISTANCE_PORT 20
 
 #define INTAKE_MOTOR_PORT 19
 // #define LADYBROWN_MOTOR_PORT 9
@@ -279,20 +279,10 @@ std::string find_disconnected_ports() {
         disconnectedPorts += "; ";
     }
 
-    // if (!ladybrownRotation.is_installed()) {
-    //     disconnectedPorts += "Rotation (Ladybrown) " + to_string(LADYBROWN_ROTATION_PORT);
-    //     disconnectedPorts += "; ";
-    // }
-
-    // if (!Motor(LADYBROWN_MOTOR_PORT).is_installed()) {
-    //     disconnectedPorts += "Ladybrown " + to_string(LADYBROWN_MOTOR_PORT);
-    //     disconnectedPorts += "; ";
-    // }
-
-    // if (!horizontalEnc.is_installed()) {
-    //     disconnectedPorts += "Rotation (Odometry Horizontal) " + to_string(ROTATION_ODOM_HOR_PORT);
-    //     disconnectedPorts += "; ";
-    // }
+    if (!distanceSensor.is_installed()) {
+        disconnectedPorts += "Distance " + to_string(DISTANCE_PORT);
+        disconnectedPorts += "; ";
+    }
 
     if (!opticalSensor.is_installed()) {
         disconnectedPorts += "Optical " + to_string(OPTICAL_PORT);

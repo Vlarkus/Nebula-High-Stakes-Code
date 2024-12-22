@@ -4,7 +4,10 @@
       "name": "PROS Project",
       "includePath": [
         "${workspaceFolder}/**",
-        "/Users/valeryrabchanka/Documents/VEX/Nebula-High-Stakes-Code/include"
+        "/Users/valeryrabchanka/Documents/VEX/Nebula-High-Stakes-Code/include",
+        "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/arm-none-eabi/include",
+        "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/lib/gcc/arm-none-eabi/10.3.1/include",
+        "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/lib/gcc/arm-none-eabi/10.3.1/include-fixed"
       ],
       "defines": [
         "_DEBUG",
@@ -24,7 +27,8 @@
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
-      }
+      },
+      "configurationProvider": "ms-vscode.makefile-tools"
     }
   ],
   "version": 4
