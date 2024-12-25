@@ -91,8 +91,8 @@ void opcontrol() {
 
     while (true) {
 
-        // DRIVETRAIN::control();
-        // DRIVETRAIN::turn_180_control();
+        DRIVETRAIN::control();
+        DRIVETRAIN::turn_180_control();
         INTAKE::control();
         COLORSORT::control();
         MOGO::control();

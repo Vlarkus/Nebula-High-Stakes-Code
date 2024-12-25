@@ -153,14 +153,17 @@ enum RING_COLOR{
 
 };
 
-#define RED_COLOR_THRESHOLD 900
-#define BLUE_COLOR_THRESHOLD 800
+#define RED_COLOR_THRESHOLD 1500
+#define BLUE_COLOR_THRESHOLD 900
 
 int8_t getRingColor(){
 
     auto rgb = opticalSensor.get_rgb();
-    
-    if(BLUE_COLOR_THRESHOLD < rgb.blue){
+    screen::set_pen(Color::white);
+    screen::print(E_TEXT_MEDIUM, 1, "R: %f", rgb.red);
+    screen::print(E_TEXT_MEDIUM, 2, "G: %f", rgb.blue);
+    screen::print(E_TEXT_MEDIUM, 3, "B: %f", rgb.green);
+    if(BLUE_COLOR_THRESHOLD < rgb.blue && rgb.red < RED_COLOR_THRESHOLD){
         return RING_COLOR::BLUE;
     } else if (RED_COLOR_THRESHOLD < rgb.red) {
         return RING_COLOR::RED;
@@ -183,7 +186,7 @@ int8_t getRingColor(){
 namespace COLORSORT{
 
     bool isActive = true;
-    bool isEliminateRed = true;
+    bool isEliminateRed = false;
     bool wasTogglePressed = false;
     bool isPistonExtended = false;
 
@@ -192,7 +195,7 @@ namespace COLORSORT{
     void control(){
 
         if(!controller.get_digital(SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN)){
-            COLORSORT::wasTogglePressed = false;
+            COLORSORT::wasTogglePressed = false; // Check for pressing the button only once
         } else if(!COLORSORT::wasTogglePressed){
             
             COLORSORT::wasTogglePressed = true;
@@ -202,6 +205,7 @@ namespace COLORSORT{
             } else {
                 COLORSORT::isActive = !COLORSORT::isActive;
             }
+            
         }
 
 
@@ -209,6 +213,24 @@ namespace COLORSORT{
         if(COLORSORT::isActive){
 
             int8_t ringColor = getRingColor();
+
+            // TESTING
+            // if(ringColor == RING_COLOR::RED){
+            //     screen::set_pen(Color::red);
+            //     controller.rumble(".");
+            // }
+            
+            // if(ringColor == RING_COLOR::BLUE) {
+            //     screen::set_pen(Color::blue);
+            //     controller.rumble("-");
+            // }
+            
+            // if(ringColor == RING_COLOR::NONE) {
+            //     screen::set_pen(Color::white);
+            // }
+
+            // screen::fill_rect(0, 0, 480, 240);
+            // END TESTING
 
             if(COLORSORT::isEliminateRed){
 
@@ -283,50 +305,85 @@ namespace COLORSORT{
 
 namespace MOGO {
 
-#define DISTANCE_SENSOR_MOGO_THRESHOLD 65
+#define DISTANCE_SENSOR_MOGO_THRESHOLD 66
+#define DISTANCE_SENSOR_EMPTY_SPACE_THRESHOLD 100
 
-    void control(){
+    // State variables
+    bool is_autoclamp_on = true;
+    bool previous_is_autoclamp_on = true;
+    bool is_closed = false;
+    bool is_space_cleared_before = true;
 
-        if(controller.get_digital(MOGO_IN_BTN)){
+    void control() {
 
-            screen::print(E_TEXT_MEDIUM_CENTER, 0, "Dist: %d", distanceSensor.get_distance());
+        // Provide feedback when autoclamp state changes
+        if (previous_is_autoclamp_on != is_autoclamp_on) {
+            controller.rumble("--");
+            previous_is_autoclamp_on = is_autoclamp_on;
+        }
 
-            if(is_ctrl_pressed()){
+        // Toggle autoclamp state only if control key is pressed
+        if (is_ctrl_pressed()) {
+            if (controller.get_digital(INTAKE_OUT_BTN)) {
+                is_autoclamp_on = false;
+            } else if (controller.get_digital(INTAKE_IN_BTN)) {
+                is_autoclamp_on = true;
+            }
+
+        } else {
+
+            // Manual override for open/close
+            if (controller.get_digital(MOGO_OUT_BTN)) {
+                open();
+            } else if (controller.get_digital(MOGO_IN_BTN)) {
                 close();
-                controller.rumble("..");
-            } else {
+            } 
+            // Automatic clamping behavior
+            else if (is_autoclamp_on) {
                 close_if_mogo_detected();
             }
 
-        } else if(controller.get_digital(MOGO_OUT_BTN)){
-            open();
-            controller.rumble(".");
+        }
+
+        // Update space clearance state
+        if (distanceSensor.get_distance() > DISTANCE_SENSOR_EMPTY_SPACE_THRESHOLD) {
+            is_space_cleared_before = true;
         }
 
     }
 
-    bool is_mogo_detected(){
+    // Detect if a mobile goal (MOGO) is within the threshold distance
+    bool is_mogo_detected() {
         return distanceSensor.get_distance() < DISTANCE_SENSOR_MOGO_THRESHOLD;
     }
 
-    void close_if_mogo_detected(){
-
-        if(is_mogo_detected()){
+    // Close the clamp if a MOGO is detected and space was previously clear
+    void close_if_mogo_detected() {
+        if (is_mogo_detected() && is_space_cleared_before) {
             close();
-            controller.rumble("--");
+            is_space_cleared_before = false;
         }
-
     }
 
-    void close(){
+    // Close the clamp
+    void close() {
+        if (is_closed) return; // Do nothing if already closed
+
         mogoPiston.set_value(true);
+        controller.rumble("-");
+        is_closed = true;
     }
 
-    void open(){
+    // Open the clamp
+    void open() {
+        if (!is_closed) return; // Do nothing if already open
+
         mogoPiston.set_value(false);
+        controller.rumble(".");
+        is_closed = false;
     }
-
 }
+
 
 
 

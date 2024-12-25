@@ -20,10 +20,11 @@
 #define OPTICAL_PORT 17
 #define DISTANCE_PORT 20
 
-#define INTAKE_MOTOR_PORT 19
-// #define LADYBROWN_MOTOR_PORT 9
+#define LEFT_INTAKE_MOTOR_PORT 16
+#define RIGHT_INTAKE_MOTOR_PORT 11
+#define INTAKE_MOTOR_GEARSET MotorGearset::blue
 
-#define ROTATION_ODOM_HOR_PORT 15
+#define ROTATION_ODOM_VERT_PORT 19
 
 #define COLORSORT_ADI_PORT 'A'
 #define MOGO_ADI_PORT 'B'
@@ -105,7 +106,7 @@ extern const pros::controller_digital_e_t CTRL_BTN = E_CONTROLLER_DIGITAL_LEFT;
  * ╰────────╯
  */
 
-Motor intake(INTAKE_MOTOR_PORT);
+MotorGroup intake({RIGHT_INTAKE_MOTOR_PORT, -LEFT_INTAKE_MOTOR_PORT}, INTAKE_MOTOR_GEARSET);
 
 
 
@@ -208,10 +209,10 @@ Drivetrain drivetrain(&leftMotors, // left motor group
  * ╰──────────╯
  */
 
-Rotation horizontalEnc(ROTATION_ODOM_HOR_PORT);
-TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_2, 2.65);
+Rotation verticalEnc(ROTATION_ODOM_VERT_PORT);
+TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
 
-OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
+OdomSensors sensors(&vertical, nullptr, nullptr, nullptr, &imu);
 
 
 
@@ -289,8 +290,13 @@ std::string find_disconnected_ports() {
         disconnectedPorts += "; ";
     }
 
-    if (!intake.is_installed()) {
-        disconnectedPorts += "Intake " + to_string(INTAKE_MOTOR_PORT);
+    if (!Motor(LEFT_INTAKE_MOTOR_PORT).is_installed()) {
+        disconnectedPorts += "Left Intake " + to_string(LEFT_INTAKE_MOTOR_PORT);
+        disconnectedPorts += "; ";
+    }
+    
+    if (!Motor(RIGHT_INTAKE_MOTOR_PORT).is_installed()) {
+        disconnectedPorts += "Right Intake " + to_string(LEFT_INTAKE_MOTOR_PORT);
         disconnectedPorts += "; ";
     }
 

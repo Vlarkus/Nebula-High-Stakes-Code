@@ -10,7 +10,7 @@ extern lemlib::Chassis chassis;
 
 extern pros::Controller controller;
 
-extern pros::Motor intake;
+extern pros::MotorGroup intake;
 
 extern pros::adi::AnalogOut ledRed;
 extern pros::adi::AnalogOut ledGreen;
