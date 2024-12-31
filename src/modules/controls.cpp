@@ -54,16 +54,16 @@ void run_connectivity_check(){
 
             controller.rumble("-");
 
-            LED::red();
+            // LED::red();
             delay(250);
-            LED::white();
+            // LED::white();
             delay(250);
 
         }
 
     } else {
 
-        LED::green();
+        // LED::green();
     
     }
 
@@ -153,7 +153,7 @@ enum RING_COLOR{
 
 };
 
-#define RED_COLOR_THRESHOLD 1500
+#define RED_COLOR_THRESHOLD 1100
 #define BLUE_COLOR_THRESHOLD 900
 
 int8_t getRingColor(){
@@ -164,11 +164,26 @@ int8_t getRingColor(){
     screen::print(E_TEXT_MEDIUM, 2, "G: %f", rgb.blue);
     screen::print(E_TEXT_MEDIUM, 3, "B: %f", rgb.green);
     if(BLUE_COLOR_THRESHOLD < rgb.blue && rgb.red < RED_COLOR_THRESHOLD){
+        
+        screen::set_pen(Color::blue);
+        screen::fill_rect(240, 0, 480, 120);
+        screen::set_pen(Color::white);
         return RING_COLOR::BLUE;
+    
     } else if (RED_COLOR_THRESHOLD < rgb.red) {
+    
+        screen::set_pen(Color::red);
+        screen::fill_rect(240, 0, 480, 120);
+        screen::set_pen(Color::white);
         return RING_COLOR::RED;
+    
     } else {
+    
+        screen::set_pen(Color::gray);
+        screen::fill_rect(240, 0, 480, 120);
+        screen::set_pen(Color::white);
         return RING_COLOR::NONE;
+    
     }
 
 }
@@ -234,7 +249,7 @@ namespace COLORSORT{
 
             if(COLORSORT::isEliminateRed){
 
-                LED::blue();
+                // LED::blue();
 
                 if(ringColor == RING_COLOR::RED){
                     COLORSORT::isPistonExtended = true;
@@ -244,7 +259,7 @@ namespace COLORSORT{
 
             } else {
 
-                LED::red();
+                // LED::red();
 
                 if(ringColor == RING_COLOR::BLUE){
                     COLORSORT::isPistonExtended = true;
@@ -256,7 +271,7 @@ namespace COLORSORT{
 
         } else {
 
-            LED::purple();
+            // LED::purple();
             COLORSORT::isPistonExtended = false;
 
         }
@@ -477,11 +492,11 @@ void show_ring_color_with_led(){
     int8_t color = getRingColor();
     
     if(color == RING_COLOR::BLUE){
-        LED::blue();
+        // LED::blue();
     } else if (color == RING_COLOR::RED) {
-        LED::red();
+        // LED::red();
     } else {
-        LED::white();
+        // LED::white();
     }
 
 }

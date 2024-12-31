@@ -28,7 +28,7 @@
 
 #define COLORSORT_ADI_PORT 'A'
 #define MOGO_ADI_PORT 'B'
-#define DOINKER_ADI_PORT 'C'
+#define LED_ADI_PORT 3
 
 #define LED_RED_ADI_PORT 'E'
 #define LED_BLUE_ADI_PORT 'F'
@@ -56,6 +56,19 @@
 using namespace std;
 using namespace pros;
 using namespace lemlib;
+
+
+
+
+
+/*
+ * ╭─────╮
+ * │ LED │
+ * ╰─────╯
+ */
+
+stormlib::aRGB led(LED_ADI_PORT, 30);
+// stormlib::aRGB_manager led(&leds, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
 
 
@@ -119,7 +132,7 @@ MotorGroup intake({RIGHT_INTAKE_MOTOR_PORT, -LEFT_INTAKE_MOTOR_PORT}, INTAKE_MOT
  */
 
 adi::DigitalOut mogoPiston(MOGO_ADI_PORT, false);
-adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
+// adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
 adi::DigitalOut colorsortPiston(COLORSORT_ADI_PORT, false);
 
 pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
@@ -148,10 +161,6 @@ Imu imu(IMU_PORT);
  * │ LADYBROWN │
  * ╰───────────╯
  */
-
-// Rotation ladybrownRotation(LADYBROWN_ROTATION_PORT);
-// Motor ladybrownMotor(-LADYBROWN_MOTOR_PORT);
-// pros::adi::DigitalOut ladybrownPiston(LADYBROWN_ADI_PORT);
 
 
 

@@ -16,7 +16,7 @@ bin/modules/config.cpp.o: src/modules/config.cpp \
  include/fmt/core.h include/fmt/format-inl.h \
  include/lemlib/logger/baseSink.hpp include/fmt/args.h \
  include/lemlib/logger/message.hpp include/lemlib/logger/infoSink.hpp \
- include/lemlib/logger/telemetrySink.hpp
+ include/lemlib/logger/telemetrySink.hpp include/modules/led.hpp
 include/modules/config.hpp:
 include/pros/distance.hpp:
 include/pros/device.hpp:
@@ -59,3 +59,4 @@ include/fmt/args.h:
 include/lemlib/logger/message.hpp:
 include/lemlib/logger/infoSink.hpp:
 include/lemlib/logger/telemetrySink.hpp:
+include/modules/led.hpp:

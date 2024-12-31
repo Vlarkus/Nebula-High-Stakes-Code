@@ -3,8 +3,11 @@
 #include "pros/distance.hpp"
 #include "pros/optical.hpp"
 #include "lemlib/api.hpp"
+#include "modules/led.hpp"
 #include <string>
 #include <cmath>
+
+extern stormlib::aRGB led;
 
 extern lemlib::Chassis chassis;
 
@@ -12,18 +15,10 @@ extern pros::Controller controller;
 
 extern pros::MotorGroup intake;
 
-extern pros::adi::AnalogOut ledRed;
-extern pros::adi::AnalogOut ledGreen;
-extern pros::adi::AnalogOut ledBlue;
-extern pros::adi::AnalogOut ledBrightness;
-
 extern pros::adi::DigitalOut mogoPiston;
 extern pros::adi::DigitalOut doinkerPiston;
 extern pros::adi::DigitalOut ladybrownPiston;
 extern pros::adi::DigitalOut colorsortPiston;
-
-extern pros::Rotation ladybrownRotation;
-// extern pros::Motor ladybrownMotor;
 
 extern pros::Optical opticalSensor;
 extern pros::v5::Distance distanceSensor;
