@@ -160,28 +160,26 @@ int8_t getRingColor(){
 
     auto rgb = opticalSensor.get_rgb();
     screen::set_pen(Color::white);
-    screen::print(E_TEXT_MEDIUM, 1, "R: %f", rgb.red);
-    screen::print(E_TEXT_MEDIUM, 2, "G: %f", rgb.blue);
-    screen::print(E_TEXT_MEDIUM, 3, "B: %f", rgb.green);
+    // screen::print(E_TEXT_MEDIUM, 1, "R: %f", rgb.red);
+    // screen::print(E_TEXT_MEDIUM, 2, "G: %f", rgb.blue);
+    // screen::print(E_TEXT_MEDIUM, 3, "B: %f", rgb.green);
     if(BLUE_COLOR_THRESHOLD < rgb.blue && rgb.red < RED_COLOR_THRESHOLD){
         
-        screen::set_pen(Color::blue);
-        screen::fill_rect(240, 0, 480, 120);
-        screen::set_pen(Color::white);
+        // screen::set_pen(Color::blue);
+        // screen::fill_rect(240, 0, 480, 120);
+        // screen::set_pen(Color::white);
         return RING_COLOR::BLUE;
     
     } else if (RED_COLOR_THRESHOLD < rgb.red) {
     
-        screen::set_pen(Color::red);
-        screen::fill_rect(240, 0, 480, 120);
-        screen::set_pen(Color::white);
+        // screen::set_pen(Color::red);
+        // screen::fill_rect(240, 0, 480, 120);
+        // screen::set_pen(Color::white);
         return RING_COLOR::RED;
     
     } else {
     
-        screen::set_pen(Color::gray);
-        screen::fill_rect(240, 0, 480, 120);
-        screen::set_pen(Color::white);
+        // screen::set_pen(Color::gray);
         return RING_COLOR::NONE;
     
     }
