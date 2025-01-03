@@ -32,7 +32,7 @@ void initialize() {
 
     BUI::initialize();
     BUI::set_screen(BUI::AUTON_SELECTOR);
-    // led.initialize();
+    led.initialize();
     run_connectivity_check();
     chassis.calibrate();
     opticalSensor.set_led_pwm(100);
@@ -88,7 +88,7 @@ void autonomous() {
 void opcontrol() { 
 
     BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
-    led.setColor(0x00FFFF);
+    led.rainbow(31);
     
     while (true) {
 

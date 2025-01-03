@@ -9,8 +9,6 @@
 
 
 
-
-
 /*
  * ╭─────────╮
  * │ INCLUDE │
@@ -18,8 +16,6 @@
  */
 
 #include "modules/bui.hpp"
-
-
 
 
 
@@ -36,15 +32,13 @@ using namespace std;
 
 
 
-
-
 /*
  * ╭───────────────╮
  * │ NAMESPACE BUI │
  * ╰───────────────╯
  */
 
-namespace BUI{
+namespace BUI {
 
 
 
@@ -54,10 +48,9 @@ namespace BUI{
     * ╰─────────╯
     */
 
-    namespace{
+    namespace {
         SCREEN currentScreen = LOGO_ONLY;
     }
-
 
 
 
@@ -67,7 +60,7 @@ namespace BUI{
     * ╰─────────╯
     */
 
-    void initialize(){
+    void initialize() {
 
         touch_callback(handleTouch, E_TOUCH_PRESSED);
         render();
@@ -76,8 +69,7 @@ namespace BUI{
 
     void handleTouch() {
 
-        switch (currentScreen)
-        {
+        switch (currentScreen) {
 
         case SCREEN::COLOR_SELECTOR:
             handle_touch_color_selector();
@@ -89,22 +81,23 @@ namespace BUI{
 
         default:
             break;
-        
+
         }
 
     }
 
-    void set_screen(SCREEN newScreen){
+    void set_screen(SCREEN newScreen) {
 
-        currentScreen = newScreen;
-        render();
+        if (newScreen != currentScreen) {
+            currentScreen = newScreen;
+            render();
+        }
 
     }
 
-    void render(){
+    void render() {
 
-        switch (currentScreen)
-        {
+        switch (currentScreen) {
 
         case SCREEN::COLOR_SELECTOR:
             render_color_selector();
@@ -117,20 +110,20 @@ namespace BUI{
         case SCREEN::LOGO_ONLY:
             render_logo_only();
             break;
-        
+
         default:
-
-            set_eraser(Color::red);
-            erase();
-            set_eraser(Color::black);
-
+            render_default();
             break;
 
         }
 
     }
 
-
+    void render_default() {
+        set_eraser(Color::red);
+        erase();
+        set_eraser(Color::black);
+    }
 
 
 
@@ -140,7 +133,7 @@ namespace BUI{
     * ╰────────────────╯
     */
 
-    void render_color_selector(){
+    void render_color_selector() {
 
         set_pen(Color::red);
         fill_rect(0, 0, 240, 240);
@@ -150,7 +143,7 @@ namespace BUI{
 
     }
 
-    void handle_touch_color_selector(){
+    void handle_touch_color_selector() {
 
         auto status = touch_status();
 
@@ -159,12 +152,10 @@ namespace BUI{
             COLORSORT::set_is_eliminate_red(status.x > 240);
 
             set_screen(SCREEN::AUTON_SELECTOR);
-            
+
         }
 
     }
-
-
 
 
 
@@ -174,7 +165,7 @@ namespace BUI{
     * ╰────────────────╯
     */
 
-    void render_auton_selector(){
+    void render_auton_selector() {
 
         set_eraser(Color::black);
         erase();
@@ -185,21 +176,21 @@ namespace BUI{
 
     }
 
-    void nextRoutine(){
+    void nextRoutine() {
 
         increaseSelectedRoutineIndex();
         render_auton_selector();
 
     }
 
-    void previousRoutine(){
+    void previousRoutine() {
 
         decreaseSelectedRoutineIndex();
         render_auton_selector();
 
     }
 
-    void handle_touch_auton_selector(){
+    void handle_touch_auton_selector() {
 
         auto status = touch_status();
 
@@ -211,13 +202,9 @@ namespace BUI{
                 nextRoutine();
             }
 
-            render_auton_selector();
-            
         }
 
     }
-
-
 
 
 
@@ -227,8 +214,8 @@ namespace BUI{
     * ╰──────────────╯
     */
 
-    void render_logo_only(){
-        
+    void render_logo_only() {
+
         set_pen(Color::green);
         erase();
         draw_screen("Nebula Logo");
@@ -255,11 +242,10 @@ namespace BUI{
 
 
     map<std::string, const std::vector<std::tuple<int, int, int>>*> screenImages = {
-        
-        {"Nebula Logo", &IMAGES::NEBULA_LOGO}
-    
-    };
 
+        {"Nebula Logo", &IMAGES::NEBULA_LOGO}
+
+    };
 
 
 

@@ -7,7 +7,7 @@
 #include <string>
 #include <cmath>
 
-extern stormlib::aRGB led;
+extern stormlib::aRGB_manager led;
 
 extern lemlib::Chassis chassis;
 

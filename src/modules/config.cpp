@@ -67,8 +67,8 @@ using namespace lemlib;
  * ╰─────╯
  */
 
-stormlib::aRGB led(LED_ADI_PORT, 30);
-// stormlib::aRGB_manager led(&leds, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+stormlib::aRGB leds(LED_ADI_PORT, 32);
+stormlib::aRGB_manager led(&leds, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
 
 
