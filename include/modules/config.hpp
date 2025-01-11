@@ -19,6 +19,7 @@ extern pros::adi::DigitalOut mogoPiston;
 extern pros::adi::DigitalOut doinkerPiston;
 extern pros::adi::DigitalOut ladybrownPiston;
 extern pros::adi::DigitalOut colorsortPiston;
+extern pros::adi::DigitalOut hangPiston;
 
 extern pros::Optical opticalSensor;
 extern pros::v5::Distance distanceSensor;
@@ -33,8 +34,9 @@ extern const pros::controller_digital_e_t MOGO_OUT_BTN;
 extern const pros::controller_digital_e_t LADYBROWN_RETRACT_BTN;
 extern const pros::controller_digital_e_t LADYBROWN_INTAKE_BTN;
 extern const pros::controller_digital_e_t LADYBROWN_EXTEND_BTN;
-extern const pros::controller_digital_e_t LIFT_UP_BTN;
-extern const pros::controller_digital_e_t LIFT_DOWN_BTN;
+extern const pros::controller_digital_e_t HANG_ACTIVATE_BTN;
+extern const pros::controller_digital_e_t DOINKER_ACTIVATE_BTN;
+extern const pros::controller_digital_e_t DOINKER_DEACTIVATE_BTN;
 extern const pros::controller_digital_e_t TURN_180_BTN;
 extern const pros::controller_digital_e_t CTRL_BTN;
 

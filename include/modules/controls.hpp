@@ -32,6 +32,21 @@ namespace COLORSORT {
 
 }
 
+namespace DOINKER {
+
+    extern void control();
+    void activate();
+    void deactivate();
+
+}
+
+namespace HANG {
+
+    extern void control();
+    void activate();
+
+}
+
 namespace MOGO{
 
     extern void control();

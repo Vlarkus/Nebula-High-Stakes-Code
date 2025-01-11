@@ -1,8 +1,16 @@
 #pragma once
 
+#include "pros/rtos.hpp"
 #include "pros/adi.hpp"
+#include <algorithm>
+#include <iomanip>
+#include <iostream>
+#include <iterator>
 #include <memory>
+#include <math.h>
+#include <vector>
 #include <string>
+#include <list>
 
 namespace stormlib {
 /**

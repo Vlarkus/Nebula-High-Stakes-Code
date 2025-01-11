@@ -187,6 +187,54 @@ int8_t getRingColor(){
 }
 
 
+namespace DOINKER {
+
+    void control(){
+
+        if(controller.get_digital(DOINKER_DEACTIVATE_BTN)){
+            activate();
+        } else if(controller.get_digital(DOINKER_ACTIVATE_BTN)){
+            deactivate();
+        }
+
+    }
+
+    void activate(){
+        doinkerPiston.set_value(true);
+    }
+
+    void deactivate(){
+        doinkerPiston.set_value(false);
+    }
+
+}
+
+
+
+
+
+/*
+ * ╭───────────╮
+ * │ COLORSORT │
+ * ╰───────────╯
+ */
+
+namespace HANG{
+
+    void control(){
+
+        if(is_ctrl_pressed() && controller.get_digital(HANG_ACTIVATE_BTN)){
+            activate();
+        }
+
+    }
+
+    void activate(){
+        hangPiston.set_value(true);
+    }
+
+}
+
 
 
 

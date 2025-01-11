@@ -26,14 +26,12 @@
 
 #define ROTATION_ODOM_VERT_PORT 19
 
-#define COLORSORT_ADI_PORT 'A'
-#define MOGO_ADI_PORT 'B'
-#define LED_ADI_PORT 3
-
-#define LED_RED_ADI_PORT 'E'
-#define LED_BLUE_ADI_PORT 'F'
-#define LED_GREEN_ADI_PORT 'G'
-#define LED_BRIGHT_ADI_PORT 'H'
+#define LEFT_LED_ADI_PORT 1
+#define RIGHT_LED_ADI_PORT 2
+#define COLORSORT_ADI_PORT 'C'
+#define MOGO_ADI_PORT 'D'
+#define DOINKER_ADI_PORT 'E'
+#define HANG_ADI_PORT 'F'
 
 #define LEFT_DT_A_PORT 8
 #define LEFT_DT_B_PORT 9
@@ -67,8 +65,9 @@ using namespace lemlib;
  * ╰─────╯
  */
 
-stormlib::aRGB leds(LED_ADI_PORT, 32);
-stormlib::aRGB_manager led(&leds, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
+stormlib::aRGB left_strand(LEFT_LED_ADI_PORT, 19);
+stormlib::aRGB right_strand(RIGHT_LED_ADI_PORT, 19);
+stormlib::aRGB_manager led(&left_strand, &right_strand, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr);
 
 
 
@@ -105,8 +104,9 @@ const controller_digital_e_t TURN_180_BTN = E_CONTROLLER_DIGITAL_DOWN;
 const pros::controller_digital_e_t LADYBROWN_RETRACT_BTN = E_CONTROLLER_DIGITAL_Y;
 const pros::controller_digital_e_t LADYBROWN_INTAKE_BTN = E_CONTROLLER_DIGITAL_B;
 const pros::controller_digital_e_t LADYBROWN_EXTEND_BTN = E_CONTROLLER_DIGITAL_X;
-extern const pros::controller_digital_e_t LIFT_UP_BTN = E_CONTROLLER_DIGITAL_UP;  // + CTRL
-extern const pros::controller_digital_e_t LIFT_DOWN_BTN = E_CONTROLLER_DIGITAL_RIGHT; // + CTRL
+const pros::controller_digital_e_t HANG_ACTIVATE_BTN = E_CONTROLLER_DIGITAL_UP;
+extern const pros::controller_digital_e_t DOINKER_ACTIVATE_BTN = E_CONTROLLER_DIGITAL_Y;  // + CTRL
+extern const pros::controller_digital_e_t DOINKER_DEACTIVATE_BTN = E_CONTROLLER_DIGITAL_X; // + CTRL
 extern const pros::controller_digital_e_t CTRL_BTN = E_CONTROLLER_DIGITAL_LEFT;
 
 
@@ -132,13 +132,9 @@ MotorGroup intake({RIGHT_INTAKE_MOTOR_PORT, -LEFT_INTAKE_MOTOR_PORT}, INTAKE_MOT
  */
 
 adi::DigitalOut mogoPiston(MOGO_ADI_PORT, false);
-// adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
+adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
 adi::DigitalOut colorsortPiston(COLORSORT_ADI_PORT, false);
-
-pros::adi::AnalogOut ledRed(LED_RED_ADI_PORT);
-pros::adi::AnalogOut ledGreen(LED_GREEN_ADI_PORT);
-pros::adi::AnalogOut ledBlue(LED_BLUE_ADI_PORT);
-pros::adi::AnalogOut ledBrightness(LED_BRIGHT_ADI_PORT);
+adi::DigitalOut hangPiston(HANG_ADI_PORT, false);
 
 
 

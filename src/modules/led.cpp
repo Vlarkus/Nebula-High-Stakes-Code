@@ -1,13 +1,4 @@
 #include "modules/led.hpp"
-#include "pros/adi.hpp"
-#include "pros/rtos.hpp"
-#include <algorithm>
-#include <iomanip>
-#include <iostream>
-#include <iterator>
-#include <list>
-#include <math.h>
-#include <vector>
 
 std::vector<pros::adi::Led> stormlib::aRGB::leds;
 

@@ -84,16 +84,16 @@ void autonomous() {
  * │ DRIVER CONTROL │
  * ╰────────────────╯
  */
-
 void opcontrol() { 
 
     BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
-    led.rainbow(31);
+    led.flow(0xFF00FF, 0x7722BB, 1);
     
     while (true) {
 
         DRIVETRAIN::control();
-        DRIVETRAIN::turn_180_control();
+        // DRIVETRAIN::turn_180_control();
+        HANG::control();
         INTAKE::control();
         COLORSORT::control();
         MOGO::control();
@@ -118,5 +118,6 @@ void disabled() {
 
     controller.rumble("-.");
     BUI::set_screen(BUI::SCREEN::AUTON_SELECTOR);
+    led.off();
 
 }
