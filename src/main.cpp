@@ -93,6 +93,7 @@ void opcontrol() {
 
         DRIVETRAIN::control();
         // DRIVETRAIN::turn_180_control();
+        DOINKER::control();
         HANG::control();
         INTAKE::control();
         COLORSORT::control();

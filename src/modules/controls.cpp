@@ -122,11 +122,11 @@ void control(){
     }
 
     void in(){
-        intake.move_voltage(MOTOR_MAX_VOLTAGE);
+        intake.move_voltage(-MOTOR_MAX_VOLTAGE);
     }
 
     void out(){
-        intake.move_voltage(-MOTOR_MAX_VOLTAGE);
+        intake.move_voltage(MOTOR_MAX_VOLTAGE);
     }
 
     void stop(){
