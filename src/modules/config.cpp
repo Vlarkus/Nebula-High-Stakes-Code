@@ -94,12 +94,12 @@ Controller controller(E_CONTROLLER_MASTER);
  * ╰─────────╯
  */
 
-const controller_digital_e_t INTAKE_IN_BTN = E_CONTROLLER_DIGITAL_R1;
-const controller_digital_e_t INTAKE_OUT_BTN = E_CONTROLLER_DIGITAL_L1;
+const controller_digital_e_t INTAKE_IN_BTN = E_CONTROLLER_DIGITAL_L1;
+const controller_digital_e_t INTAKE_OUT_BTN = E_CONTROLLER_DIGITAL_R1;
 const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN = E_CONTROLLER_DIGITAL_A;
 const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_COLOR_BTN = E_CONTROLLER_DIGITAL_A; // + CTRL
-const controller_digital_e_t MOGO_IN_BTN = E_CONTROLLER_DIGITAL_R2;
-const controller_digital_e_t MOGO_OUT_BTN = E_CONTROLLER_DIGITAL_L2;
+const controller_digital_e_t MOGO_IN_BTN = E_CONTROLLER_DIGITAL_L2;
+const controller_digital_e_t MOGO_OUT_BTN = E_CONTROLLER_DIGITAL_R2;
 const controller_digital_e_t TURN_180_BTN = E_CONTROLLER_DIGITAL_DOWN;
 const pros::controller_digital_e_t LADYBROWN_RETRACT_BTN = E_CONTROLLER_DIGITAL_Y;
 const pros::controller_digital_e_t LADYBROWN_INTAKE_BTN = E_CONTROLLER_DIGITAL_B;
@@ -217,7 +217,7 @@ Drivetrain drivetrain(&leftMotors, // left motor group
 Rotation verticalEnc(ROTATION_ODOM_VERT_PORT);
 TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
 
-OdomSensors sensors(&vertical, nullptr, nullptr, nullptr, &imu);
+OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
 
 
 

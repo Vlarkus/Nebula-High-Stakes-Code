@@ -67,13 +67,10 @@ Routine routines[] = {
         chassis.setPose(0, 0, 180);
 
         chassis.turnToHeading(200, 800);
-        chassis.moveToPoint(16, 32, 2000, BACKWARDS);
+        chassis.moveToPoint(16, 36, 2000, BACKWARDS);
 
         while(chassis.isInMotion()){
-
             MOGO::close_if_mogo_detected();
-            delay(20);
-
         }
 
         chassis.turnToPoint(2, 45, 1000);
