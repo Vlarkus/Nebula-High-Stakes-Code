@@ -217,7 +217,8 @@ Drivetrain drivetrain(&leftMotors, // left motor group
 Rotation verticalEnc(ROTATION_ODOM_VERT_PORT);
 TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
 
-OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
+//OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
+OdomSensors sensors(&vertical, nullptr, nullptr, nullptr, &imu);
 
 
 

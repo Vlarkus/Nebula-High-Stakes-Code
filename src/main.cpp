@@ -98,7 +98,10 @@ void opcontrol() {
         INTAKE::control();
         COLORSORT::control();
         MOGO::control();
-
+        
+        screen::print(E_TEXT_MEDIUM, 0, "x: %d", chassis.getPose().x);
+        screen::print(E_TEXT_MEDIUM, 1, "y: %d", chassis.getPose().y);
+        screen::print(E_TEXT_MEDIUM, 2, "theta: %f", chassis.getPose().theta);
         delay(10);
 
     }

@@ -40,7 +40,16 @@ Routine routines[] = {
 
 
 
-    Routine("Do Nothing", "Do nothing...", []() {}),
+    Routine("Do Nothing", "Do nothing...", []() {
+        chassis.moveToPoint(0,60,1000);
+        chassis.turnToHeading(-90,1000);
+    }),
+
+
+    Routine("Auton Goal", "Auton Goal", []() {
+        chassis.moveToPoint(0,60,1000);
+        chassis.turnToHeading(-90,1000);
+    }),
 
 
 
