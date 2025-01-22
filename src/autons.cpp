@@ -5,6 +5,8 @@
  */
 
 #include "autons.hpp"
+#include "lemlib-tarball/api.hpp"
+ASSET(auton_goal_txt);
 
 
 
@@ -47,8 +49,34 @@ Routine routines[] = {
 
 
     Routine("Auton Goal", "Auton Goal", []() {
-        chassis.moveToPoint(0,60,1000);
-        chassis.turnToHeading(-90,1000);
+        lemlib_tarball::Decoder decoder(auton_goal_txt);
+        chassis.setPose(0, 0, 0);
+
+        COLORSORT::run_async();
+        INTAKE::in();
+        while(chassis.isInMotion()){
+            MOGO::close_if_mogo_detected();
+        }
+
+        chassis.follow(decoder["auton_goal_one"], 15, 2000, false);
+        chassis.turnToHeading(270,2000);
+        chassis.follow(decoder["auton_goal_two"], 15, 2000);
+        chassis.turnToHeading(245,2000);
+        chassis.follow(decoder["auton_goal_three"], 15, 2000);
+        DOINKER::activate();
+        chassis.turnToHeading(90,2000);
+        DOINKER::deactivate();
+        chassis.turnToHeading(65,2000);
+        chassis.follow(decoder["auton_goal_four"], 15, 2000, false);
+        MOGO::open();
+        chassis.follow(decoder["auton_goal_five"], 15, 2000);
+        chassis.turnToHeading(345,2000);
+        chassis.follow(decoder["auton_goal_six"], 15, 2000);
+        chassis.turnToHeading(80,2000);
+        chassis.follow(decoder["auton_goal_seven"], 15, 2000);
+
+        INTAKE::stop();
+        COLORSORT::stop_async();
     }),
 
 

@@ -32,7 +32,8 @@ bin/autons.cpp.o: src/autons.cpp include/autons.hpp \
  include/pros/motor_group.hpp include/pros/motors.hpp \
  include/pros/optical.hpp include/pros/rotation.hpp include/pros/rtos.hpp \
  include/pros/screen.hpp include/pros/screen.h include/pros/vision.hpp \
- include/pros/vision.h include/modules/routine.hpp include/api.h
+ include/pros/vision.h include/modules/routine.hpp include/api.h \
+ include/lemlib-tarball/api.hpp
 include/autons.hpp:
 include/modules/controls.hpp:
 include/modules/config.hpp:
@@ -122,3 +123,4 @@ include/pros/vision.hpp:
 include/pros/vision.h:
 include/modules/routine.hpp:
 include/api.h:
+include/lemlib-tarball/api.hpp:
