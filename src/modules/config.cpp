@@ -244,7 +244,7 @@ ControllerSettings linearController(
 
 ControllerSettings angularController(
     3.5,      //kP
-    0.075,      // kI
+    0,      // kI
     17,     // kD
     3,      // anti windup
     1,      // small error range, in degrees
