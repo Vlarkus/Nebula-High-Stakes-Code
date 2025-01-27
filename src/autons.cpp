@@ -6,8 +6,9 @@
 
 #include "autons.hpp"
 #include "lemlib-tarball/api.hpp"
-ASSET(auton_goal_txt);
+ASSET(new_goal_txt);
 ASSET(auton_ring_v1_txt);
+ASSET(new_goal_blue_txt);
 
 
 
@@ -43,40 +44,62 @@ Routine routines[] = {
     Routine("Do Nothing", "Do nothing...", []() {}),
 
 
-    Routine("Auton Goal", "Auton Goal", []() {
-        lemlib_tarball::Decoder decoder(auton_goal_txt);
-        chassis.setPose(-52.731, -59.725, 270);
-
-        COLORSORT::run_async();
-        INTAKE::in();
-        while(chassis.isInMotion()){
-            MOGO::close_if_mogo_detected();
-        }
-
-        chassis.follow(decoder["auton_goal_one"], 15, 2000, false);
-        chassis.turnToHeading(290,2000);
-        chassis.follow(decoder["auton_goal_two"], 15, 2000);
-        chassis.turnToHeading(245,2000);
-        chassis.follow(decoder["auton_goal_three"], 15, 2000);
-        DOINKER::activate();
-        chassis.turnToHeading(90,2000);
+    Routine("Auton Goal Red", "Auton Goal", []() {
+        lemlib_tarball::Decoder decoder(new_goal_txt);
+        chassis.setPose(-53.323, -59.246, 90);
+        chassis.turnToHeading(95,1000);
+        chassis.follow(decoder["auton_goal_one"], 15, 1000);
+        pros::delay(1000);
+        DOINKER::activate(); 
+        pros::delay(1000);
+        chassis.turnToHeading(57,1000);
+        chassis.follow(decoder["auton_goal_two"], 15, 1000, false);
         DOINKER::deactivate();
-        chassis.turnToHeading(0,2000);
-        chassis.follow(decoder["auton_goal_four"], 15, 2000);
-        chassis.turnToHeading(45,2000);
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["auton_goal_three"], 15, 1000);
+        INTAKE::in();
+        pros::delay(1500);
+        INTAKE::stop();
+        chassis.turnToHeading(180,1000);
+        chassis.follow(decoder["auton_goal_four"], 15, 1000, false);
+        chassis.turnToHeading(90,1000);
+        chassis.follow(decoder["auton_goal_five"], 15, 1000, false);
         MOGO::open();
-        chassis.turnToHeading(225,2000);
-        chassis.follow(decoder["auton_goal_five"], 15, 2000, false);
-        chassis.turnToHeading(45,2000);
+        chassis.turnToHeading(35,1000);
+        chassis.follow(decoder["auton_goal_six"], 15, 1000);
 
         chassis.setBrakeMode(E_MOTOR_BRAKE_HOLD);
+    }),
 
+    Routine("Auton Goal Blue", "Auton Goal", []() {
+        lemlib_tarball::Decoder decoder(new_goal_blue_txt);
+        chassis.setPose(53.323, -59.246, 90);
+        chassis.turnToHeading(95,1000);
+        chassis.follow(decoder["auton_goal_one"], 15, 1000);
+        pros::delay(1000);
+        DOINKER::activate(); 
+        pros::delay(1000);
+        chassis.turnToHeading(57,1000);
+        chassis.follow(decoder["auton_goal_two"], 15, 1000, false);
+        DOINKER::deactivate();
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["auton_goal_three"], 15, 1000);
+        INTAKE::in();
+        pros::delay(1500);
         INTAKE::stop();
-        COLORSORT::stop_async();
+        chassis.turnToHeading(180,1000);
+        chassis.follow(decoder["auton_goal_four"], 15, 1000, false);
+        chassis.turnToHeading(90,1000);
+        chassis.follow(decoder["auton_goal_five"], 15, 1000, false);
+        MOGO::open();
+        chassis.turnToHeading(35,1000);
+        chassis.follow(decoder["auton_goal_six"], 15, 1000);
+
+        chassis.setBrakeMode(E_MOTOR_BRAKE_HOLD);
     }),
 
 
-        Routine("Auton Ring V1", "Auton Goal", []() {
+    Routine("Auton Ring V1", "Auton Goal", []() {
         lemlib_tarball::Decoder decoder(auton_ring_v1_txt);
         chassis.setPose(-58.642, 23.655, 270);
 
