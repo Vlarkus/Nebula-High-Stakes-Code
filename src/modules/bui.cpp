@@ -9,6 +9,8 @@
 
 
 
+
+
 /*
  * ╭─────────╮
  * │ INCLUDE │
@@ -16,6 +18,8 @@
  */
 
 #include "modules/bui.hpp"
+
+
 
 
 
@@ -27,8 +31,9 @@
 
 using namespace pros::screen;
 using namespace lemlib;
-using namespace pros;
 using namespace std;
+
+
 
 
 
@@ -38,7 +43,7 @@ using namespace std;
  * ╰───────────────╯
  */
 
-namespace BUI {
+namespace BUI{
 
 
 
@@ -48,9 +53,9 @@ namespace BUI {
     * ╰─────────╯
     */
 
-    namespace {
-        SCREEN currentScreen = LOGO_ONLY;
-    }
+    SCREEN currentScreen = COLOR_SELECTOR;
+
+
 
 
 
@@ -60,16 +65,17 @@ namespace BUI {
     * ╰─────────╯
     */
 
-    void initialize() {
+    void initialize(){
 
-        touch_callback(handleTouch, E_TOUCH_PRESSED);
+        touch_callback(handleTouch, pros::E_TOUCH_PRESSED);
         render();
 
     }
 
     void handleTouch() {
 
-        switch (currentScreen) {
+        switch (currentScreen)
+        {
 
         case SCREEN::COLOR_SELECTOR:
             handle_touch_color_selector();
@@ -81,23 +87,22 @@ namespace BUI {
 
         default:
             break;
-
+        
         }
 
     }
 
-    void set_screen(SCREEN newScreen) {
+    void set_screen(SCREEN newScreen){
 
-        if (newScreen != currentScreen) {
-            currentScreen = newScreen;
-            render();
-        }
+        currentScreen = newScreen;
+        render();
 
     }
 
-    void render() {
+    void render(){
 
-        switch (currentScreen) {
+        switch (currentScreen)
+        {
 
         case SCREEN::COLOR_SELECTOR:
             render_color_selector();
@@ -107,23 +112,23 @@ namespace BUI {
             render_auton_selector();
             break;
 
-        case SCREEN::LOGO_ONLY:
-            render_logo_only();
+        case SCREEN::DURING_MATCH:
+            render_during_match();
             break;
-
+        
         default:
-            render_default();
+
+            set_eraser(pros::Color::red);
+            erase();
+            set_eraser(pros::Color::black);
+
             break;
 
         }
 
     }
 
-    void render_default() {
-        set_eraser(Color::red);
-        erase();
-        set_eraser(Color::black);
-    }
+
 
 
 
@@ -133,29 +138,30 @@ namespace BUI {
     * ╰────────────────╯
     */
 
-    void render_color_selector() {
+    void render_color_selector(){
 
-        set_pen(Color::red);
+        set_pen(pros::Color::red);
         fill_rect(0, 0, 240, 240);
-        set_pen(Color::blue);
+        set_pen(pros::Color::blue);
         fill_rect(240, 0, 480, 240);
-        set_pen(Color::white);
 
     }
 
-    void handle_touch_color_selector() {
+    void handle_touch_color_selector(){
 
         auto status = touch_status();
 
-        if (status.touch_status == E_TOUCH_PRESSED) {
+        if (status.touch_status == pros::E_TOUCH_PRESSED) {
 
-            COLORSORT::set_is_eliminate_red(status.x > 240);
+            set_selective_intake_is_eliminate_red(status.x > 240);
 
             set_screen(SCREEN::AUTON_SELECTOR);
-
+            
         }
 
     }
+
+
 
 
 
@@ -165,36 +171,49 @@ namespace BUI {
     * ╰────────────────╯
     */
 
-    void render_auton_selector() {
+    int8_t routineIndex = 0;
 
-        set_eraser(Color::black);
+    void render_auton_selector(){
+
         erase();
-        set_pen(Color::yellow);
-        print(E_TEXT_LARGE_CENTER, 1, getSelectedRoutine().getName().c_str());
-        set_pen(Color::white);
-        print(E_TEXT_MEDIUM, 3, getSelectedRoutine().getDescription().c_str());
+        print(pros::E_TEXT_LARGE_CENTER, 1, getSelectedRoutine().getName().c_str());
+        print(pros::E_TEXT_MEDIUM, 3, getSelectedRoutine().getDescription().c_str());
 
     }
 
-    void nextRoutine() {
+    void nextRoutine(){
 
-        increaseSelectedRoutineIndex();
+        if(routineIndex < getNumRoutines() - 1){
+            routineIndex++;
+        } else {
+            routineIndex = 0;
+        }
+
         render_auton_selector();
 
     }
 
-    void previousRoutine() {
+    void previousRoutine(){
 
-        decreaseSelectedRoutineIndex();
+        if(routineIndex <= 0){
+            routineIndex = getNumRoutines() - 1;
+        } else {
+            routineIndex--;
+        }
+
         render_auton_selector();
 
     }
 
-    void handle_touch_auton_selector() {
+    Routine getSelectedRoutine(){
+        return getRoutine(routineIndex);
+    }
+
+    void handle_touch_auton_selector(){
 
         auto status = touch_status();
 
-        if (status.touch_status == E_TOUCH_PRESSED) {
+        if (status.touch_status == pros::E_TOUCH_PRESSED) {
 
             if (status.x < 240) {
                 previousRoutine();
@@ -202,9 +221,13 @@ namespace BUI {
                 nextRoutine();
             }
 
+            render_auton_selector();
+            
         }
 
     }
+
+
 
 
 
@@ -214,39 +237,9 @@ namespace BUI {
     * ╰──────────────╯
     */
 
-    void render_logo_only() {
-
-        set_pen(Color::green);
+    void render_during_match(){
         erase();
-        draw_screen("Nebula Logo");
-
     }
-
-    void draw_screen(std::string name) {
-
-        if (screenImages.find(name) == screenImages.end()) {
-            return;
-        }
-
-        for (const auto& tuple : *screenImages[name]) {
-            int x = std::get<0>(tuple);
-            int y = std::get<1>(tuple);
-            int color = std::get<2>(tuple);
-
-            set_pen(color);
-            draw_pixel(x, y);
-        }
-
-    }
-
-
-
-    map<std::string, const std::vector<std::tuple<int, int, int>>*> screenImages = {
-
-        {"Nebula Logo", &IMAGES::NEBULA_LOGO}
-
-    };
-
 
 
 

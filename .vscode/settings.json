@@ -49,8 +49,6 @@
         "ranges": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp",
-        "map": "cpp",
-        "__config": "cpp"
+        "typeinfo": "cpp"
     }
 }

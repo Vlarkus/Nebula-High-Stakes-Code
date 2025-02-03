@@ -38,7 +38,6 @@
 #include "modules/config.hpp"
 #include "modules/controls.hpp"
 #include "modules/bui.hpp"
-#include "modules/cui.hpp"
 #include "autons.hpp"
 
 /**

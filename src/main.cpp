@@ -31,13 +31,9 @@ using namespace lemlib;
 void initialize() {
 
     BUI::initialize();
-    BUI::set_screen(BUI::AUTON_SELECTOR);
-    led.initialize();
     run_connectivity_check();
     chassis.calibrate();
-    opticalSensor.set_led_pwm(100);
-    controller.rumble("-.");
-
+    optical.set_led_pwm(100);
 
 }
 
@@ -51,12 +47,7 @@ void initialize() {
  * ╰───────────╯
  */
 
-void competition_initialize() {
-
-    controller.rumble(".-");
-    BUI::set_screen(BUI::COLOR_SELECTOR);
-
-}
+void competition_initialize() {}
 
 
 
@@ -70,8 +61,9 @@ void competition_initialize() {
 
 void autonomous() {
 
-    getSelectedRoutine().run();
-    BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
+    BUI::getSelectedRoutine().run();
+    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    LED::rainbow();
     
 }
 
@@ -84,20 +76,20 @@ void autonomous() {
  * │ DRIVER CONTROL │
  * ╰────────────────╯
  */
+
 void opcontrol() { 
 
-    BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
-    led.flow(0xFF00FF, 0x7722BB, 1);
-    
+    BUI::set_screen(BUI::SCREEN::DURING_MATCH);
+    controller.print(0, 0, "%s", BUI::getSelectedRoutine().getName());
+
     while (true) {
 
-        DRIVETRAIN::control();
-        // DRIVETRAIN::turn_180_control();
-        DOINKER::control();
-        HANG::control();    
-        INTAKE::control();
-        COLORSORT::control();
-        MOGO::control();
+        drivetrain_control();
+        intake_control();
+        selective_intake_control();
+        mogo_control();
+        turn_180_control();
+
         delay(10);
 
     }
@@ -114,10 +106,4 @@ void opcontrol() {
  * ╰──────────╯
  */
 
-void disabled() {
-
-    controller.rumble("-.");
-    BUI::set_screen(BUI::SCREEN::AUTON_SELECTOR);
-    led.off();
-
-}
+void disabled() {}
