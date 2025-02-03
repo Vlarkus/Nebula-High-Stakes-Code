@@ -7,6 +7,7 @@
 #include "autons.hpp"
 #include "lemlib-tarball/api.hpp"
 ASSET(new_goal_txt);
+ASSET(path_txt);
 ASSET(auton_ring_v1_txt);
 ASSET(new_goal_blue_txt);
 
@@ -37,11 +38,62 @@ using namespace pros;
 #define EARLY_EXIT_BACKWARDS {.forwards = false, .earlyExitRange = 2}
 
 namespace {
-    int8_t selectedRoutineIndex = 0;
+    int8_t selectedRoutineIndex = 1;
 }
 
 Routine routines[] = {
-    Routine("Do Nothing", "Do nothing...", []() {}),
+
+    Routine("DO NOTHING", "Do nithing...", []() {}),
+
+    Routine("Skills", "Skills routine. Credit to Faaz :)", []() {
+        lemlib_tarball::Decoder decoder(path_txt);
+        chassis.setPose(-58.701, 0.163, 90);
+        chassis.turnToHeading(205,1000);
+        chassis.follow(decoder["Path 1"], 15, 1000, false);
+        pros::delay(1000);
+        MOGO::close();
+        chassis.swingToHeading(90, DriveSide::LEFT, 1000);
+
+        INTAKE::in();
+        chassis.follow(decoder["Path 2"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["Path 3"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(270,1000);
+        chassis.follow(decoder["Path 4"], 15, 1000);
+        chassis.follow(decoder["Path 5"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(45,1000);
+        chassis.follow(decoder["Path 6"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(95,1000);
+        chassis.follow(decoder["Path 7"], 15, 1000, false);
+        pros::delay(2000);
+        MOGO::open();
+        chassis.follow(decoder["Path 8"], 15, 1000);
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["Path 9"], 15, 1000, false);
+        pros::delay(5000);
+        MOGO::close();
+        chassis.turnToHeading(90,1000);
+        INTAKE::in();
+        chassis.follow(decoder["Path 10"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(180,1000);
+        chassis.follow(decoder["Path 11"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(270,1000);
+        chassis.follow(decoder["Path 12"], 15, 1000);
+        chassis.follow(decoder["Path 13"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(140,1000);
+        chassis.follow(decoder["Path 14"], 15, 1000);
+        pros::delay(2000);
+        chassis.turnToHeading(85,1000);
+        chassis.follow(decoder["Path 15"], 15, 1000, false);
+
+    }),
 
 
     Routine("Auton Goal Red", "Auton Goal", []() {
@@ -139,7 +191,8 @@ Routine routines[] = {
         chassis.setPose(0, 0, 0);
         chassis.moveToPoint(0, 24, 1000);
 
-    }),
+    })
+
 };
 
 void increaseSelectedRoutineIndex(){
