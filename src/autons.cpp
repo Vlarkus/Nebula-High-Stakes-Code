@@ -52,8 +52,7 @@ Routine routines[] = {
         chassis.follow(decoder["Path 1"], 15, 1000, false);
         pros::delay(1000);
         MOGO::close();
-        chassis.swingToHeading(90, DriveSide::LEFT, 1000);
-
+        chassis.turnToHeading(90, 1000);
         INTAKE::in();
         chassis.follow(decoder["Path 2"], 15, 1000);
         pros::delay(2000);
