@@ -7,7 +7,7 @@
 #include "autons.hpp"
 #include "lemlib-tarball/api.hpp"
 ASSET(new_goal_txt);
-ASSET(path_txt);
+ASSET(janSkillsPath_txt);
 ASSET(auton_ring_v1_txt);
 ASSET(new_goal_blue_txt);
 
@@ -46,8 +46,8 @@ Routine routines[] = {
     Routine("DO NOTHING", "Do nithing...", []() {}),
 
     Routine("Skills", "Skills routine. Credit to Faaz :)", []() {
-        lemlib_tarball::Decoder decoder(path_txt);
-        chassis.setPose(-58.701, 0.163, 90);
+        lemlib_tarball::Decoder decoder(janSkillsPath_txt);
+        chassis.setPose(-56.5, 0.058, 270);
         chassis.turnToHeading(205,1000);
         chassis.follow(decoder["Path 1"], 15, 1000, false);
         pros::delay(1000);
@@ -63,35 +63,84 @@ Routine routines[] = {
         chassis.follow(decoder["Path 4"], 15, 1000);
         chassis.follow(decoder["Path 5"], 15, 1000);
         pros::delay(2000);
-        chassis.turnToHeading(45,1000);
+        chassis.turnToHeading(35,1000);
         chassis.follow(decoder["Path 6"], 15, 1000);
         pros::delay(2000);
-        chassis.turnToHeading(95,1000);
+        chassis.turnToHeading(110,1000);
         chassis.follow(decoder["Path 7"], 15, 1000, false);
         pros::delay(2000);
         MOGO::open();
         chassis.follow(decoder["Path 8"], 15, 1000);
-        chassis.turnToHeading(0,1000);
+        chassis.turnToHeading(358,1000);
         chassis.follow(decoder["Path 9"], 15, 1000, false);
-        pros::delay(5000);
+        pros::delay(2000);
         MOGO::close();
         chassis.turnToHeading(90,1000);
         INTAKE::in();
         chassis.follow(decoder["Path 10"], 15, 1000);
-        pros::delay(2000);
-        chassis.turnToHeading(180,1000);
+        chassis.turnToHeading(290,1000);
         chassis.follow(decoder["Path 11"], 15, 1000);
         pros::delay(2000);
         chassis.turnToHeading(270,1000);
         chassis.follow(decoder["Path 12"], 15, 1000);
         chassis.follow(decoder["Path 13"], 15, 1000);
         pros::delay(2000);
-        chassis.turnToHeading(140,1000);
+        chassis.turnToHeading(145,1000);
         chassis.follow(decoder["Path 14"], 15, 1000);
         pros::delay(2000);
-        chassis.turnToHeading(85,1000);
+        chassis.turnToHeading(70,1000);
         chassis.follow(decoder["Path 15"], 15, 1000, false);
-
+        pros::delay(2000);
+        MOGO::open();
+        chassis.follow(decoder["Path 16"], 15, 1000);
+        chassis.turnToHeading(80,1000);
+        chassis.follow(decoder["Path 17"], 15, 1000);
+        pros::delay(1000);
+        INTAKE::in();
+        pros::delay(500);
+        INTAKE::stop();
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["Path 18"], 15, 1000);
+        pros::delay(1000);
+        INTAKE::in();
+        pros::delay(200);
+        INTAKE::stop();
+        chassis.turnToHeading(225, 1000);
+        chassis.follow(decoder["Path 19"], 15, 1000, false);
+        pros::delay(2000);
+        MOGO::close();
+        INTAKE::in();
+        chassis.turnToHeading(315,1000);
+        chassis.follow(decoder["Path 20"], 15, 1000);
+        pros::delay(1000);
+        chassis.turnToHeading(0, 1000);
+        chassis.follow(decoder["Path 21"], 15, 1000);
+        pros::delay(1000);
+        chassis.turnToHeading(295,1000);
+        chassis.follow(decoder["Path 22"], 15, 1000);
+        pros::delay(1000);
+        chassis.turnToHeading(84,1000);
+        chassis.follow(decoder["Path 23"], 15, 1000);
+        pros::delay(1000);
+        chassis.follow(decoder["Path 24"], 15, 1000, false);
+        chassis.turnToHeading(264, 1000);
+        chassis.follow(decoder["Path 25"], 15, 1000, false);
+        pros::delay(2000);
+        MOGO::open();
+        pros::delay(500);
+        chassis.follow(decoder["Path 26"], 15, 1000);
+        chassis.turnToHeading(330, 100);
+        chassis.follow(decoder["Path 27"], 15, 1000, false);
+        pros::delay(2000);
+        MOGO::close();
+        chassis.turnToHeading(350, 1000);
+        chassis.follow(decoder["Path 28"], 15, 1000, false);
+        pros::delay(2000);
+        MOGO::open();
+        chassis.turnToHeading(315, 1000);
+        chassis.follow(decoder["Path 29"], 15, 1000);
+        chassis.follow(decoder["Path 30"], 15, 1000, false);
+        INTAKE::stop();
     }),
 
 
