@@ -45,7 +45,7 @@ Routine routines[] = {
 
     Routine("DO NOTHING", "Do nithing...", []() {}),
 
-    Routine("Skills", "Skills routine. Credit to Faaz :)", []() {
+    Routine("Skills", "Skills routine", []() {
         lemlib_tarball::Decoder decoder(janSkillsPath_txt);
         chassis.setPose(-56.5, 0.058, 270);
         chassis.turnToHeading(205,1000);    
