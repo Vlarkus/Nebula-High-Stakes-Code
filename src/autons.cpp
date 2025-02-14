@@ -46,44 +46,87 @@ Routine routines[] = {
     Routine("DO NOTHING", "Do nithing...", []() {}),
 
     Routine("Skills", "Skills routine", []() {
+
+        // -=-=- LEFT SIDE START -=-=- //
+
         lemlib_tarball::Decoder decoder(janSkillsPath_txt);
         chassis.setPose(-56.5, 0.058, 270);
+
         chassis.turnToHeading(205,1000);    
         chassis.follow(decoder["Path 1"], 15, 1000, false);
-        pros::delay(1000);
+        
+        chassis.waitUntilDone();
+        pros::delay(200);
         MOGO::close();
+        
         chassis.turnToHeading(90, 1000);
         INTAKE::in();
         chassis.follow(decoder["Path 2"], 15, 1000);
-        pros::delay(2000);
+
+        chassis.waitUntilDone();
+        pros::delay(200);
+
         chassis.turnToHeading(0,1000);
         chassis.follow(decoder["Path 3"], 15, 1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+        pros::delay(200);
+
         chassis.turnToHeading(270,1000);
+
         chassis.follow(decoder["Path 4"], 15, 1000);
+        chassis.waitUntilDone();
         chassis.follow(decoder["Path 5"], 15, 1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+
         chassis.turnToHeading(35,1000);
         chassis.follow(decoder["Path 6"], 15, 1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+        pros::delay(200);
+        
         chassis.turnToHeading(110,1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+        
         MOGO::open();
-        pros::delay(1000);
+        
+        pros::delay(100);
+        
         chassis.follow(decoder["Path 7"], 15, 1000, false);
         chassis.follow(decoder["Path 8"], 15, 1000);
-        pros::delay(1000);
+        chassis.waitUntilDone();
+
+        INTAKE::stop();
+
+        // -=-=- LEFT SIDE FINNISHED -=-=- //
+
+
+
+        // -=-=- TRANSITION TO RIGHT SIDE -=-=- //
+
         chassis.turnToHeading(358,1000);
-        chassis.follow(decoder["Path 9"], 15, 1000, false);
-        pros::delay(2000);
+        chassis.follow(decoder["Path 9"], 15, 4000, false);
+        chassis.waitUntilDone();
+
+
+
+        // -=-=- RIGHT SIDE START -=-=- //
+
         MOGO::close();
         chassis.turnToHeading(90,1000);
         INTAKE::in();
+
         chassis.follow(decoder["Path 10"], 7, 1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+
         chassis.turnToHeading(180, 1000);
         chassis.follow(decoder["Path 11"], 15, 1000);
-        pros::delay(2000);
+        
+        chassis.waitUntilDone();
+
         chassis.turnToHeading(270,1000);
         chassis.follow(decoder["Path 12"], 15, 1000);
         chassis.follow(decoder["Path 13"], 15, 1000);
@@ -95,6 +138,7 @@ Routine routines[] = {
         pros::delay(2000);
         MOGO::open();
         chassis.follow(decoder["Path 16"], 15, 1000);
+
         // pros::delay(2000);
         // MOGO::open();
         // pros::delay(1000);
