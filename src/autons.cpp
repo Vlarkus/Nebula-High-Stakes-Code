@@ -161,58 +161,64 @@ Routine routines[] = {
 
 
 
-        // delay(2000);
-        // MOGO::open();
-        // delay(1000);
-        // chassis.follow(decoder["Path 17"], 15, 1000);
-        // chassis.turnToHeading(80,1000);
-        // chassis.follow(decoder["Path 18"], 15, 1000); //intake and hold ring 1 (no mogo yet)
-        // delay(1000);
-        // INTAKE::in();
-        // delay(500);
-        // INTAKE::stop();
-        // chassis.turnToHeading(0,1000);
-        // chassis.follow(decoder["Path 19"], 15, 1000); //intake and hold ring 2 (no mogo yet)
-        // delay(1000);
-        // INTAKE::in();
-        // delay(200);
-        // INTAKE::stop();
-        // chassis.turnToHeading(225, 1000);   
-        // chassis.follow(decoder["Path 20"], 15, 1000, false);
-        // delay(2000);
-        // MOGO::close();
-        // INTAKE::in();
-        // chassis.turnToHeading(315,1000);
-        // chassis.follow(decoder["Path 21"], 15, 1000);
-        // delay(1000);
-        // chassis.turnToHeading(0, 1000);
-        // chassis.follow(decoder["Path 22"], 15, 1000);
-        // delay(1000);
-        // chassis.turnToHeading(295,1000);
-        // chassis.follow(decoder["Path 23"], 15, 1000);
-        // delay(1000);
-        // chassis.turnToHeading(84,1000);
-        // chassis.follow(decoder["Path 24"], 15, 1000);
-        // delay(1000);
-        // chassis.follow(decoder["Path 25"], 15, 1000, false);
-        // chassis.turnToHeading(264, 1000);
-        // chassis.follow(decoder["Path 26"], 15, 1000, false);
-        // delay(2000);
-        // MOGO::open();
-        // delay(500);
-        // chassis.follow(decoder["Path 27"], 15, 1000);
-        // chassis.turnToHeading(330, 100);
-        // chassis.follow(decoder["Path 28"], 15, 1000, false);
-        // delay(2000);
-        // MOGO::close();
-        // chassis.turnToHeading(350, 1000);
-        // chassis.follow(decoder["Path 29"], 15, 1000, false);
-        // delay(2000);
-        // MOGO::open();
-        // chassis.turnToHeading(315, 1000);
-        // chassis.follow(decoder["Path 30"], 15, 1000);
-        // chassis.follow(decoder["Path 31"], 15, 1000, false);
-        // INTAKE::stop();
+        // -=-=- TRANSITION TO OPPOSITE SIDE -=-=- //
+
+        chassis.turnToHeading(66.6, 1000);
+
+        INTAKE::in();
+        chassis.follow(decoder["Path 18"], 15, 6000);
+        chassis.waitUntilDone();
+        INTAKE::stop();
+
+        chassis.turnToHeading(271.6, 1000);
+        chassis.follow(decoder["Path 19"], 15, 6000, false);
+        chassis.waitUntilDone();
+        MOGO::close();
+
+        chassis.turnToHeading(352, 4000);
+        chassis.follow(decoder["Path 20"], 15, 6000, false);
+        chassis.waitUntilDone();
+        chassis.turnToHeading(333, 4000);
+        MOGO::open();
+        delay(200);
+        chassis.follow(decoder["Path 21"], 15, 6000, false);
+        chassis.waitUntilDone();
+        chassis.follow(decoder["Path 22"], 15, 6000);
+        chassis.waitUntilDone();
+
+        chassis.turnToHeading(170, 1000);
+        chassis.follow(decoder["Path 23"], 15, 6000, false);
+        chassis.waitUntilDone();
+        MOGO::close();
+
+        chassis.turnToHeading(333, 1000);
+        INTAKE::in();
+
+        chassis.follow(decoder["Path 24"], 15, 9000);
+        chassis.waitUntilDone();
+        delay(1000);
+
+        chassis.turnToHeading(85, 1000);
+        chassis.follow(decoder["Path 25"], 15, 9000);
+        chassis.waitUntilDone();
+        delay(1000);
+        chassis.follow(decoder["Path 26"], 15, 9000, false);
+
+        chassis.turnToHeading(125, 1000);
+        chassis.follow(decoder["Path 27"], 15, 9000);
+        chassis.waitUntilDone();
+        delay(1000);
+
+        chassis.turnToHeading(270, 1000);
+        chassis.waitUntilDone();
+        delay(200);
+        MOGO::open();
+        chassis.follow(decoder["Path 28"], 15, 5000, false);
+        chassis.waitUntilDone();
+        chassis.turnToHeading(222, 1000);
+        HANG::activate();
+        chassis.follow(decoder["Path 29"], 15, 9000);
+        
     }),
 
 
