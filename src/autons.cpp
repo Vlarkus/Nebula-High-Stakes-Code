@@ -38,7 +38,7 @@ using namespace pros;
 #define EARLY_EXIT_BACKWARDS {.forwards = false, .earlyExitRange = 2}
 
 namespace {
-    int8_t selectedRoutineIndex = 1;
+    int8_t selectedRoutineIndex = 0;
 }
 
 Routine routines[] = {
@@ -148,7 +148,7 @@ Routine routines[] = {
 
         delay(1000);
         chassis.turnToHeading(70,1000);
-        delay(200);
+        delay(1000);
 
         MOGO::open();
         chassis.follow(decoder["Path 16"], 15, 1000, false);
@@ -163,61 +163,68 @@ Routine routines[] = {
 
         // -=-=- TRANSITION TO OPPOSITE SIDE -=-=- //
 
-        chassis.turnToHeading(66.6, 1000);
+        chassis.turnToHeading(75.4, 1000);
 
-        INTAKE::in();
-        chassis.follow(decoder["Path 18"], 15, 6000);
+        chassis.follow(decoder["Path 18"], 15, 1000);
         chassis.waitUntilDone();
+        INTAKE::in();
+        delay(500);
         INTAKE::stop();
 
-        chassis.turnToHeading(271.6, 1000);
-        chassis.follow(decoder["Path 19"], 15, 6000, false);
+        chassis.turnToHeading(47, 1000);
+        chassis.follow(decoder["Path 19"], 15, 1000);
         chassis.waitUntilDone();
-        MOGO::close();
+        chassis.turnToHeading(170,1000);
+        chassis.follow(decoder["Path 20"], 15, 1000);
+        chassis.waitUntilDone();
+        chassis.turnToHeading(170,1000);
+        chassis.follow(decoder["Path 21"], 15, 4000, false);
+        chassis.waitUntilDone();   
+        delay(500);
+        MOGO::close(); 
 
-        chassis.turnToHeading(352, 4000);
-        chassis.follow(decoder["Path 20"], 15, 6000, false);
-        chassis.waitUntilDone();
-        chassis.turnToHeading(333, 4000);
-        MOGO::open();
-        delay(200);
-        chassis.follow(decoder["Path 21"], 15, 6000, false);
-        chassis.waitUntilDone();
-        chassis.follow(decoder["Path 22"], 15, 6000);
-        chassis.waitUntilDone();
-
-        chassis.turnToHeading(170, 1000);
-        chassis.follow(decoder["Path 23"], 15, 6000, false);
-        chassis.waitUntilDone();
-        MOGO::close();
 
         chassis.turnToHeading(333, 1000);
         INTAKE::in();
-
-        chassis.follow(decoder["Path 24"], 15, 9000);
+        chassis.follow(decoder["Path 24"], 15, 1000);
         chassis.waitUntilDone();
         delay(1000);
 
-        chassis.turnToHeading(85, 1000);
-        chassis.follow(decoder["Path 25"], 15, 9000);
+        chassis.turnToHeading(130, 1000);
+        chassis.follow(decoder["Path 29"], 15, 1000);
         chassis.waitUntilDone();
-        delay(1000);
-        chassis.follow(decoder["Path 26"], 15, 9000, false);
 
-        chassis.turnToHeading(125, 1000);
-        chassis.follow(decoder["Path 27"], 15, 9000);
-        chassis.waitUntilDone();
-        delay(1000);
-
-        chassis.turnToHeading(270, 1000);
-        chassis.waitUntilDone();
-        delay(200);
         MOGO::open();
-        chassis.follow(decoder["Path 28"], 15, 5000, false);
-        chassis.waitUntilDone();
-        chassis.turnToHeading(222, 1000);
         HANG::activate();
-        chassis.follow(decoder["Path 29"], 15, 9000);
+
+
+        chassis.turnToHeading(225, 1000);
+        chassis.follow(decoder["Path 30"], 15, 1000, false);
+        chassis.waitUntilDone();
+
+        // chassis.turnToHeading(85, 1000);
+        // chassis.follow(decoder["Path 25"], 15, 1000);
+        // chassis.waitUntilDone();
+        // delay(1000);
+        // chassis.follow(decoder["Path 26"], 15, 1000, false);
+
+        // chassis.turnToHeading(125, 1000);
+        // chassis.follow(decoder["Path 27"], 15, 1000);
+        // chassis.waitUntilDone();
+        // delay(1000);
+
+        // chassis.turnToHeading(270, 1000);
+        // chassis.waitUntilDone();
+        // delay(200);
+        // MOGO::open();
+        // chassis.follow(decoder["Path 28"], 15, 1000, false);
+        // chassis.waitUntilDone();
+        // chassis.turnToHeading(222, 1000);
+
+
+
+        // HANG::activate();
+        // chassis.follow(decoder["Path 29"], 15, 1000);
         
     }),
 
@@ -312,10 +319,15 @@ Routine routines[] = {
     }),
 
 
-    Routine("Drive BKWRD", "Drives backwards 1 tile.", []() {
+    Routine("Drive BKWRD 2.5", "Drives backwards 2.5 tiles.", []() {
 
         chassis.setPose(0, 0, 0);
-        chassis.moveToPoint(0, 24, 1000);
+        chassis.moveToPoint(0, -40, 3000, BACKWARDS);
+        while(chassis.isInMotion()){
+            MOGO::close_if_mogo_detected();
+        }
+
+        INTAKE::in();
 
     })
 
