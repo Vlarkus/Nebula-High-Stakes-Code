@@ -45,13 +45,13 @@ void run_connectivity_check(){
 
     string discPorts = find_disconnected_ports();
 
-    if(!discPorts.empty()){
-
+    if(!discPorts.empty())
+    {
         screen::set_pen(Color::white);
         screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
 
-        for(int8_t i = 0; i <= 2; i++){
-
+        for(int8_t i = 0; i <= 2; i++)
+        {
             controller.rumble("-");
 
             // LED::red();
@@ -64,7 +64,6 @@ void run_connectivity_check(){
     } else {
 
         // LED::green();
-    
     }
 
 }
@@ -87,12 +86,6 @@ namespace DRIVETRAIN {
         int rightX = controller.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
         chassis.arcade(leftY, rightX);
 
-    }
-
-    void turn_180_control(){
-        if(controller.get_digital(TURN_180_BTN)){
-            chassis.turnToHeading(chassis.getPose(false, false).theta + 180, 500);
-        }
     }
 
 }
@@ -215,25 +208,26 @@ namespace DOINKER {
 
 /*
  * ╭───────────╮
- * │ COLORSORT │
+ * │   HANG    │
  * ╰───────────╯
  */
+//no hang anymore - integrated with lb
 
-namespace HANG{
+// namespace HANG{
 
-    void control(){
+//     void control(){
 
-        if(is_ctrl_pressed() && controller.get_digital(HANG_ACTIVATE_BTN)){
-            activate();
-        }
+//         if(is_ctrl_pressed() && controller.get_digital(HANG_ACTIVATE_BTN)){
+//             activate();
+//         }
 
-    }
+//     }
 
-    void activate(){
-        hangPiston.set_value(true);
-    }
+//     void activate(){
+//         hangPiston.set_value(true);
+//     }
 
-}
+// }
 
 
 
@@ -249,7 +243,6 @@ namespace COLORSORT{
     bool isActive = true;
     bool isEliminateRed = false;
     bool wasTogglePressed = false;
-    bool isPistonExtended = false;
 
     pros::Task* control_task = nullptr;
 
@@ -298,9 +291,12 @@ namespace COLORSORT{
                 // LED::blue();
 
                 if(ringColor == RING_COLOR::RED){
-                    COLORSORT::isPistonExtended = true;
+                    pros::delay(100);
+                    intake.move_voltage(0);
+                    pros::delay(100);
+                    intake.move_voltage(MOTOR_MAX_VOLTAGE);
                 } else if(ringColor == RING_COLOR::BLUE) {
-                    COLORSORT::isPistonExtended = false;
+                    //dont do anything, not supposed to sort out blue
                 }
 
             } else {
@@ -308,24 +304,17 @@ namespace COLORSORT{
                 // LED::red();
 
                 if(ringColor == RING_COLOR::BLUE){
-                    COLORSORT::isPistonExtended = true;
+                    pros::delay(100);
+                    intake.move_voltage(0);
+                    pros::delay(100);
+                    intake.move_voltage(MOTOR_MAX_VOLTAGE);
                 } else if(ringColor == RING_COLOR::RED) {
-                    COLORSORT::isPistonExtended = false;
+                    //dont do anything, not supposed to sort out red
                 }
 
             }
 
-        } else {
-
-            // LED::purple();
-            COLORSORT::isPistonExtended = false;
-
-        }
-
-
-
-        colorsortPiston.set_value(COLORSORT::isPistonExtended);
-
+        } else {}
     }
 
     void task_function(void*) {
@@ -456,55 +445,76 @@ namespace MOGO {
  * ╰───────────────────╯
  */
 
-namespace LADYBROWN{
+ namespace LADYBROWN{
 
-    enum {
-        RETRACTED = 0,
-        INTAKE = 1,
-        EXTENDED = 2
-    };
+    #define STATE_REST 0
+    #define STATE_GRAB 30
+    #define STATE_SCORE 180
 
-    int8_t state = RETRACTED;
+    const int numStates = 3;
 
-    void control(){
+    int states [numStates] = {STATE_REST, STATE_GRAB, STATE_SCORE}; //tune degrees to set to
+    int target = STATE_REST;
+    int currentState = 0;
 
-        // if(controller.get_digital(LADYBROWN_EXTEND_BTN)){
-        //     LADYBROWN::state = LADYBROWN::EXTENDED;
-        // } else if(controller.get_digital(LADYBROWN_RETRACT_BTN)){
-        //     LADYBROWN::state = LADYBROWN::RETRACTED;
-        // } else if(controller.get_digital(LADYBROWN_INTAKE_BTN)){
-        //     LADYBROWN::state = LADYBROWN::INTAKE;
-        // } else {
-        //     ladybrownMotor.move_voltage(0);
-        //     return;
-        // }
+    pros::Task* control_task = nullptr;
 
-        // switch (LADYBROWN::state){
+    void nextState(){
+        currentState++;
+        if(currentState >= numStates){
+            currentState = 0;
+        }
+        target = states[currentState];
+    }
 
-        // case LADYBROWN::RETRACTED:
+    void initialize(){
 
-        //     ladybrownPiston.set_value(true);
-        //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
-            
-        //     break;
-        
-        // case LADYBROWN::INTAKE:
-
-        //     ladybrownPiston.set_value(false);
-        //     ladybrownMotor.move_voltage(-MOTOR_MAX_VOLTAGE);
-
-        //     break;
-
-        // case LADYBROWN::EXTENDED:
-
-        //     ladybrownMotor.move_voltage(MOTOR_MAX_VOLTAGE);
-
-        //     break;
-
-        // }
+        lbEncoderSensor.set_reversed(false);
+        lbEncoderSensor.set_position(STATE_REST);
+        run_async();
 
     }
 
+    void task_function(){
+        double kp = 0.2; //tune
+        double error = target - lbEncoderSensor.get_position();
+        double velocity = kp * error;
+        ladyBrown.move(velocity);
+    }
+
+    void run_async() {
+
+        if (control_task == nullptr) {
+            control_task = new pros::Task(task_function, "Control Task");
+        }
+
+    }
+
+    void stop_async() {
+        if (control_task != nullptr) {
+            control_task->remove();
+            delete control_task;
+            control_task = nullptr;
+        }
+    }
+
+    void control(){
+        
+        if (controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN)){
+
+            if (currentState == 1) {
+                currentState = 2;
+            } else {
+                currentState = 1;
+            }
+            target = states[currentState];
+        } else if (controller.get_digital(LADYBROWN_STORE_BTN)){
+            currentState = 0;
+            target = states[currentState];
+        } else {
+            ladyBrown.move_velocity(0);
+        }
+    }
 };
 
 

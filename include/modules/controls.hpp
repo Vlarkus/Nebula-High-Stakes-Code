@@ -10,7 +10,6 @@ extern void run_connectivity_check();
 namespace DRIVETRAIN{
 
     extern void control();
-    extern void turn_180_control();
 
 }
 
@@ -54,6 +53,15 @@ namespace MOGO{
     extern void close_if_mogo_detected();
     extern void close();
     extern void open();
+
+}
+
+namespace LADYBROWN {
+
+    void initialize();
+    void run_async();
+    void stop_async();
+    void control();
 
 }
 

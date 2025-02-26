@@ -92,9 +92,8 @@ void opcontrol() {
     while (true) {
 
         DRIVETRAIN::control();
-        // DRIVETRAIN::turn_180_control();
         DOINKER::control();
-        HANG::control();    
+        LADYBROWN::control();   
         INTAKE::control();
         COLORSORT::control();
         MOGO::control();

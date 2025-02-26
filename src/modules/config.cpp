@@ -16,29 +16,32 @@
  * ╰────────╯
  */
 
-#define IMU_PORT 21
+#define IMU_PORT 16
 #define OPTICAL_PORT 17
-#define DISTANCE_PORT 20
+#define DISTANCE_PORT 14
 
-#define LEFT_INTAKE_MOTOR_PORT 16
-#define RIGHT_INTAKE_MOTOR_PORT 11
-#define INTAKE_MOTOR_GEARSET MotorGearset::blue
+#define STAGE_1_INTAKE 2
+#define STAGE_2_INTAKE 1
+#define INTAKE_GEARSET MotorGearset::blue
 
-#define ROTATION_ODOM_VERT_PORT 19
+#define ROTATION_ODOM_VERT_PORT 5
+#define ROTATIONAL_ODOM_HORI_PORT 6
+
+#define ROTATIONAL_LB_PORT 10
+#define LADYBROWN_PORT 9
+#define ladyBrownGearset MotorGearset::blue
 
 #define LEFT_LED_ADI_PORT 1
 #define RIGHT_LED_ADI_PORT 2
-#define COLORSORT_ADI_PORT 'C'
-#define MOGO_ADI_PORT 'D'
-#define DOINKER_ADI_PORT 'E'
-#define HANG_ADI_PORT 'F'
+#define DOINKER_ADI_PORT 'G'
+#define MOGO_ADI_PORT 'H'
 
-#define LEFT_DT_A_PORT 8
-#define LEFT_DT_B_PORT 9
-#define LEFT_DT_C_PORT 10
-#define RIGHT_DT_A_PORT 1
-#define RIGHT_DT_B_PORT 2
-#define RIGHT_DT_C_PORT 3
+#define LEFT_DT_A_PORT 18
+#define LEFT_DT_B_PORT 19
+#define LEFT_DT_C_PORT 20
+#define RIGHT_DT_A_PORT 11
+#define RIGHT_DT_B_PORT 12
+#define RIGHT_DT_C_PORT 13
 #define DT_MOTOR_GEARSET MotorGearset::blue
 
 
@@ -96,17 +99,17 @@ Controller controller(E_CONTROLLER_MASTER);
 
 const controller_digital_e_t INTAKE_IN_BTN = E_CONTROLLER_DIGITAL_L1;
 const controller_digital_e_t INTAKE_OUT_BTN = E_CONTROLLER_DIGITAL_R1;
-const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN = E_CONTROLLER_DIGITAL_A;
-const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_COLOR_BTN = E_CONTROLLER_DIGITAL_A; // + CTRL
 const controller_digital_e_t MOGO_IN_BTN = E_CONTROLLER_DIGITAL_L2;
 const controller_digital_e_t MOGO_OUT_BTN = E_CONTROLLER_DIGITAL_R2;
-const controller_digital_e_t TURN_180_BTN = E_CONTROLLER_DIGITAL_DOWN;
-const pros::controller_digital_e_t LADYBROWN_RETRACT_BTN = E_CONTROLLER_DIGITAL_Y;
-const pros::controller_digital_e_t LADYBROWN_INTAKE_BTN = E_CONTROLLER_DIGITAL_B;
-const pros::controller_digital_e_t LADYBROWN_EXTEND_BTN = E_CONTROLLER_DIGITAL_X;
-const pros::controller_digital_e_t HANG_ACTIVATE_BTN = E_CONTROLLER_DIGITAL_UP;
-extern const pros::controller_digital_e_t DOINKER_ACTIVATE_BTN = E_CONTROLLER_DIGITAL_Y;  // + CTRL
-extern const pros::controller_digital_e_t DOINKER_DEACTIVATE_BTN = E_CONTROLLER_DIGITAL_X; // + CTRL
+
+const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN = E_CONTROLLER_DIGITAL_A;
+const controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_COLOR_BTN = E_CONTROLLER_DIGITAL_Y;
+
+const pros::controller_digital_e_t LADYBROWN_LOADSCORETOGGLE_BTN = E_CONTROLLER_DIGITAL_DOWN;
+const pros::controller_digital_e_t LADYBROWN_STORE_BTN = E_CONTROLLER_DIGITAL_B;
+
+extern const pros::controller_digital_e_t DOINKER_ACTIVATE_BTN = E_CONTROLLER_DIGITAL_UP;
+extern const pros::controller_digital_e_t DOINKER_DEACTIVATE_BTN = E_CONTROLLER_DIGITAL_X;
 extern const pros::controller_digital_e_t CTRL_BTN = E_CONTROLLER_DIGITAL_LEFT;
 
 
@@ -119,7 +122,7 @@ extern const pros::controller_digital_e_t CTRL_BTN = E_CONTROLLER_DIGITAL_LEFT;
  * ╰────────╯
  */
 
-MotorGroup intake({RIGHT_INTAKE_MOTOR_PORT, -LEFT_INTAKE_MOTOR_PORT}, INTAKE_MOTOR_GEARSET);
+MotorGroup intake({STAGE_1_INTAKE, STAGE_2_INTAKE}, INTAKE_GEARSET);
 
 
 
@@ -133,8 +136,6 @@ MotorGroup intake({RIGHT_INTAKE_MOTOR_PORT, -LEFT_INTAKE_MOTOR_PORT}, INTAKE_MOT
 
 adi::DigitalOut mogoPiston(MOGO_ADI_PORT, false);
 adi::DigitalOut doinkerPiston(DOINKER_ADI_PORT, false);
-adi::DigitalOut colorsortPiston(COLORSORT_ADI_PORT, false);
-adi::DigitalOut hangPiston(HANG_ADI_PORT, false);
 
 
 
@@ -157,6 +158,8 @@ Imu imu(IMU_PORT);
  * │ LADYBROWN │
  * ╰───────────╯
  */
+Rotation lbEncoderSensor(ROTATIONAL_LB_PORT);
+MotorGroup ladyBrown({LADYBROWN_PORT}, ladyBrownGearset);
 
 
 
@@ -169,6 +172,10 @@ Imu imu(IMU_PORT);
  */
 
 Optical opticalSensor(OPTICAL_PORT);
+
+
+
+
 
 /*
  * ╭──────────╮
@@ -190,8 +197,8 @@ Distance distanceSensor(DISTANCE_PORT);
 
 auto omniwheels = Omniwheel::NEW_325;
 float trackWidth = 13;
-float rpm = 360;
-float horizontalDrift = 360;
+float rpm = 480;
+float horizontalDrift = 8; //original was 360, lemlib said 2 or 8 for traction wheels
 
 MotorGroup leftMotors({-LEFT_DT_A_PORT, -LEFT_DT_B_PORT, -LEFT_DT_C_PORT}, DT_MOTOR_GEARSET);
 MotorGroup rightMotors({RIGHT_DT_A_PORT, RIGHT_DT_B_PORT, RIGHT_DT_C_PORT}, DT_MOTOR_GEARSET);
@@ -217,8 +224,11 @@ Drivetrain drivetrain(&leftMotors, // left motor group
 Rotation verticalEnc(ROTATION_ODOM_VERT_PORT);
 TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
 
-//OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
-OdomSensors sensors(&vertical, nullptr, nullptr, nullptr, &imu);
+Rotation verticalEnc(ROTATIONAL_ODOM_HORI_PORT);
+TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
+
+OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
+//OdomSensors sensors(&vertical, nullptr, &horizontal, nullptr, &imu);
 
 
 
@@ -296,13 +306,13 @@ std::string find_disconnected_ports() {
         disconnectedPorts += "; ";
     }
 
-    if (!Motor(LEFT_INTAKE_MOTOR_PORT).is_installed()) {
-        disconnectedPorts += "Left Intake " + to_string(LEFT_INTAKE_MOTOR_PORT);
+    if (!Motor(STAGE_1_INTAKE).is_installed()) {
+        disconnectedPorts += "Stage 1 Intake " + to_string(STAGE_1_INTAKE);
         disconnectedPorts += "; ";
     }
     
-    if (!Motor(RIGHT_INTAKE_MOTOR_PORT).is_installed()) {
-        disconnectedPorts += "Right Intake " + to_string(LEFT_INTAKE_MOTOR_PORT);
+    if (!Motor(STAGE_2_INTAKE).is_installed()) {
+        disconnectedPorts += "Right Intake " + to_string(STAGE_2_INTAKE);
         disconnectedPorts += "; ";
     }
 
