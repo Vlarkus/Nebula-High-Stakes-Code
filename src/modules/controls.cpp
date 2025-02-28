@@ -445,37 +445,36 @@ namespace MOGO {
  * ╰───────────────────╯
  */
 
- namespace LADYBROWN{
+ namespace LADYBROWN {
 
     #define STATE_REST 0
     #define STATE_GRAB 30
-    #define STATE_SCORE 180
+    #define STATE_PRESCORE 180
+    #define STATE_SCORE 360
 
-    const int numStates = 3;
+    const int numStates = 4;
 
-    int states [numStates] = {STATE_REST, STATE_GRAB, STATE_SCORE}; //tune degrees to set to
+    int states[numStates] = {STATE_REST, STATE_GRAB, STATE_PRESCORE, STATE_SCORE}; //tune degrees to set to
     int target = STATE_REST;
     int currentState = 0;
 
     pros::Task* control_task = nullptr;
 
-    void nextState(){
+    void nextState() {
         currentState++;
-        if(currentState >= numStates){
+        if (currentState >= numStates) {
             currentState = 0;
         }
         target = states[currentState];
     }
 
-    void initialize(){
-
+    void initialize() {
         lbEncoderSensor.set_reversed(false);
         lbEncoderSensor.set_position(STATE_REST);
         run_async();
-
     }
 
-    void task_function(){
+    void task_function() {
         double kp = 0.2; //tune
         double error = target - lbEncoderSensor.get_position();
         double velocity = kp * error;
@@ -483,11 +482,9 @@ namespace MOGO {
     }
 
     void run_async() {
-
         if (control_task == nullptr) {
             control_task = new pros::Task(task_function, "Control Task");
         }
-
     }
 
     void stop_async() {
@@ -498,21 +495,29 @@ namespace MOGO {
         }
     }
 
-    void control(){
-        
-        if (controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN)){
-
-            if (currentState == 1) {
-                currentState = 2;
-            } else {
+    void control() {
+        if (controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN)) {
+            currentState++;
+            if (currentState > 3) {
                 currentState = 1;
             }
             target = states[currentState];
-        } else if (controller.get_digital(LADYBROWN_STORE_BTN)){
+        } else if (controller.get_digital(LADYBROWN_STORE_BTN)) {
             currentState = 0;
             target = states[currentState];
         } else {
             ladyBrown.move_velocity(0);
+        }
+    }
+
+    // New function to move to a specific state
+    void moveToState(int state) {
+        if (state >= 0 && state < numStates) {
+            target = states[state];
+            while (abs(target - lbEncoderSensor.get_position()) > 1) {
+                task_function();
+                pros::delay(20); // Small delay to prevent CPU overload
+            }
         }
     }
 };

@@ -62,6 +62,7 @@ namespace LADYBROWN {
     void run_async();
     void stop_async();
     void control();
+    void moveToState(int state);
 
 }
 

@@ -60,6 +60,11 @@ Routine routines[] = {
 
         INTAKE::in();
 
+    }),
+
+    Routine("Driver Skills", "Driver Skills Route", []() {
+        chassis.setPose(-57.934, -0.236, 270);
+        LADYBROWN::control();
     })
 
 };
