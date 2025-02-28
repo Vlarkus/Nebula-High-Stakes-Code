@@ -32,6 +32,7 @@ void initialize() {
 
     BUI::initialize();
     BUI::set_screen(BUI::AUTON_SELECTOR);
+    LADYBROWN::initialize();
     led.initialize();
     run_connectivity_check();
     chassis.calibrate();
@@ -98,6 +99,14 @@ void opcontrol() {
         COLORSORT::control();
         MOGO::control();
         delay(10);
+
+        screen::erase();
+        pros::screen::print(pros::E_TEXT_LARGE_CENTER, 1, "LB Angle: %.2f", LADYBROWN::getLBRotation());
+        pros::screen::print(pros::E_TEXT_LARGE_CENTER, 3, "Target: %.2f", LADYBROWN::getTarget());
+
+
+
+        delay(5);
 
     }
 

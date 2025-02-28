@@ -25,7 +25,7 @@ extern pros::Optical opticalSensor;
 extern pros::v5::Distance distanceSensor;
 
 extern pros::v5::Rotation lbEncoderSensor;
-extern pros::MotorGroup ladyBrown;
+extern pros::Motor ladyBrown;
 
 extern const pros::controller_digital_e_t LADYBROWN_LOADSCORETOGGLE_BTN;
 extern const pros::controller_digital_e_t LADYBROWN_STORE_BTN;
@@ -36,9 +36,6 @@ extern const pros::controller_digital_e_t SELECTIVE_INTAKE_TOGGLE_COLOR_BTN;
 extern const pros::controller_digital_e_t SELECTIVE_INTAKE_BTN;
 extern const pros::controller_digital_e_t MOGO_IN_BTN;
 extern const pros::controller_digital_e_t MOGO_OUT_BTN;
-extern const pros::controller_digital_e_t LADYBROWN_RETRACT_BTN;
-extern const pros::controller_digital_e_t LADYBROWN_INTAKE_BTN;
-extern const pros::controller_digital_e_t LADYBROWN_EXTEND_BTN;
 extern const pros::controller_digital_e_t HANG_ACTIVATE_BTN;
 extern const pros::controller_digital_e_t DOINKER_ACTIVATE_BTN;
 extern const pros::controller_digital_e_t DOINKER_DEACTIVATE_BTN;

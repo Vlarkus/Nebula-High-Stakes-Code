@@ -63,6 +63,9 @@ namespace LADYBROWN {
     void stop_async();
     void control();
     void moveToState(int state);
+    double getLBRotation();
+    void setTargetPosition(double theta);
+    double getTarget();
 
 }
 

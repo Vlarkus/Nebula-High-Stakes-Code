@@ -447,16 +447,16 @@ namespace MOGO {
 
  namespace LADYBROWN {
 
-    #define STATE_REST 0
-    #define STATE_GRAB 30
-    #define STATE_PRESCORE 180
-    #define STATE_SCORE 360
+    constexpr double STATE_REST = 3;
+    constexpr double STATE_GRAB = 40;
+    constexpr double STATE_PRESCORE = 55;
+    constexpr double STATE_SCORE = 140;
 
     const int numStates = 4;
-
-    int states[numStates] = {STATE_REST, STATE_GRAB, STATE_PRESCORE, STATE_SCORE}; //tune degrees to set to
-    int target = STATE_REST;
+    const double states[numStates] = {STATE_REST, STATE_GRAB, STATE_PRESCORE, STATE_SCORE};
+    double target = STATE_REST;
     int currentState = 0;
+    bool isStateSwitchBtnPressed = false;
 
     pros::Task* control_task = nullptr;
 
@@ -469,57 +469,90 @@ namespace MOGO {
     }
 
     void initialize() {
-        lbEncoderSensor.set_reversed(false);
-        lbEncoderSensor.set_position(STATE_REST);
+
+        // lbEncoderSensor.reset();
+        // lbEncoderSensor.reset_position();
+        lbEncoderSensor.set_position(0);
+        lbEncoderSensor.set_reversed(true);
+        ladyBrown.set_brake_mode(E_MOTOR_BRAKE_HOLD);
         run_async();
+
     }
 
     void task_function() {
-        double kp = 0.2; //tune
-        double error = target - lbEncoderSensor.get_position();
-        double velocity = kp * error;
-        ladyBrown.move(velocity);
+        constexpr double kp = 0.01;  // Proportional gain (tune this)
+        constexpr double kd = 0.005;  // Derivative gain (tune this)
+    
+        double prevError = 0;       // Stores the previous error for D term
+    
+        while (true) {
+
+            double error = target - getLBRotation();
+
+            double derivative = error - prevError;
+            double voltage = (kp * error + kd * derivative) * MOTOR_MAX_VOLTAGE;
+            ladyBrown.move_voltage(voltage);
+            prevError = error;
+    
+            pros::delay(10); // Prevent CPU overload
+        }
+    }
+    
+
+    double getLBRotation(){
+        return (lbEncoderSensor.get_position() / 100.0);
     }
 
     void run_async() {
+
         if (control_task == nullptr) {
             control_task = new pros::Task(task_function, "Control Task");
         }
+
     }
 
     void stop_async() {
+
         if (control_task != nullptr) {
             control_task->remove();
             delete control_task;
             control_task = nullptr;
         }
+        
     }
 
     void control() {
-        if (controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN)) {
+
+        static bool prevStateSwitchBtnState = false;
+    
+        bool currentBtnState = controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN);
+    
+        if (currentBtnState && !prevStateSwitchBtnState) {
             currentState++;
             if (currentState > 3) {
                 currentState = 1;
             }
             target = states[currentState];
-        } else if (controller.get_digital(LADYBROWN_STORE_BTN)) {
+        }
+        
+        prevStateSwitchBtnState = currentBtnState;
+    
+        if (controller.get_digital(LADYBROWN_STORE_BTN)) {
             currentState = 0;
             target = states[currentState];
-        } else {
-            ladyBrown.move_velocity(0);
         }
+
+    }
+    
+
+    void setTargetPosition(double theta){
+        target = theta;
     }
 
-    // New function to move to a specific state
-    void moveToState(int state) {
-        if (state >= 0 && state < numStates) {
-            target = states[state];
-            while (abs(target - lbEncoderSensor.get_position()) > 1) {
-                task_function();
-                pros::delay(20); // Small delay to prevent CPU overload
-            }
-        }
+    double getTarget(){
+        return target;
     }
+
 };
 
 

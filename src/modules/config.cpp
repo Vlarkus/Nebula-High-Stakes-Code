@@ -159,7 +159,7 @@ Imu imu(IMU_PORT);
  * ╰───────────╯
  */
 Rotation lbEncoderSensor(ROTATIONAL_LB_PORT);
-MotorGroup ladyBrown({LADYBROWN_PORT}, ladyBrownGearset);
+Motor ladyBrown({LADYBROWN_PORT}, ladyBrownGearset);
 
 
 
