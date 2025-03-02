@@ -1,0 +1,77 @@
+9789f01 - Vlarkus, 24 hours ago : Ladybrown Works (Needs tunign constants and angles)
+78b2f16 - FuzzDOT, 31 hours ago : Updated LB to 4 states total, LB autonomous routine control, and issues with odometry definition and lbencoder definition
+5f26c1d - FuzzDOT, 3 days ago : New Robot Recoded (all controls, lb, doinker, odometry, all auton removed for recode). Nothing tuned yet
+bd97f07 - FuzzDOT, 7 days ago : Feburary Comp Code
+34fd8c8 - FuzzDOT, 2 weeks ago : Left and right sorta working as well as the blue mogo tuned and only far left not tuned. Hang works
+b981034 - FuzzDOT, 2 weeks ago : LEFT AND RIGHT SIDE CLOSE WOKRING LETS GOOOOOO
+3b245b7 - FuzzDOT, 2 weeks ago : OPTIMIZED WORKING LEFT SIDE AHHHHH
+0031fa2 - FuzzDOT, 3 weeks ago : Mo Test 2
+75d40a1 - FuzzDOT, 3 weeks ago : Test for mo
+94437ac - FuzzDOT, 3 weeks ago : Commit w/ 6 ring left working and a 5 ring right needing tuning
+b203dd0 - FuzzDOT, 3 weeks ago : Final Left Side commit
+9a3b716 - FuzzDOT, 3 weeks ago : 2nd commit
+7bb0819 - FuzzDOT, 3 weeks ago : Left side works
+c42b786 - FuzzDOT, 3 weeks ago : Redone Skills Path - Pretesting
+c498742 - Valery Rabchanka, 4 weeks ago : Merge pull request #3 from Vlarkus/faazBranch
+5d8de1b - Vlarkus, 4 weeks ago : reverted comiit
+a4c86da - Vlarkus, 4 weeks ago : On faazBranch: !!GitHub_Desktop<faazBranch>
+d98994b - Vlarkus, 4 weeks ago : index on faazBranch: d67447d Final Working Code
+d67447d - FuzzDOT, 4 weeks ago : Final Working Code
+0400eb9 - FuzzDOT, 4 weeks ago : a
+8882454 - Vlarkus, 5 weeks ago : Squashed commit of the following:
+ae1d96b - FuzzDOT, 5 weeks ago : final push
+4cf9132 - FuzzDOT, 5 weeks ago : ring rush and goal rush coded
+1798968 - FuzzDOT, 5 weeks ago : somwhat working goal rush
+4542566 - FuzzDOT, 5 weeks ago : y
+2b2fbc3 - FuzzDOT, 5 weeks ago : Initial push
+1be2210 - Vlarkus, 6 weeks ago : disabled odom
+7924a76 - Vlarkus, 6 weeks ago : Fixed Doinker, trying to do autons and skills
+bb479f3 - Vlarkus, 7 weeks ago : Added Hang and Doinker (working in leds))
+5a9fdd7 - Vlarkus, 8 weeks ago : LEDs WORK!!!!
+368b51c - Vlarkus, 9 weeks ago : Removed Debug Info for Colorsorting from Screen
+ec9b4bc - Vlarkus, 9 weeks ago : Added StormLib + Recalibrated Colorsorting
+b396a12 - Vlarkus, 10 weeks ago : Autoclamp works. Colorsort values broken
+c083f8f - Vlarkus, 10 weeks ago : Added some autons, Reconfigured to bot changes
+e028294 - Vlarkus, 2 months ago : Refactoring of Controls, 4 ring awp auton added
+4ece498 - Vlarkus, 3 months ago : Changed Ports, added images.cpp for storing images
+4d1307f - Vlarkus, 3 months ago : Implemented Image Drawing
+ca8209a - Vlarkus, 3 months ago : Initial changes for working with autons
+6da1a69 - Vlarkus, 3 months ago : Code Cleanup after testing (WORKING CODE))
+c12f86c - Vlarkus, 3 months ago : Selective Intake Fixed (Works 100%)
+5e8e84b - Vlarkus, 3 months ago : Fixed Intake and Recalibrated Color Detection
+e301da8 - Vlarkus, 3 months ago : Improved BUI & Cleanup
+c8d8c1e - Vlarkus, 3 months ago : Fixed Selective Intake Logic
+0d28d1a - Vlarkus, 3 months ago : Swapped blue and red when selective intake is active
+46990a0 - Vlarkus, 3 months ago : Added selective intake to main and deleted LED controls
+b75194e - Vlarkus, 3 months ago : Build error fixed
+e87cb9a - Vlarkus, 3 months ago : Added more controls (see description)
+e5122de - Vlarkus, 3 months ago : LEDs fixed
+2ee9560 - Vlarkus, 3 months ago : Added Ladybrown Control (broken) + more
+3896aff - Vlarkus, 3 months ago : Fixed ring color detection
+7678ca5 - Vlarkus, 3 months ago : Added Rotation sensors to initial connection check
+72a9493 - Vlarkus, 3 months ago : Added 180 Turn on Button Down
+76e40fa - Vlarkus, 3 months ago : Fixed Ports Connectivity Check
+f661aa5 - Vlarkus, 3 months ago : Added connectivity port check during initialization
+2a56d8c - Vlarkus, 3 months ago : BUI Implemented + LED Fixed + Optical Sensor Added
+8f49b99 - Vlarkus, 3 months ago : PIDs tested
+e98bb3f - Vlarkus, 3 months ago : LED Update
+247b0ed - Vlarkus, 3 months ago : Implemented BUI (not tested)
+a3cf097 - Faaz Mohamed, 3 months ago : Merge pull request #2 from Vlarkus/Autonomous-Setup
+e661861 - Vlarkus, 3 months ago : Working Code 11/25/2024
+f53a4a7 - FuzzDOT, 3 months ago : Updated configuration for platform compatibility and adjusted port definitions
+7362475 - Vlarkus, 3 months ago : Empty gui files separated for brain and controller
+3ec5836 - Vlarkus, 3 months ago : Small refactoring & created class Routine
+1306612 - Vlarkus, 3 months ago : Improved readability & added ports check method
+405bde3 - Vlarkus, 3 months ago : Readme cleared
+0f59045 - Vlarkus, 3 months ago : Project restructuring & made placeholders for GUI
+2018e11 - Vlarkus, 3 months ago : LED methods implemented (requires testing)
+11d0f2d - Vlarkus, 3 months ago : Fixing config.cpp & config.hpp
+eff4d49 - Vlarkus, 3 months ago : Project Refactoring
+165d257 - Vlarkus, 3 months ago : Added Namespaced
+625759f - Vlarkus, 3 months ago : DT Issue Fixed
+7fb9f40 - Vlarkus, 3 months ago : Intake, DT, Mogo Completed (fix issue)
+dc5a444 - Vlarkus, 3 months ago : Preliminary Intake Setups
+d30e3b0 - Vlarkus, 4 months ago : Slight Changes to Comments
+2126b88 - Vlarkus, 4 months ago : Created empty structural files
+eb425f1 - Vlarkus, 4 months ago : Main Class Formatted
+8a80d73 - Vlarkus, 4 months ago : Initial Code Upload

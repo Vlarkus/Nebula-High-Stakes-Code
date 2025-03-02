@@ -457,6 +457,7 @@ namespace MOGO {
     double target = STATE_REST;
     int currentState = 0;
     bool isStateSwitchBtnPressed = false;
+    double prevError = 0;
 
     pros::Task* control_task = nullptr;
 
@@ -480,10 +481,10 @@ namespace MOGO {
     }
 
     void task_function() {
-        constexpr double kp = 0.01;  // Proportional gain (tune this)
-        constexpr double kd = 0.005;  // Derivative gain (tune this)
+        constexpr double kp = 0.01;
+        constexpr double kd = 0.005; 
     
-        double prevError = 0;       // Stores the previous error for D term
+        prevError = 0;      
     
         while (true) {
 
@@ -494,7 +495,7 @@ namespace MOGO {
             ladyBrown.move_voltage(voltage);
             prevError = error;
     
-            pros::delay(10); // Prevent CPU overload
+            pros::delay(10);
         }
     }
     
@@ -546,7 +547,10 @@ namespace MOGO {
     
 
     void setTargetPosition(double theta){
+        
         target = theta;
+        prevError = 0;
+
     }
 
     double getTarget(){
