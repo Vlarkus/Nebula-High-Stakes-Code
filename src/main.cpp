@@ -85,6 +85,7 @@ void autonomous() {
  * │ DRIVER CONTROL │
  * ╰────────────────╯
  */
+
 void opcontrol() { 
 
     BUI::set_screen(BUI::SCREEN::LOGO_ONLY);
@@ -98,15 +99,8 @@ void opcontrol() {
         INTAKE::control();
         COLORSORT::control();
         MOGO::control();
+
         delay(10);
-
-        screen::erase();
-        pros::screen::print(pros::E_TEXT_LARGE_CENTER, 1, "LB Angle: %.2f", LADYBROWN::getLBRotation());
-        pros::screen::print(pros::E_TEXT_LARGE_CENTER, 3, "Target: %.2f", LADYBROWN::getTarget());
-
-
-
-        delay(5);
 
     }
 

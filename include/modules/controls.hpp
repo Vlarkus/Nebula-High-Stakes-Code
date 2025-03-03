@@ -66,6 +66,7 @@ namespace LADYBROWN {
     double getLBRotation();
     void setTargetPosition(double theta);
     double getTarget();
+    void scoring_routine();
 
 }
 

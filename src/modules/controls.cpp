@@ -448,8 +448,8 @@ namespace MOGO {
  namespace LADYBROWN {
 
     constexpr double STATE_REST = 3;
-    constexpr double STATE_GRAB = 40;
-    constexpr double STATE_PRESCORE = 55;
+    constexpr double STATE_GRAB = 35;
+    constexpr double STATE_PRESCORE = 80;
     constexpr double STATE_SCORE = 140;
 
     const int numStates = 4;
@@ -481,23 +481,54 @@ namespace MOGO {
     }
 
     void task_function() {
+
         constexpr double kp = 0.01;
+        constexpr double ki = 0.0005;  
         constexpr double kd = 0.005; 
+        constexpr double integralLimit = 50;  
     
-        prevError = 0;      
+        double prevError = 0;
+        double integral = 0;
     
         while (true) {
 
-            double error = target - getLBRotation();
+            pros::delay(10);
 
+            if(target == STATE_SCORE){
+
+                scoring_routine();
+                continue;
+
+            }
+
+            double error = target - getLBRotation();
+    
+            integral += error;
+            integral = std::clamp(integral, -integralLimit, integralLimit);
+    
             double derivative = error - prevError;
-            double voltage = (kp * error + kd * derivative) * MOTOR_MAX_VOLTAGE;
+            double voltage = (kp * error + ki * integral + kd * derivative) * MOTOR_MAX_VOLTAGE;
+    
             ladyBrown.move_voltage(voltage);
             prevError = error;
-    
-            pros::delay(10);
+
         }
     }
+
+    void scoring_routine(){
+
+        if(getLBRotation() < 130){
+
+            ladyBrown.move_voltage(MOTOR_MAX_VOLTAGE);
+
+        } else {
+
+            ladyBrown.move_voltage(0);
+
+        }
+
+    }
+    
     
 
     double getLBRotation(){
