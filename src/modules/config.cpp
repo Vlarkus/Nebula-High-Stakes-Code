@@ -29,7 +29,7 @@
 
 #define ROTATIONAL_LB_PORT 10
 #define LADYBROWN_PORT 9
-#define ladyBrownGearset MotorGearset::blue
+#define LB_MOTOR_GEARSET MotorGearset::blue
 
 #define LEFT_LED_ADI_PORT 1
 #define RIGHT_LED_ADI_PORT 2
@@ -159,7 +159,7 @@ Imu imu(IMU_PORT);
  * ╰───────────╯
  */
 Rotation lbEncoderSensor(ROTATIONAL_LB_PORT);
-Motor ladyBrown({LADYBROWN_PORT}, ladyBrownGearset);
+Motor ladyBrown({LADYBROWN_PORT}, LB_MOTOR_GEARSET);
 
 
 
