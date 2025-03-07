@@ -245,15 +245,17 @@ namespace COLORSORT{
     void control(){
 
         if(!controller.get_digital(SELECTIVE_INTAKE_TOGGLE_ACTIVE_BTN)){
-            COLORSORT::wasTogglePressed = false; // Check for pressing the button only once
+            COLORSORT::wasTogglePressed = false;
         } else if(!COLORSORT::wasTogglePressed){
             
             COLORSORT::wasTogglePressed = true;
 
             if(is_ctrl_pressed()){
                 COLORSORT::isEliminateRed = !COLORSORT::isEliminateRed;
+                controller.rumble("..");
             } else {
                 COLORSORT::isActive = !COLORSORT::isActive;
+                controller.rumble("--");
             }
             
         }
@@ -287,12 +289,10 @@ namespace COLORSORT{
                 // LED::blue();
 
                 if(ringColor == RING_COLOR::RED){
-                    pros::delay(100);
-                    intake.move_voltage(0);
-                    pros::delay(100);
-                    intake.move_voltage(MOTOR_MAX_VOLTAGE);
-                } else if(ringColor == RING_COLOR::BLUE) {
-                    //dont do anything, not supposed to sort out blue
+                    // pros::delay(100);
+                    // intake.move_voltage(0);
+                    // pros::delay(100);
+                    // intake.move_voltage(MOTOR_MAX_VOLTAGE);
                 }
 
             } else {
@@ -304,8 +304,6 @@ namespace COLORSORT{
                     intake.move_voltage(0);
                     pros::delay(100);
                     intake.move_voltage(MOTOR_MAX_VOLTAGE);
-                } else if(ringColor == RING_COLOR::RED) {
-                    //dont do anything, not supposed to sort out red
                 }
 
             }
