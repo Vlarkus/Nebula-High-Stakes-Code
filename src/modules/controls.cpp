@@ -454,6 +454,10 @@ namespace MOGO {
     constexpr double STATE_PRESCORE = 80;
     constexpr double STATE_SCORE = 140;
 
+    const double MAXIMUM_ANGLE = 250;
+    const double MINIMUM_ANGLE = STATE_REST;
+
+    bool isManualControl = true;
     const int numStates = 4;
     const double states[numStates] = {STATE_REST, STATE_GRAB, STATE_PRESCORE, STATE_SCORE};
     double target = STATE_REST;
@@ -479,6 +483,7 @@ namespace MOGO {
         lbEncoderSensor.set_reversed(true);
         ladyBrown.set_brake_mode(E_MOTOR_BRAKE_HOLD);
         run_async();
+        isManualControl = false;
 
     }
 
@@ -557,26 +562,71 @@ namespace MOGO {
 
     void control() {
 
-        static bool prevStateSwitchBtnState = false;
-    
-        bool currentBtnState = controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN);
-    
-        if (currentBtnState && !prevStateSwitchBtnState) {
-            currentState++;
-            if (currentState > 3) {
-                currentState = 1;
-            }
-            target = states[currentState];
-        }
+        static bool prevToggleBtnState = false;
         
-        prevStateSwitchBtnState = currentBtnState;
-    
-        if (controller.get_digital(LADYBROWN_STORE_BTN)) {
+        bool currentToggleBtnState = controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN);
+        isManualControl = is_ctrl_pressed();
+        
+        if(isManualControl){
+
             currentState = 0;
-            target = states[currentState];
+
+            if(controller.get_digital(LADYBROWN_LOADSCORETOGGLE_BTN)){
+                incrementTarget();
+            } else if(controller.get_digital(LADYBROWN_STORE_BTN)) {
+                decrementTarget();
+            }
+
+        } else {
+
+            if(currentToggleBtnState && !prevToggleBtnState) {
+                cycleState();
+            }
+            
+            prevToggleBtnState = currentToggleBtnState;
+        
+            if(controller.get_digital(LADYBROWN_STORE_BTN)) {
+                resetState();
+            }
+
         }
 
     }
+
+    void incrementTarget(){
+
+        target += 2;
+
+        if(MAXIMUM_ANGLE < target){
+            target = MAXIMUM_ANGLE;
+        }
+
+    }
+
+    void decrementTarget(){
+
+        target -= 2;
+
+        if(target < MINIMUM_ANGLE){
+            target = MINIMUM_ANGLE;
+        }
+
+    }
+    
+    // Helper function to cycle through states 1-3
+    void cycleState() {
+        constexpr int MAX_STATE = 3;
+        
+        currentState = (currentState % MAX_STATE) + 1; // Loops between 1-3
+        target = states[currentState];
+    }
+    
+    // Helper function to reset the state to 0
+    void resetState() {
+        currentState = 0;
+        target = states[currentState];
+    }
+    
     
 
     void setTargetPosition(double theta){

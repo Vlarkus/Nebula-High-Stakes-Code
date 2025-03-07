@@ -61,14 +61,24 @@ namespace LADYBROWN {
     void initialize();
     void run_async();
     void stop_async();
-    void control();
+    
+    void control(); // Handles state transitions based on button inputs
     void moveToState(int state);
+    
     double getLBRotation();
     void setTargetPosition(double theta);
     double getTarget();
+    
     void scoring_routine();
 
+    // New helper functions for better code clarity
+    void incrementTarget();
+    void decrementTarget();
+    void cycleState(); // Cycles through states 1-3
+    void resetState(); // Resets state to 0
+
 }
+
 
 namespace LADYBROWN{
     extern void control();
