@@ -138,8 +138,8 @@ enum RING_COLOR{
 
 };
 
-#define RED_COLOR_THRESHOLD 1100
-#define BLUE_COLOR_THRESHOLD 900
+#define RED_COLOR_THRESHOLD 900
+#define BLUE_COLOR_THRESHOLD 400
 
 int8_t getRingColor(){
 
@@ -155,18 +155,20 @@ int8_t getRingColor(){
         // screen::set_pen(Color::blue);
         // screen::fill_rect(240, 0, 480, 120);
         // screen::set_pen(Color::white);
-        // return RING_COLOR::BLUE;
+        return RING_COLOR::BLUE;
     
     } else if (RED_COLOR_THRESHOLD < rgb.red) {
     
         // screen::set_pen(Color::red);
         // screen::fill_rect(240, 0, 480, 120);
         // screen::set_pen(Color::white);
-        // return RING_COLOR::RED;
+        return RING_COLOR::RED;
     
     } else {
     
         // screen::set_pen(Color::gray);
+        // screen::fill_rect(240, 0, 480, 120);
+        // screen::set_pen(Color::white);
         return RING_COLOR::NONE;
     
     }
