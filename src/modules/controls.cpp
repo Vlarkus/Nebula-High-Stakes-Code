@@ -50,16 +50,8 @@ void run_connectivity_check(){
         screen::set_pen(Color::white);
         screen::print(E_TEXT_MEDIUM, 7, discPorts.c_str());
 
-        for(int8_t i = 0; i <= 2; i++)
-        {
-            controller.rumble("-");
-
-            // LED::red();
-            delay(250);
-            // LED::white();
-            delay(250);
-
-        }
+        controller.rumble("-...");
+        delay(3000);
 
     } else {
 
@@ -357,8 +349,8 @@ namespace COLORSORT{
 
 namespace MOGO {
 
-#define DISTANCE_SENSOR_MOGO_THRESHOLD 37
-#define DISTANCE_SENSOR_EMPTY_SPACE_THRESHOLD 47
+#define DISTANCE_SENSOR_MOGO_THRESHOLD 30
+#define DISTANCE_SENSOR_EMPTY_SPACE_THRESHOLD 42
 
     // State variables
     bool is_autoclamp_on = true;
