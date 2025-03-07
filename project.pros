@@ -96,7 +96,7 @@
       }
     },
     "upload_options": {
-      "after": "run",
+      "after": "screen",
       "description": "Nebula Code",
       "icon": "planet",
       "slot": 1
