@@ -27,8 +27,8 @@ using namespace pros;
  * │ ROUTINES │
  * ╰──────────╯
  */
-ASSET(autonSkillsRoute_txt);
-lemlib_tarball::Decoder autonSkills(autonSkillsRoute_txt);
+ASSET(janSkillsPathExperimental_txt);
+lemlib_tarball::Decoder autonSkills(janSkillsPathExperimental_txt);
 
 
 #define FORWARDS {.forwards = true}
@@ -81,59 +81,158 @@ Routine routines[] = {
 
     Routine("Auton Skills", "Auton Skills Route", []() {
 
-        // Setup
-        LADYBROWN::initialize();
-        chassis.setPose(0, 0, 180);
+        // -=-=- LEFT SIDE START -=-=- //
 
-        LADYBROWN::setTargetPosition(240);
-        delay(1500);
+        lemlib_tarball::Decoder decoder(janSkillsPathExperimental_txt);
+        chassis.setPose(-56.5, 0.058, 270);
+
+        chassis.turnToHeading(205,1000);    
+        chassis.follow(decoder["Path 1"], 15, 1000, false);
         
-        chassis.moveToPose(0, 10, 90, 1000, BACKWARDS);
         chassis.waitUntilDone();
+        delay(200);
+        MOGO::close();
         
-        chassis.moveToPose(-24, 10, 90, 1000, BACKWARDS);
-        LADYBROWN::setTargetPosition(3);
+        chassis.turnToHeading(90, 1000);
+        INTAKE::in();
+        chassis.follow(decoder["Path 2"], 15, 1000);
+
+        chassis.waitUntilDone();
+        delay(200);
+
+        chassis.turnToHeading(0,1000);
+        chassis.follow(decoder["Path 3"], 15, 1000);
+        
+        chassis.waitUntilDone();
+        delay(200);
+
+        chassis.turnToHeading(270,1000);
+
+        chassis.follow(decoder["Path 4"], 15, 1000);
+        chassis.waitUntilDone();
+        chassis.follow(decoder["Path 5"], 15, 1000);
+        
         chassis.waitUntilDone();
         delay(500);
+
+        chassis.turnToHeading(35,1000);
+        chassis.follow(decoder["Path 6"], 15, 1000);
         
-        MOGO::close();
+        chassis.waitUntilDone();
+        delay(200);
+        
+        chassis.turnToHeading(110,1000);
+        
+        chassis.waitUntilDone();
         delay(1000);
         
-
-
-        chassis.turnToPoint(-30, 32, 1000);
+        MOGO::open();
+        
+        delay(100);
+        
+        chassis.follow(decoder["Path 7"], 15, 1000, false);
+        chassis.follow(decoder["Path 8"], 15, 1000);
         chassis.waitUntilDone();
+
+        INTAKE::stop();
+
+        // -=-=- LEFT SIDE FINNISHED -=-=- //
+
+
+
+        // -=-=- TRANSITION TO RIGHT SIDE -=-=- //
+
+        chassis.turnToHeading(358,1000);
+        chassis.follow(decoder["Path 9"], 15, 4000, false);
+        chassis.waitUntilDone();
+
+
+
+        // -=-=- RIGHT SIDE START -=-=- //
+
+        MOGO::close();
+        chassis.turnToHeading(90,1000);
         INTAKE::in();
 
-        chassis.moveToPose(-30, 32, 90, 1000, FORWARDS);
-        chassis.waitUntilDone();
-        delay(1000);
+        chassis.follow(decoder["Path 10"], 7, 4000);
 
-
-        chassis.turnToPoint(-48, 32, 1000);
-        chassis.waitUntilDone();
         
-        chassis.moveToPose(-48, 32, 90, 1000, FORWARDS);
+        chassis.waitUntilDone();
+
+        chassis.turnToHeading(145, 1000);
+        chassis.follow(decoder["Path 11"], 15, 4000);
         chassis.waitUntilDone();
         delay(1000);
 
-
-
-        chassis.turnToPoint(-60, 54, 1000);
+        chassis.turnToHeading(285,1000);
+        chassis.follow(decoder["Path 12"], 15, 4000);
         chassis.waitUntilDone();
 
-        chassis.moveToPose(-60, 52, 90, 1000, FORWARDS);
+
+        chassis.turnToHeading(270,1000);
+        chassis.follow(decoder["Path 13"], 15, 4000);
+        chassis.follow(decoder["Path 14"], 15, 4000);
+        chassis.waitUntilDone();
+        delay(1000);
+
+        chassis.turnToHeading(145,1000);
+
+        chassis.follow(decoder["Path 15"], 15, 4000);
+        chassis.waitUntilDone();
+
+        delay(1000);
+        chassis.turnToHeading(70,1000);
+        delay(1000);
+
+        MOGO::open();
+        chassis.follow(decoder["Path 16"], 15, 1000, false);
+        chassis.follow(decoder["Path 17"], 15, 1000);
+        chassis.waitUntilDone();
+
+        INTAKE::stop();
+
+        // -=-=- RIGHT SIDE FINNISHED -=-=- //
+
+
+
+        // -=-=- TRANSITION TO OPPOSITE SIDE -=-=- //
+
+        chassis.turnToHeading(75.4, 1000);
+
+        chassis.follow(decoder["Path 18"], 15, 1000);
+        chassis.waitUntilDone();
+        INTAKE::in();
+        delay(500);
+        INTAKE::stop();
+
+        chassis.turnToHeading(47, 1000);
+        chassis.follow(decoder["Path 19"], 15, 1000);
+        chassis.waitUntilDone();
+        chassis.turnToHeading(170,1000);
+        chassis.follow(decoder["Path 20"], 15, 1000);
+        chassis.waitUntilDone();
+        chassis.turnToHeading(170,1000);
+        chassis.follow(decoder["Path 21"], 15, 4000, false);
+        chassis.waitUntilDone();   
+        delay(500);
+        MOGO::close(); 
+
+
+        chassis.turnToHeading(333, 1000);
+        INTAKE::in();
+        chassis.follow(decoder["Path 24"], 15, 1000);
         chassis.waitUntilDone();
         delay(1000);
 
-
-
-        chassis.turnToPoint(-60, 52, 1000);
+        chassis.turnToHeading(130, 1000);
+        chassis.follow(decoder["Path 29"], 15, 1000);
         chassis.waitUntilDone();
 
-        chassis.moveToPose(-60, 52, 90, 1000, FORWARDS);
+        MOGO::open();
+
+        chassis.turnToHeading(225, 1000);
+        chassis.follow(decoder["Path 30"], 15, 1000, false);
         chassis.waitUntilDone();
-        delay(1000);
         
     })
 
