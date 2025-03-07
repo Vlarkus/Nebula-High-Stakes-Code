@@ -27,6 +27,9 @@ extern pros::v5::Distance distanceSensor;
 extern pros::v5::Rotation lbEncoderSensor;
 extern pros::Motor ladyBrown;
 
+extern pros::Rotation verticalEnc;
+extern lemlib::TrackingWheel vertical;
+
 extern const pros::controller_digital_e_t LADYBROWN_LOADSCORETOGGLE_BTN;
 extern const pros::controller_digital_e_t LADYBROWN_STORE_BTN;
 extern const pros::controller_digital_e_t INTAKE_IN_BTN;

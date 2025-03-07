@@ -66,7 +66,7 @@ namespace LADYBROWN {
     void moveToState(int state);
     
     double getLBRotation();
-    void setTargetPosition(double theta);
+    void setTargetPosition(double theta); // Used in autons.
     double getTarget();
     
     void scoring_routine();

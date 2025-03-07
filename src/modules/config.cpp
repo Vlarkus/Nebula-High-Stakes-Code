@@ -25,7 +25,6 @@
 #define INTAKE_GEARSET MotorGearset::blue
 
 #define ROTATION_ODOM_VERT_PORT 5
-#define ROTATIONAL_ODOM_HORI_PORT 6
 
 #define ROTATIONAL_LB_PORT 10
 #define LADYBROWN_PORT 9
@@ -221,14 +220,10 @@ Drivetrain drivetrain(&leftMotors, // left motor group
  * ╰──────────╯
  */
 
-Rotation verticalEnc(ROTATION_ODOM_VERT_PORT);
-TrackingWheel vertical(&verticalEnc, Omniwheel::NEW_2, 1.5);
-
-Rotation horizontalEnc(ROTATIONAL_ODOM_HORI_PORT);
-TrackingWheel horizontal(&horizontalEnc, Omniwheel::NEW_2, 1.5);
+Rotation verticalEnc(-ROTATION_ODOM_VERT_PORT);
+TrackingWheel vertical(&verticalEnc, 1, 0.25);
 
 OdomSensors sensors(nullptr, nullptr, nullptr, nullptr, &imu);
-//OdomSensors sensors(&vertical, nullptr, &horizontal, nullptr, &imu);
 
 
 

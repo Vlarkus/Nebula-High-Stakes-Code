@@ -39,7 +39,6 @@ void initialize() {
     opticalSensor.set_led_pwm(100);
     controller.rumble("-.");
 
-
 }
 
 
