@@ -15,7 +15,7 @@
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "compilerPath": "/Users/FaazMohamed2/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
@@ -24,7 +24,7 @@
       ],
       "browse": {
         "path": [
-          "/Users/valeryrabchanka/Documents/VEX/Nebula-High-Stakes-Code"
+          "/Users/FaazMohamed2/Desktop/Nebula-High-Stakes-Code"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
