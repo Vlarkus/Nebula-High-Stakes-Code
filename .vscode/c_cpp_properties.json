@@ -8,14 +8,15 @@
         "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/arm-none-eabi/include",
         "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/lib/gcc/arm-none-eabi/10.3.1/include",
         "/Users/valeryrabchanka/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/lib/gcc/arm-none-eabi/10.3.1/include-fixed",
-        "/Users/FaazMohamed2/Desktop/Nebula-High-Stakes-Code/include"
+        "/Users/FaazMohamed2/Desktop/Nebula-High-Stakes-Code/include",
+        "/Users/vlarkus/Documents/GitHub/Nebula-High-Stakes-Code/include"
       ],
       "defines": [
         "_DEBUG",
         "UNICODE",
         "_UNICODE"
       ],
-      "compilerPath": "/Users/FaazMohamed2/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
+      "compilerPath": "/Users/vlarkus/Library/Application Support/Code/User/globalStorage/sigbots.pros/install/pros-toolchain-macos/bin/arm-none-eabi-g++",
       "cStandard": "gnu11",
       "cppStandard": "gnu++20",
       "intelliSenseMode": "gcc-arm",
@@ -24,7 +25,7 @@
       ],
       "browse": {
         "path": [
-          "/Users/FaazMohamed2/Desktop/Nebula-High-Stakes-Code"
+          "/Users/vlarkus/Documents/GitHub/Nebula-High-Stakes-Code"
         ],
         "limitSymbolsToIncludedHeaders": true,
         "databaseFilename": ""
