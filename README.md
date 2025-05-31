@@ -4,7 +4,7 @@ This repository contains a well-structured and modular codebase for a VEX V5 com
 
 ## Disclaimer
 
-    This codebase is provided for educational purposes to inspire and support learning within the VEX V5 ecosystem. Users are advised to use this code responsibly and at their own risk. Per the REC Foundation's Student-Centered Policy, students must design, build, and program their robots independently. Direct reuse of this code without understanding or modification may violate these guidelines.
+This codebase is provided for educational purposes to inspire and support learning within the VEX V5 ecosystem. Users are advised to use this code responsibly and at their own risk. Per the REC Foundation's Student-Centered Policy, students must design, build, and program their robots independently. Direct reuse of this code without understanding or modification may violate these guidelines.
 
 
 ## Overview
